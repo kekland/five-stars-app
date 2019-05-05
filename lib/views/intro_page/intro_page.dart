@@ -1,4 +1,4 @@
-import 'package:five_stars/views/logo_widget.dart';
+import 'package:five_stars/views/intro_page/logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -119,7 +119,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                   child: SizedBox(
                     width: double.infinity,
                     child: RaisedButton.icon(
-                      onPressed: () => {},
+                      onPressed: () => Navigator.of(context).pushReplacementNamed("/main"),
                       shape: StadiumBorder(),
                       icon: Icon(Icons.chevron_right),
                       label: Text('Вход в систему'),

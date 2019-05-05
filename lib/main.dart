@@ -1,4 +1,5 @@
-import 'package:five_stars/views/intro_page.dart';
+import 'package:five_stars/views/intro_page/intro_page.dart';
+import 'package:five_stars/views/main_page/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -26,7 +27,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: IntroPage()
+      routes: {
+        "/": (context) => IntroPage(),
+        "/main": (context) => MainPage(),
+      },
+      initialRoute: "/",
     );
   }
 }

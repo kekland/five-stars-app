@@ -1,7 +1,17 @@
 class AppData {
-  String firstName;
-  String middleName;
-  String lastName;
+  static String firstName;
+  static String middleName;
+  static String lastName;
+  static bool loggedIn = false;
 
-  String phoneNumber;
+  static String phoneNumber;
+
+  static String getName() {
+    if(loggedIn) {
+      return (lastName ?? "") + " " + (firstName ?? "") + " " + (lastName ?? "");
+    }
+    else {
+      return "Не авторизован";
+    }
+  }
 }

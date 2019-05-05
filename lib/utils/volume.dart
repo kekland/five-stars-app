@@ -10,4 +10,12 @@ class Volume {
   double get cubicCentimeter => _baseVolumeCubicMeters * 1e6;
   double get cubicMillimeter => _baseVolumeCubicMeters * 1e9;
   double get liter => _baseVolumeCubicMeters * 1e3;
+
+  operator ==(other) => (other is Volume) && (this._baseVolumeCubicMeters == other._baseVolumeCubicMeters);
+  operator >(other) => (other is Volume) && (this._baseVolumeCubicMeters > other._baseVolumeCubicMeters);
+  operator <(other) => (other is Volume) && (this._baseVolumeCubicMeters < other._baseVolumeCubicMeters);
+  operator <=(other) => (other is Volume) && (this._baseVolumeCubicMeters <= other._baseVolumeCubicMeters);
+  operator >=(other) => (other is Volume) && (this._baseVolumeCubicMeters >= other._baseVolumeCubicMeters);
+  
+  int get hashCode => _baseVolumeCubicMeters.hashCode;
 }

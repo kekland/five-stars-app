@@ -9,4 +9,12 @@ class Weight {
   double get kilogram => _baseWeightKilograms;
   double get gram => _baseWeightKilograms * 1e3;
   double get milligram => _baseWeightKilograms * 1e6;
+  
+  operator ==(other) => (other is Weight) && (this._baseWeightKilograms == other._baseWeightKilograms);
+  operator >(other) => (other is Weight) && (this._baseWeightKilograms > other._baseWeightKilograms);
+  operator <(other) => (other is Weight) && (this._baseWeightKilograms < other._baseWeightKilograms);
+  operator <=(other) => (other is Weight) && (this._baseWeightKilograms <= other._baseWeightKilograms);
+  operator >=(other) => (other is Weight) && (this._baseWeightKilograms >= other._baseWeightKilograms);
+  
+  int get hashCode => _baseWeightKilograms.hashCode;
 }

@@ -19,4 +19,17 @@ class Cargo {
 
   VehicleType vehicleType;
   String imageKeyword;
+
+  Cargo({
+    this.id,
+    this.departureDate,
+    this.departureCity,
+    this.arrivalCity,
+    this.arrivalDate,
+    this.volume,
+    this.weight,
+    this.vehicleType,
+    this.shipmentCost,
+    this.imageKeyword,
+  });
 }

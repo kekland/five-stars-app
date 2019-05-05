@@ -1,5 +1,6 @@
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/pages.dart';
+import 'package:five_stars/views/cargo/cargo_page.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,12 @@ class MainPageController extends Controller<MainPage> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   Page currentPage = Page.Cargo;
 
+  Map<Page, Widget> bodyWidget = {
+    Page.Cargo: CargoPage(key: GlobalKey()),
+    Page.Vehicle: Container(color: Colors.red),
+    Page.MyProfile: Container(color: Colors.green),
+    Page.Settings: Container(color: Colors.yellow)
+  };
 
   void selectPage(BuildContext context, Page page) {
     if(scaffoldKey.currentState.isDrawerOpen) {
@@ -24,6 +31,10 @@ class MainPageController extends Controller<MainPage> {
 
   void openDrawer() {
     scaffoldKey.currentState.openDrawer();
+  }
+
+  Widget getBody() {
+    return bodyWidget[currentPage];
   }
 
   String getTitle() {

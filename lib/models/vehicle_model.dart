@@ -13,4 +13,13 @@ class Vehicle {
   Volume volume;
 
   VehicleType vehicleType;
+  
+  Vehicle({
+    this.id,
+    this.departureCity,
+    this.arrivalCity,
+    this.volume,
+    this.weight,
+    this.vehicleType,
+  });
 }

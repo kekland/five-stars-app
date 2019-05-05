@@ -27,13 +27,13 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
               child: Text(
                 '${AppData.getName()}',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black87,
                   fontSize: 18.0,
                 ),
               ),
             ),
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Colors.black12,
             ),
           ),
           ListTile(
@@ -88,9 +88,12 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
-        title: Text(controller.getTitle()),
+        title: Text(controller.getTitle(), style: TextStyle(color: Colors.black87)),
+        backgroundColor: Colors.white,
+        brightness: Brightness.light,
       ),
       drawer: buildDrawer(),
+      body: controller.getBody(),
       bottomNavigationBar: BottomAppBar(
         child: Padding(
           padding: const EdgeInsets.all(4.0),

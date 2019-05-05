@@ -14,9 +14,9 @@ class TextLogoWidget extends StatelessWidget {
           ),
         ),
         Text(
-          'transport&logistics',
+          'транспорт и логистика',
           style: TextStyle(
-            fontSize: 18.0,
+            fontSize: 16.0,
             fontWeight: FontWeight.w400,
             color: Colors.black54,
           ),

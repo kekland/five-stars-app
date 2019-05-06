@@ -10,22 +10,18 @@ class MainPageController extends Controller<MainPage> {
   }
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
-  Page currentPage = Page.Cargo;
+  int currentPage = 0;
 
-  Map<Page, Widget> bodyWidget = {
-    Page.Cargo: CargoPage(key: GlobalKey()),
-    Page.Vehicle: Container(color: Colors.red),
-    Page.MyProfile: Container(color: Colors.green),
-    Page.Settings: Container(color: Colors.yellow)
+  Map<int, Widget> bodyWidget = {
+    0: CargoPage(key: GlobalKey()),
+    1: Container(color: Colors.red),
+    2: Container(color: Colors.green),
+    3: Container(color: Colors.yellow)
   };
 
-  void selectPage(BuildContext context, Page page) {
-    if(scaffoldKey.currentState.isDrawerOpen) {
-      Navigator.of(context).pop();
-    }
-
+  void bottomNavigationItemSelected(BuildContext context, int index) {
     presenter.update(() {
-      currentPage = page;
+      currentPage = index;
     });
   }
 
@@ -35,15 +31,5 @@ class MainPageController extends Controller<MainPage> {
 
   Widget getBody() {
     return bodyWidget[currentPage];
-  }
-
-  String getTitle() {
-    switch(currentPage) {
-      case Page.Cargo: return 'Свободный груз';
-      case Page.Vehicle: return 'Свободный транспорт';
-      case Page.MyProfile: return 'Личный кабинет';
-      case Page.Settings: return 'Настройки';
-      default: return 'Пять звёзд';
-    }
   }
 }

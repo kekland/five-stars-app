@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  fancy_bottom_navigation:
+    dependency: "direct main"
+    description:
+      name: fancy_bottom_navigation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -46,6 +53,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: "direct main"
+    description:
+      name: font_awesome_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.4.0"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.15.8"
   matcher:
     dependency: transitive
     description:

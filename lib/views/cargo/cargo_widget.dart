@@ -1,5 +1,11 @@
+import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/divider_widget.dart';
 import 'package:five_stars/models/cargo_model.dart';
+import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/views/arrival_destination_widget.dart';
+import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CargoWidget extends StatelessWidget {
   final Cargo data;
@@ -7,62 +13,60 @@ class CargoWidget extends StatelessWidget {
   const CargoWidget({Key key, this.data}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 100.0,
-                  height: 100.0,
-                  color: Colors.blue,
+    return CardWidget(
+      padding: const EdgeInsets.all(16.0),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          DepartureArrivalWidget(
+            arrivalCity: data.arrivalCity,
+            arrivalDate: data.arrivalDate,
+            departureCity: data.departureCity,
+            departureDate: data.departureDate,
+          ),
+          DividerWidget(),
+          SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              runSpacing: 16.0,
+              alignment: WrapAlignment.spaceBetween,
+              children: <Widget>[
+                TwoLineInformationWidget(
+                  iconColor: Colors.purple,
+                  icon: FontAwesomeIcons.box,
+                  title: 'Объем (м³)',
+                  value: data.volume.cubicMeter.round().toString(),
+                  unit: "м³",
                 ),
-                SizedBox(width: 16.0),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        data.departureCity.name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                      Text(
-                        data.departureDate.toIso8601String(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                      Icon(Icons.arrow_downward, size: 16.0, color: Colors.black45),
-                      Text(
-                        data.arrivalCity.name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                    ],
-                  ),
+                TwoLineInformationWidget(
+                  iconColor: Colors.blue,
+                  icon: FontAwesomeIcons.weightHanging,
+                  title: 'Вес (тонн)',
+                  value: data.weight.ton.round().toString(),
+                  unit: "т.",
+                ),
+                TwoLineInformationWidget(
+                  iconColor: Colors.green,
+                  icon: FontAwesomeIcons.dollarSign,
+                  title: 'Цена',
+                  value: data.shipmentCost.truncate().toString(),
+                  unit: "тг.",
                 ),
               ],
             ),
-            Row(),
-          ],
-        ),
+          ),
+        ],
       ),
+      actions: [
+        FlatButton.icon(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          padding: const EdgeInsets.all(16.0),
+          icon: Icon(Icons.chevron_right),
+          label: Text('Подробнее'),
+          onPressed: () {},
+        ),
+      ],
     );
   }
 }

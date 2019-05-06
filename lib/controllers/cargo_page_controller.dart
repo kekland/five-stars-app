@@ -1,3 +1,4 @@
+import 'package:five_stars/design/future_page.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/city.dart';
@@ -19,6 +20,7 @@ class CargoPageController extends Controller<CargoPage> {
 
   Future load() async {
     loading = true;
+    error = "";
     Future.delayed(Duration(seconds: 2), () {
       data = [
         Cargo(
@@ -61,5 +63,19 @@ class CargoPageController extends Controller<CargoPage> {
       loading = false;
       presenter.refresh();
     });
+  }
+
+  FutureState getFutureState() {
+    if(loading) {
+      return FutureState.Loading;
+    }
+    else {
+      if(error != "") {
+        return FutureState.Error;
+      }
+      else {
+        return FutureState.Success;
+      }
+    }
   }
 }

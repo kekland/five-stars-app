@@ -1,4 +1,7 @@
 import 'package:five_stars/controllers/cargo_page_controller.dart';
+import 'package:five_stars/design/circular_progress_reveal_widget.dart';
+import 'package:five_stars/design/future_page.dart';
+import 'package:five_stars/design/page_header_widget.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/views/cargo/cargo_widget.dart';
@@ -18,16 +21,29 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
 
   @override
   Widget present(BuildContext context) {
-    if(controller.loading) {
-      return Center(child: CircularProgressIndicator());
-    }
-    return ListView.builder(
-      padding: const EdgeInsets.all(8.0),
-      itemCount: controller.data.length,
-      itemBuilder: (context, index) {
-        return CargoWidget(data: controller.data[index]);
-      },
+    return SafeArea(
+      child: FuturePage(
+        onSuccess: () => ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              physics: BouncingScrollPhysics(),
+              itemCount: controller.data.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: PageHeaderWidget(title: 'Свободный груз'),
+                  );
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: CargoWidget(data: controller.data[index - 1]),
+                );
+              },
+            ),
+        state: controller.getFutureState(),
+        error: controller.error,
+        onRefresh: controller.load,
+      ),
     );
   }
-  
 }

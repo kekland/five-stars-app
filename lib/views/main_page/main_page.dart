@@ -1,6 +1,8 @@
 import 'package:five_stars/controllers/main_page_controller.dart';
+import 'package:five_stars/design/bottom_navigation_bar.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/app_data.dart';
+//import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:five_stars/utils/pages.dart';
 import 'package:flutter/material.dart';
 
@@ -10,110 +12,47 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends Presenter<MainPage, MainPageController> {
+  int index = 0;
   @override
   void initController() {
     controller = MainPageController(presenter: this);
-  }
-
-  Widget buildDrawer() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            padding: const EdgeInsets.all(16.0),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                '${AppData.getName()}',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 18.0,
-                ),
-              ),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.black12,
-            ),
-          ),
-          ListTile(
-            title: Text('Свободный груз'),
-            leading: Icon(Icons.inbox),
-            selected: (controller.currentPage == Page.Cargo),
-            onTap: () => controller.selectPage(context, Page.Cargo),
-          ),
-          ListTile(
-            title: Text('Свободный транспорт'),
-            leading: Icon(Icons.local_shipping),
-            selected: (controller.currentPage == Page.Vehicle),
-            onTap: () => controller.selectPage(context, Page.Vehicle),
-          ),
-          ListTile(
-            title: Text('Звонок диспетчеру'),
-            leading: Icon(Icons.call),
-          ),
-          ListTile(
-            title: Text('Запрос звонка'),
-            leading: Icon(Icons.call_received),
-          ),
-          ListTile(
-            title: Text('Настройки'),
-            leading: Icon(Icons.settings),
-            selected: (controller.currentPage == Page.Settings),
-            onTap: () => controller.selectPage(context, Page.Settings),
-          ),
-          ListTile(
-            title: Text('Выход'),
-            leading: Icon(Icons.exit_to_app),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildFAB() {
-    return (controller.currentPage == Page.Vehicle || controller.currentPage == Page.Cargo)
-        ? FloatingActionButton.extended(
-            icon: Icon(Icons.add),
-            label: Text('Добавить ' + ((controller.currentPage == Page.Vehicle) ? 'транспорт' : 'груз')),
-            onPressed: () {},
-          )
-        : null;
   }
 
   @override
   Widget present(BuildContext context) {
     return Scaffold(
       key: controller.scaffoldKey,
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        title: Text(controller.getTitle(), style: TextStyle(color: Colors.black87)),
-        backgroundColor: Colors.white,
-        brightness: Brightness.light,
-      ),
-      drawer: buildDrawer(),
-      body: controller.getBody(),
-      bottomNavigationBar: BottomAppBar(
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: controller.openDrawer,
-              ),
-              IconButton(
-                icon: Icon(Icons.account_box),
-                onPressed: () => controller.selectPage(context, Page.MyProfile),
-              ),
-            ],
+      //body: Container(),
+      bottomNavigationBar: FancyBottomNavigation(
+        tabs: [
+          TabData(
+            iconData: Icons.inbox,
+            title: 'Груз',
+            color: Colors.pink,
           ),
-        ),
+          TabData(
+            iconData: Icons.local_shipping,
+            title: 'Транспорт',
+            color: Colors.purple,
+          ),
+          TabData(
+            iconData: Icons.call,
+            title: 'Звонки',
+            color: Colors.deepPurple,
+          ),
+          TabData(
+            iconData: Icons.person,
+            title: 'Личный кабинет',
+            color: Colors.indigo,
+          ),
+        ],
+        //fixedColor: Colors.white,
+        initialSelection: controller.currentPage,
+        onTabChangedListener: (index) => controller.bottomNavigationItemSelected(context, index),
+        textColor: Colors.blue,
+        inactiveIconColor: Colors.black26,
       ),
-      floatingActionButton: buildFAB(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      body: controller.getBody(),
     );
   }
 }

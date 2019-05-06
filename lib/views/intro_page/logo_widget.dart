@@ -9,14 +9,14 @@ class TextLogoWidget extends StatelessWidget {
         Text(
           'Пять звёзд',
           style: TextStyle(
-            fontSize: 24.0,
+            fontSize: 36.0,
             fontWeight: FontWeight.w700,
           ),
         ),
         Text(
           'транспорт и логистика',
           style: TextStyle(
-            fontSize: 16.0,
+            fontSize: 18.0,
             fontWeight: FontWeight.w400,
             color: Colors.black54,
           ),

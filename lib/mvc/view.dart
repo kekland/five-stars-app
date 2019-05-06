@@ -8,6 +8,14 @@ class Controller<T extends StatefulWidget> {
   void dispose() {
     presenter = null;
   }
+
+  void refresh() {
+    presenter.refresh();
+  }
+
+  void update(Function func) {
+    presenter.update(func);
+  }
 }
 
 abstract class Presenter<T extends StatefulWidget, I extends Controller<T>> extends State<T> {
@@ -35,6 +43,7 @@ abstract class Presenter<T extends StatefulWidget, I extends Controller<T>> exte
   void dispose() {
     super.dispose();
     controller.dispose();
+    controller = null;
     onDispose();
   }
   

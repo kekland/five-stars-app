@@ -38,7 +38,7 @@ class CargoWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        data.departureDate,
+                        data.departureDate.toIso8601String(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.w400,

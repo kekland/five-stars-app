@@ -41,8 +41,8 @@ class DepartureArrivalWidget extends StatelessWidget {
             alignment: Alignment.center,
             child: Icon(
               FontAwesomeIcons.arrowRight,
-              color: ModernTextTheme.captionColor.withOpacity(0.125),
-              size: 18.0,
+              color: ModernTextTheme.captionColor.withOpacity(0.1),
+              size: 14.0,
             ),
           ),
           Expanded(

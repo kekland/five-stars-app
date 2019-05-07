@@ -39,7 +39,6 @@ class _CargoWidgetState extends State<CargoWidget> {
         builder: (context) {
           return Container(
             color: Colors.black45,
-            padding: const EdgeInsets.all(36.0),
             child: CargoExpandedWidget(data: widget.data),
           );
         },
@@ -86,7 +85,7 @@ class _CargoWidgetState extends State<CargoWidget> {
                       children: <Widget>[
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
-                          icon: FontAwesomeIcons.box,
+                          icon: FontAwesomeIcons.cube,
                           title: 'Объем (м³)',
                           value: widget.data.volume.cubicMeter.round().toString(),
                           unit: "м³",

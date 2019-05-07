@@ -7,4 +7,9 @@ class Shadows {
     offset: Offset(0.0, 2.0),
     blurRadius: 4.0,
   );
+  static BoxShadow slightShadowTop = BoxShadow(
+    color: Colors.black.withOpacity(0.085),
+    offset: Offset(0.0, -2.0),
+    blurRadius: 4.0,
+  );
 }

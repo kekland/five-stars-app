@@ -12,12 +12,12 @@ class MainPageController extends Controller<MainPage> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   int currentPage = 0;
 
-  Map<int, Widget> bodyWidget = {
-    0: CargoPage(key: GlobalKey()),
-    1: Container(color: Colors.red),
-    2: Container(color: Colors.green),
-    3: Container(color: Colors.yellow)
-  };
+  final List<Widget> bodyWidget = [
+    CargoPage(key: GlobalKey()),
+    Container(color: Colors.red),
+    Container(color: Colors.green),
+    Container(color: Colors.yellow)
+  ];
 
   void bottomNavigationItemSelected(BuildContext context, int index) {
     presenter.update(() {
@@ -30,6 +30,11 @@ class MainPageController extends Controller<MainPage> {
   }
 
   Widget getBody() {
-    return bodyWidget[currentPage];
+    return Stack(
+      children: bodyWidget.map((body) {
+        int index = bodyWidget.indexOf(body);
+        return Offstage(child: body, offstage: index != currentPage);
+      }).toList(),
+    );
   }
 }

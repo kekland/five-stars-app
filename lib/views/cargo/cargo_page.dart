@@ -15,7 +15,7 @@ class CargoPage extends StatefulWidget {
   _CargoPageState createState() => _CargoPageState();
 }
 
-class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
+class _CargoPageState extends PresenterKeepAlive<CargoPage, CargoPageController> {
   @override
   void initController() {
     controller = CargoPageController(presenter: this);

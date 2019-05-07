@@ -36,7 +36,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3.0, left: 36.0, right: 36.0, bottom: 36.0),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3.0, left: 18.0, right: 18.0, bottom: 36.0),
       physics: BouncingScrollPhysics(),
       child: Column(
         children: <Widget>[
@@ -44,7 +44,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
             data: widget.data,
             addButtons: false,
           ),
-          SizedBox(height: 16.0),
+          SizedBox(height: 32.0),
           buildInfoCardWidget(
             TwoLineInformationWidget(
               iconColor: ModernTextTheme.captionIconColor,
@@ -127,25 +127,50 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
           SizedBox(height: 16.0),
           buildInfoCardWidget(
             TwoLineInformationWidget(
+              iconColor: ModernTextTheme.captionIconColor,
+              icon: FontAwesomeIcons.boxOpen,
+              title: 'Тип',
+              value: widget.data.imageKeyword,
+              unit: "",
+            ),
+          ),
+          SizedBox(height: 16.0),
+          buildInfoCardWidget(
+            TwoLineInformationWidget(
               iconColor: Colors.green,
-              icon: FontAwesomeIcons.dollarSign,
+              icon: FontAwesomeIcons.tenge,
               title: 'Цена',
               value: widget.data.shipmentCost.truncate().toString(),
               unit: "тг.",
             ),
+          ),
+          SizedBox(height: 16.0),
+          buildInfoCardWidget(
+            SizedBox(
+              width: double.infinity,
+              child: FlatButton.icon(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                icon: Icon(FontAwesomeIcons.infoCircle, size: 20.0),
+                label: Text('Узнать дополнительную информацию'),
+                onPressed: () {print("Вам перезвонят.");},
+                textColor: ModernTextTheme.secondaryColor,
+                padding: const EdgeInsets.all(18.0),
+              ),
+            ),
+            EdgeInsets.zero,
           ),
         ],
       ),
     );
   }
 
-  Widget buildInfoCardWidget(Widget child) {
+  Widget buildInfoCardWidget(Widget child, [EdgeInsets padding = const EdgeInsets.all(16.0)]) {
     return Transform.translate(
       offset: Offset(0.0, 15.0 * (1.0 - animation.value)),
       child: Opacity(
         opacity: animation.value.clamp(0.0, 1.0),
         child: CardWidget(
-          padding: const EdgeInsets.all(16.0),
+          padding: padding,
           body: child,
         ),
       ),

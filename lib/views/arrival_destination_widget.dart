@@ -11,15 +11,18 @@ class DepartureArrivalWidget extends StatelessWidget {
   final City arrivalCity;
   final DateTime arrivalDate;
 
-  const DepartureArrivalWidget({Key key, this.departureCity, this.departureDate, this.arrivalCity, this.arrivalDate})
+  final bool isCargo;
+
+  const DepartureArrivalWidget({Key key, this.departureCity, this.departureDate, this.arrivalCity, this.arrivalDate, this.isCargo})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Icon((isCargo)? FontAwesomeIcons.dolly : FontAwesomeIcons.truck, size: 20.0, color: ModernTextTheme.captionColor.withOpacity(0.1)),
+          SizedBox(width: 16.0),
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -37,6 +40,7 @@ class DepartureArrivalWidget extends StatelessWidget {
               ],
             ),
           ),
+          SizedBox(width: 8.0),
           Align(
             alignment: Alignment.center,
             child: Icon(
@@ -45,6 +49,7 @@ class DepartureArrivalWidget extends StatelessWidget {
               size: 14.0,
             ),
           ),
+          SizedBox(width: 8.0),
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,

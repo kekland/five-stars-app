@@ -37,10 +37,7 @@ class _CargoWidgetState extends State<CargoWidget> {
     await Navigator.of(context).push(
       TransparentRoute(
         builder: (context) {
-          return Container(
-            color: Colors.black45,
-            child: CargoExpandedWidget(data: widget.data),
-          );
+          return CargoExpandedWidget(data: widget.data);
         },
       ),
     );
@@ -65,6 +62,7 @@ class _CargoWidgetState extends State<CargoWidget> {
               height: sizedBoxSize.height,
             )
           : CardWidget(
+              onTap: () => expand(context),
               padding: const EdgeInsets.all(16.0),
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,6 +73,7 @@ class _CargoWidgetState extends State<CargoWidget> {
                     arrivalDate: widget.data.arrivalDate,
                     departureCity: widget.data.departureCity,
                     departureDate: widget.data.departureDate,
+                    isCargo: true,
                   ),
                   DividerWidget(),
                   SizedBox(
@@ -98,8 +97,15 @@ class _CargoWidgetState extends State<CargoWidget> {
                           unit: "т.",
                         ),
                         TwoLineInformationWidget(
+                          iconColor: ModernTextTheme.captionIconColor,
+                          icon: FontAwesomeIcons.boxOpen,
+                          title: 'Тип',
+                          value: widget.data.imageKeyword,
+                          unit: "",
+                        ),
+                        TwoLineInformationWidget(
                           iconColor: Colors.green,
-                          icon: FontAwesomeIcons.dollarSign,
+                          icon: FontAwesomeIcons.tenge,
                           title: 'Цена',
                           value: widget.data.shipmentCost.truncate().toString(),
                           unit: "тг.",

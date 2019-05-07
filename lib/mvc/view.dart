@@ -29,6 +29,7 @@ abstract class Presenter<T extends StatefulWidget, I extends Controller<T>> exte
 
   @override
   Widget build(BuildContext context) {
+    //super.build(context);
     return present(context);
   }
 
@@ -53,5 +54,16 @@ abstract class Presenter<T extends StatefulWidget, I extends Controller<T>> exte
 
   void update(Function func) {
     setState(func);
+  }
+}
+
+abstract class PresenterKeepAlive<T extends StatefulWidget, I extends Controller<T>> extends Presenter<T, I> with AutomaticKeepAliveClientMixin<T> {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return present(context);
   }
 }

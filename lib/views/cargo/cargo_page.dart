@@ -1,4 +1,5 @@
 import 'package:five_stars/controllers/cargo_page_controller.dart';
+import 'package:five_stars/design/app_bar_widget.dart';
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/design/future_page.dart';
 import 'package:five_stars/design/page_header_widget.dart';
@@ -22,27 +23,31 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
   @override
   Widget present(BuildContext context) {
     return SafeArea(
-      child: FuturePage(
-        onSuccess: () => ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              physics: BouncingScrollPhysics(),
-              itemCount: controller.data.length + 1,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: PageHeaderWidget(title: 'Свободный груз'),
-                  );
-                }
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: CargoWidget(data: controller.data[index - 1]),
-                );
-              },
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          AppBarWidget(
+            title: Text('Свободный груз'),
+          ),
+          Expanded(
+            child: FuturePage(
+              onSuccess: () => ListView.builder(
+                    padding: const EdgeInsets.all(16.0),
+                    physics: BouncingScrollPhysics(),
+                    itemCount: controller.data.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: CargoWidget(data: controller.data[index]),
+                      );
+                    },
+                  ),
+              state: controller.getFutureState(),
+              error: controller.error,
+              onRefresh: controller.load,
             ),
-        state: controller.getFutureState(),
-        error: controller.error,
-        onRefresh: controller.load,
+          ),
+        ],
       ),
     );
   }

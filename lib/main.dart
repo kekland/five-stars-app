@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Пять Звёзд',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Inter',
       ),
       routes: {
         "/": (context) => IntroPage(),

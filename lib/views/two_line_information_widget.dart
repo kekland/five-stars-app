@@ -1,3 +1,4 @@
+import 'package:five_stars/design/typography/typography.dart';
 import 'package:flutter/material.dart';
 
 class TwoLineInformationWidget extends StatelessWidget {
@@ -7,7 +8,8 @@ class TwoLineInformationWidget extends StatelessWidget {
   final String value;
   final String unit;
 
-  const TwoLineInformationWidget({Key key, this.title, this.value, this.unit, this.icon, this.iconColor}) : super(key: key);
+  const TwoLineInformationWidget({Key key, this.title, this.value, this.unit, this.icon, this.iconColor})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -17,7 +19,7 @@ class TwoLineInformationWidget extends StatelessWidget {
           icon,
           color: iconColor,
         ),
-        SizedBox(width: 16.0),
+        SizedBox(width: 12.0),
         Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,25 +29,17 @@ class TwoLineInformationWidget extends StatelessWidget {
               children: [
                 Text(
                   value,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
+                  style: ModernTextTheme.primaryAccented.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text(
                   unit,
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.5),
-                  ),
+                  style: ModernTextTheme.secondary,
                 ),
               ],
             ),
             Text(
               title,
-              style: TextStyle(
-                color: Colors.black.withOpacity(0.355),
-              ),
+              style: ModernTextTheme.caption,
             ),
           ],
         ),

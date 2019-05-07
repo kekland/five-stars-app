@@ -1,3 +1,4 @@
+import 'package:five_stars/design/typography/typography.dart';
 import 'package:flutter/material.dart';
 
 class TextLogoWidget extends StatelessWidget {
@@ -8,18 +9,11 @@ class TextLogoWidget extends StatelessWidget {
       children: [
         Text(
           'Пять звёзд',
-          style: TextStyle(
-            fontSize: 36.0,
-            fontWeight: FontWeight.w700,
-          ),
+          style: ModernTextTheme.boldTitle.copyWith(fontSize: 36.0),
         ),
         Text(
           'транспорт и логистика',
-          style: TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.w400,
-            color: Colors.black54,
-          ),
+          style: ModernTextTheme.caption.copyWith(fontSize: 18.0),
         ),
       ],
     );

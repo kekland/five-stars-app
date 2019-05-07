@@ -5,6 +5,7 @@ import 'package:five_stars/utils/app_data.dart';
 //import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:five_stars/utils/pages.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -26,22 +27,22 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
       bottomNavigationBar: FancyBottomNavigation(
         tabs: [
           TabData(
-            iconData: Icons.inbox,
+            iconData: FontAwesomeIcons.boxes,
             title: 'Груз',
             color: Colors.pink,
           ),
           TabData(
-            iconData: Icons.local_shipping,
+            iconData: FontAwesomeIcons.truck,
             title: 'Транспорт',
             color: Colors.purple,
           ),
           TabData(
-            iconData: Icons.call,
+            iconData: FontAwesomeIcons.phone,
             title: 'Звонки',
             color: Colors.deepPurple,
           ),
           TabData(
-            iconData: Icons.person,
+            iconData: FontAwesomeIcons.solidUserCircle,
             title: 'Личный кабинет',
             color: Colors.indigo,
           ),

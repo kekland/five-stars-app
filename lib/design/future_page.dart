@@ -70,11 +70,8 @@ class _FuturePageState extends State<FuturePage> with TickerProviderStateMixin {
         children: [
           Opacity(
             opacity: progressOpacityAnimation.value,
-            child: Transform.scale(
-              scale: progressOpacityAnimation.value,
-              child: Center(
-                child: CircularProgressRevealWidget(),
-              ),
+            child: Center(
+              child: CircularProgressRevealWidget(),
             ),
           ),
           Transform.translate(

@@ -1,6 +1,8 @@
+import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DepartureArrivalWidget extends StatelessWidget {
   final City departureCity;
@@ -26,19 +28,11 @@ class DepartureArrivalWidget extends StatelessWidget {
               children: [
                 Text(
                   dateTimeToString(departureDate),
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black.withOpacity(0.4),
-                  ),
+                  style: ModernTextTheme.caption,
                 ),
                 Text(
                   departureCity.name,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
+                  style: ModernTextTheme.primaryAccented,
                 ),
               ],
             ),
@@ -46,8 +40,9 @@ class DepartureArrivalWidget extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Icon(
-              Icons.chevron_right,
-              color: Colors.black.withOpacity(0.135),
+              FontAwesomeIcons.arrowRight,
+              color: ModernTextTheme.captionColor.withOpacity(0.125),
+              size: 18.0,
             ),
           ),
           Expanded(
@@ -58,19 +53,11 @@ class DepartureArrivalWidget extends StatelessWidget {
               children: [
                 Text(
                   dateTimeToString(arrivalDate),
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black.withOpacity(0.4),
-                  ),
+                  style: ModernTextTheme.caption,
                 ),
                 Text(
                   arrivalCity.name,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
+                  style: ModernTextTheme.primaryAccented,
                 ),
               ],
             ),

@@ -1,3 +1,4 @@
+import 'package:five_stars/design/shadows/shadows.dart';
 import 'package:flutter/material.dart';
 
 class CardWidget extends StatelessWidget {
@@ -13,13 +14,7 @@ class CardWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.045),
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          ),
-        ],
+        boxShadow: [Shadows.slightShadow],
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

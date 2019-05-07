@@ -13,7 +13,7 @@ class AppBarWidget extends StatelessWidget {
       width: double.infinity,
       height: 64.0,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
         boxShadow: [Shadows.slightShadow],
       ),
       alignment: Alignment.center,

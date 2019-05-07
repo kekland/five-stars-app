@@ -2,25 +2,25 @@ import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/divider_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
-import 'package:five_stars/models/cargo_model.dart';
+import 'package:five_stars/models/vehicle_model.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/arrival_destination_widget.dart';
-import 'package:five_stars/views/cargo/cargo_expanded_widget.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
+import 'package:five_stars/views/vehicle_page/vehicle_expanded_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CargoWidget extends StatefulWidget {
-  final Cargo data;
+class VehicleWidget extends StatefulWidget {
+  final Vehicle data;
   final bool addButtons;
 
-  const CargoWidget({Key key, this.data, this.addButtons = true}) : super(key: key);
+  const VehicleWidget({Key key, this.data, this.addButtons = true}) : super(key: key);
 
   @override
-  _CargoWidgetState createState() => _CargoWidgetState();
+  _VehicleWidgetState createState() => _VehicleWidgetState();
 }
 
-class _CargoWidgetState extends State<CargoWidget> {
+class _VehicleWidgetState extends State<VehicleWidget> {
   bool isExpanded = false;
   Size sizedBoxSize;
 
@@ -38,7 +38,7 @@ class _CargoWidgetState extends State<CargoWidget> {
     await Navigator.of(context).push(
       TransparentRoute(
         builder: (context) {
-          return CargoExpandedWidget(data: widget.data);
+          return VehicleExpandedWidget(data: widget.data);
         },
       ),
     );
@@ -54,9 +54,9 @@ class _CargoWidgetState extends State<CargoWidget> {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: "cargo_${this.widget.data.id}",
+      tag: "vehicle_${this.widget.data.id}",
       flightShuttleBuilder: (context, animation, direction, context1, context2) {
-        return CargoWidget(data: widget.data, addButtons: true);
+        return VehicleWidget(data: widget.data, addButtons: true);
       },
       child: (isExpanded)
           ? SizedBox(
@@ -72,10 +72,8 @@ class _CargoWidgetState extends State<CargoWidget> {
                 children: [
                   DepartureArrivalWidget(
                     arrivalCity: widget.data.arrivalCity,
-                    arrivalDate: widget.data.arrivalDate,
                     departureCity: widget.data.departureCity,
-                    departureDate: widget.data.departureDate,
-                    isCargo: true,
+                    isCargo: false,
                   ),
                   DividerWidget(),
                   SizedBox(
@@ -87,31 +85,31 @@ class _CargoWidgetState extends State<CargoWidget> {
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.cube,
-                          title: 'Объем (м³)',
+                          title: 'Макс. объем (м³)',
                           value: widget.data.volume.cubicMeter.round().toString(),
                           unit: "м³",
                         ),
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.weightHanging,
-                          title: 'Вес (тонн)',
+                          title: 'Макс. вес (тонн)',
                           value: widget.data.weight.ton.round().toString(),
                           unit: "т.",
                         ),
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.boxOpen,
-                          title: 'Тип груза',
-                          value: widget.data.imageKeyword,
+                          title: 'Тип кузова',
+                          value: "Тент",
                           unit: "",
                         ),
-                        TwoLineInformationWidget(
+                        /*TwoLineInformationWidget(
                           iconColor: Colors.green,
                           icon: FontAwesomeIcons.tenge,
                           title: 'Цена',
-                          value: widget.data.shipmentCost.truncate().toString(),
-                          unit: "тг.",
-                        ),
+                          value: "Договорная",
+                          unit: "",
+                        ),*/
                       ],
                     ),
                   ),

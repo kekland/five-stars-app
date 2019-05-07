@@ -13,7 +13,8 @@ class DepartureArrivalWidget extends StatelessWidget {
 
   final bool isCargo;
 
-  const DepartureArrivalWidget({Key key, this.departureCity, this.departureDate, this.arrivalCity, this.arrivalDate, this.isCargo})
+  const DepartureArrivalWidget(
+      {Key key, this.departureCity, this.departureDate, this.arrivalCity, this.arrivalDate, this.isCargo})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,8 @@ class DepartureArrivalWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Icon((isCargo)? FontAwesomeIcons.dolly : FontAwesomeIcons.truck, size: 20.0, color: ModernTextTheme.captionColor.withOpacity(0.1)),
+          Icon((isCargo) ? FontAwesomeIcons.dolly : FontAwesomeIcons.truck,
+              size: 20.0, color: ModernTextTheme.captionColor.withOpacity(0.1)),
           SizedBox(width: 16.0),
           Expanded(
             child: Column(
@@ -29,9 +31,12 @@ class DepartureArrivalWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  dateTimeToString(departureDate),
-                  style: ModernTextTheme.caption,
+                Visibility(
+                  visible: departureDate != null,
+                  child: Text(
+                    dateTimeToString(departureDate),
+                    style: ModernTextTheme.caption,
+                  ),
                 ),
                 Text(
                   departureCity.name,
@@ -56,9 +61,12 @@ class DepartureArrivalWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  dateTimeToString(arrivalDate),
-                  style: ModernTextTheme.caption,
+                Visibility(
+                  visible: arrivalDate != null,
+                  child: Text(
+                    dateTimeToString(arrivalDate),
+                    style: ModernTextTheme.caption,
+                  ),
                 ),
                 Text(
                   arrivalCity.name,

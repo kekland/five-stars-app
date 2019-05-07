@@ -2,6 +2,7 @@ import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/pages.dart';
 import 'package:five_stars/views/cargo/cargo_page.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
+import 'package:five_stars/views/vehicle_page/vehicle_page.dart';
 import 'package:flutter/material.dart';
 
 class MainPageController extends Controller<MainPage> {
@@ -14,7 +15,7 @@ class MainPageController extends Controller<MainPage> {
 
   final List<Widget> bodyWidget = [
     CargoPage(key: GlobalKey()),
-    Container(color: Colors.red),
+    VehiclePage(key: GlobalKey()),
     Container(color: Colors.green),
     Container(color: Colors.yellow)
   ];

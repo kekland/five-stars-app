@@ -14,6 +14,10 @@ class Vehicle {
 
   VehicleType vehicleType;
   
+  bool get starred {
+    return true;
+  }
+  
   Vehicle({
     this.id,
     this.departureCity,

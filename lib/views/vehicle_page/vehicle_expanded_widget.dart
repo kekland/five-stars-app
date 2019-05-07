@@ -1,22 +1,24 @@
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/cargo_model.dart';
+import 'package:five_stars/models/vehicle_model.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/cargo/cargo_widget.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
+import 'package:five_stars/views/vehicle_page/vehicle_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CargoExpandedWidget extends StatefulWidget {
-  final Cargo data;
+class VehicleExpandedWidget extends StatefulWidget {
+  final Vehicle data;
 
-  const CargoExpandedWidget({Key key, this.data}) : super(key: key);
+  const VehicleExpandedWidget({Key key, this.data}) : super(key: key);
 
   @override
-  _CargoExpandedWidgetState createState() => _CargoExpandedWidgetState();
+  _VehicleExpandedWidgetState createState() => _VehicleExpandedWidgetState();
 }
 
-class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTickerProviderStateMixin {
+class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget> with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<double> animation;
 
@@ -40,7 +42,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
       physics: BouncingScrollPhysics(),
       child: Column(
         children: <Widget>[
-          CargoWidget(
+          VehicleWidget(
             data: widget.data,
             addButtons: false,
           ),
@@ -59,10 +61,10 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 TwoLineInformationWidget(
                   iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.truckLoading,
+                  icon: FontAwesomeIcons.city,
                   title: 'Место погрузки',
                   value: widget.data.departureCity.name,
                   unit: "",
@@ -70,35 +72,9 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
                 SizedBox(height: 16.0),
                 TwoLineInformationWidget(
                   iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.truckLoading,
-                  showIcon: false,
-                  title: 'Дата погрузки',
-                  value: dateTimeToString(widget.data.departureDate),
-                  unit: "",
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 16.0),
-          buildInfoCardWidget(
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TwoLineInformationWidget(
-                  iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.dolly,
+                  icon: FontAwesomeIcons.city,
                   title: 'Место выгрузки',
                   value: widget.data.arrivalCity.name,
-                  unit: "",
-                ),
-                SizedBox(height: 16.0),
-                TwoLineInformationWidget(
-                  iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.truckLoading,
-                  showIcon: false,
-                  title: 'Дата выгрузки',
-                  value: dateTimeToString(widget.data.arrivalDate),
                   unit: "",
                 ),
               ],
@@ -133,14 +109,6 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
                   value: widget.data.weight.ton.round().toString(),
                   unit: "т.",
                 ),
-                SizedBox(height: 16.0),
-                TwoLineInformationWidget(
-                  iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.boxOpen,
-                  title: 'Тип груза',
-                  value: widget.data.imageKeyword,
-                  unit: "",
-                ),
               ],
             ),
           ),
@@ -150,8 +118,8 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
               iconColor: Colors.green,
               icon: FontAwesomeIcons.tenge,
               title: 'Цена',
-              value: widget.data.shipmentCost.truncate().toString(),
-              unit: "тг.",
+              value: "Договорная",
+              unit: "",
             ),
           ),
           SizedBox(height: 16.0),

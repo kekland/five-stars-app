@@ -20,6 +20,10 @@ class Cargo {
   VehicleType vehicleType;
   String imageKeyword;
 
+  bool get starred {
+    return true;
+  }
+
   Cargo({
     this.id,
     this.departureDate,

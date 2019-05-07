@@ -56,5 +56,7 @@ class ModernTextTheme {
   static Color normalColor = Colors.black.withOpacity(0.9);
   static Color secondaryColor = Colors.black.withOpacity(0.5);
   static Color captionColor = Colors.black.withOpacity(0.355);
+  static Color disabledColor = Colors.black.withOpacity(0.125);
+
   static Color captionIconColor = Colors.black.withOpacity(0.125);
 }

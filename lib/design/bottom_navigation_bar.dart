@@ -73,8 +73,8 @@ class TabItem extends StatelessWidget {
                 duration: Duration(milliseconds: ANIM_DURATION),
                 opacity: (selected) ? ALPHA_OFF : ALPHA_ON,
                 child: IconButton(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
+                  highlightColor: Colors.black12,
+                  splashColor: Colors.black12,
                   padding: EdgeInsets.all(0),
                   alignment: Alignment(0, 0),
                   icon: Icon(
@@ -200,25 +200,28 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation> with Ticke
           decoration: BoxDecoration(
               color: barBackgroundColor,
               boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.065), offset: Offset(0, -1), blurRadius: 8)]),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: widget.tabs
-                .map((t) => TabItem(
-                    uniqueKey: t.key,
-                    selected: t.key == widget.tabs[currentSelected].key,
-                    iconData: t.iconData,
-                    title: t.title,
-                    iconColor: inactiveIconColor,
-                    textColor: textColor,
-                    color: t.color,
-                    callbackFunction: (uniqueKey) {
-                      int selected = widget.tabs.indexWhere((tabData) => tabData.key == uniqueKey);
-                      widget.onTabChangedListener(selected);
-                      _setSelected(uniqueKey);
-                      _initAnimationAndStart(_circleAlignX, 1);
-                    }))
-                .toList(),
+          child: Material(
+            color: barBackgroundColor,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: widget.tabs
+                  .map((t) => TabItem(
+                      uniqueKey: t.key,
+                      selected: t.key == widget.tabs[currentSelected].key,
+                      iconData: t.iconData,
+                      title: t.title,
+                      iconColor: inactiveIconColor,
+                      textColor: textColor,
+                      color: t.color,
+                      callbackFunction: (uniqueKey) {
+                        int selected = widget.tabs.indexWhere((tabData) => tabData.key == uniqueKey);
+                        widget.onTabChangedListener(selected);
+                        _setSelected(uniqueKey);
+                        _initAnimationAndStart(_circleAlignX, 1);
+                      }))
+                  .toList(),
+            ),
           ),
         ),
         Positioned.fill(

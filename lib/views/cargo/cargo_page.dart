@@ -37,7 +37,7 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
                   onSuccess: () => ListView.builder(
                         padding: const EdgeInsets.all(16.0),
                         physics: BouncingScrollPhysics(),
-                        itemCount: controller.data.length * 5,
+                        itemCount: controller.data.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 16.0),

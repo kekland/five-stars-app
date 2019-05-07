@@ -6,7 +6,7 @@ class CardWidget extends StatelessWidget {
   final EdgeInsets padding;
   final List<Widget> actions;
 
-  const CardWidget({Key key, this.body, this.padding, this.actions}) : super(key: key);
+  const CardWidget({Key key, this.body, this.padding, this.actions = const []}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,25 +16,29 @@ class CardWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [Shadows.slightShadow],
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: padding,
-            child: body,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: padding.left, right: padding.right),
-            child: Container(
-              height: 1.0,
-              color: Colors.black.withOpacity(0.035),
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: padding,
+              child: body,
             ),
-          ),
-          Row(
-            children: actions.map((action) => Expanded(child: action)).toList(),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.only(left: padding.left, right: padding.right),
+              child: Container(
+                height: 1.0,
+                color: Colors.black.withOpacity(0.035),
+              ),
+            ),
+            Row(
+              children: actions,
+            ),
+          ],
+        ),
       ),
     );
   }

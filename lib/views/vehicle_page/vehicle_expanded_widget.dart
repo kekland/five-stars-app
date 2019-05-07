@@ -22,6 +22,46 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget> with Sing
   AnimationController controller;
   Animation<double> animation;
 
+  void requestCallAPI(BuildContext context) async {
+    //TODO
+    Navigator.of(context).pop();
+    showLoadingDialog(context: context, color: Colors.purple);
+    await Future.delayed(Duration(seconds: 1));
+    Navigator.of(context).pop();
+    showModernDialog(
+      context: context,
+      title: 'Запрос отправлен.',
+      text: 'Наш оператор перезвонит вам в ближайшее время',
+      actions: <Widget>[
+        FlatButton(
+          child: Text('Хорошо'),
+          onPressed: () => Navigator.of(context).pop(),
+          textColor: Colors.purple,
+        ),
+      ],
+    );
+  }
+
+  void requestCall(BuildContext context) {
+    showModernDialog(
+      context: context,
+      title: 'Запросить дополнительную информацию о транспорте?',
+      text: 'Наш оператор перезвонит вам в ближайшее время',
+      actions: <Widget>[
+        FlatButton(
+          child: Text('Отмена'),
+          onPressed: () => Navigator.of(context).pop(),
+          textColor: Colors.purple,
+        ),
+        FlatButton(
+          child: Text('Запросить'),
+          onPressed: () => requestCallAPI(context),
+          textColor: Colors.purple,
+        ),
+      ],
+    );
+  }
+
   @override
   void initState() {
     controller = AnimationController(vsync: this, duration: Duration(milliseconds: 200));
@@ -129,10 +169,8 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget> with Sing
               child: FlatButton.icon(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
                 icon: Icon(FontAwesomeIcons.infoCircle, size: 20.0),
-                label: Text('Узнать дополнительную информацию'),
-                onPressed: () {
-                  print("Вам перезвонят.");
-                },
+                label: Text('Запросить дополнительную информацию'),
+                onPressed: () => requestCall(context),
                 textColor: ModernTextTheme.secondaryColor,
                 padding: const EdgeInsets.all(18.0),
               ),

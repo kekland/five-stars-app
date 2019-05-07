@@ -1,4 +1,5 @@
 import 'package:five_stars/utils/city.dart';
+import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/utils/volume.dart';
 import 'package:five_stars/utils/weight.dart';
@@ -15,7 +16,11 @@ class Vehicle {
   VehicleType vehicleType;
   
   bool get starred {
-    return true;
+    return SharedPreferencesManager.instance.getBool("vehicle_${id}_star") ?? false;
+  }
+
+  void toggleStarred() {
+    SharedPreferencesManager.instance.setBool("vehicle_${id}_star", !starred);
   }
   
   Vehicle({

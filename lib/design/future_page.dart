@@ -1,7 +1,7 @@
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:flutter/material.dart';
 
-enum FutureState { Loading, Error, Success }
+enum FutureState { NotRan, Loading, Error, Success }
 
 class FuturePage extends StatefulWidget {
   final FutureState state;

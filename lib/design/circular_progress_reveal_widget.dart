@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CircularProgressRevealWidget extends StatelessWidget {
+  final Color color;
+
+  const CircularProgressRevealWidget({Key key, this.color = Colors.blue}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,7 +21,9 @@ class CircularProgressRevealWidget extends StatelessWidget {
         ],
       ),
       alignment: Alignment.center,
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(color),
+      ),
     );
   }
 }

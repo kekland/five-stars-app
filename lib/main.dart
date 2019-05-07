@@ -4,7 +4,10 @@ import 'package:five_stars/views/main_page/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  await SharedPreferencesManager.initialize();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

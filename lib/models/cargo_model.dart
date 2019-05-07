@@ -1,7 +1,9 @@
 import 'package:five_stars/utils/city.dart';
+import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/utils/volume.dart';
 import 'package:five_stars/utils/weight.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Cargo {
   String id;
@@ -21,7 +23,11 @@ class Cargo {
   String imageKeyword;
 
   bool get starred {
-    return true;
+    return SharedPreferencesManager.instance.getBool("cargo_${id}_star") ?? false;
+  }
+
+  void toggleStarred() {
+    SharedPreferencesManager.instance.setBool("cargo_${id}_star", !starred);
   }
 
   Cargo({

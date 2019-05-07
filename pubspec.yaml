@@ -27,6 +27,8 @@ dependencies:
   fancy_bottom_navigation: ^0.3.2
   font_awesome_flutter: 
   swipedetector:
+  url_launcher:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

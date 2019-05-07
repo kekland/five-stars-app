@@ -21,7 +21,7 @@ class CardWidget extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.0),
         child: InkWell(
-          onTap: (onTap == null)? () {} : onTap,
+          onTap: onTap,
           highlightColor: Colors.black.withOpacity(0.03),
           splashColor: Colors.black.withOpacity(0.03),
           borderRadius: BorderRadius.circular(12.0),
@@ -36,7 +36,7 @@ class CardWidget extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: padding.left, right: padding.right),
                 child: Container(
-                  height: (actions.length > 0)? 1.0 : 0.0,
+                  height: (actions.length > 0) ? 1.0 : 0.0,
                   color: Colors.black.withOpacity(0.035),
                 ),
               ),

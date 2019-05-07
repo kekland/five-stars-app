@@ -5,6 +5,7 @@ class AppData {
   static bool loggedIn = false;
 
   static String phoneNumber;
+  static String city;
 
   static String getName() {
     if(loggedIn) {

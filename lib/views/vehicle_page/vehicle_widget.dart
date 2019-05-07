@@ -98,7 +98,7 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                         ),
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
-                          icon: FontAwesomeIcons.boxOpen,
+                          icon: FontAwesomeIcons.truckMoving,
                           title: 'Тип кузова',
                           value: "Тент",
                           unit: "",
@@ -131,7 +131,7 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                   color: (widget.data.starred) ? Colors.amber : ModernTextTheme.secondaryColor,
                   iconSize: 20.0,
                   padding: const EdgeInsets.all(12.0),
-                  onPressed: () {},
+                  onPressed: () => setState(() => widget.data.toggleStarred()),
                 ),
               ],
             ),

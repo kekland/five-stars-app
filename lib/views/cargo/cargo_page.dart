@@ -7,6 +7,7 @@ import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/views/cargo/cargo_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CargoPage extends StatefulWidget {
   const CargoPage({Key key}) : super(key: key);
@@ -23,29 +24,33 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
   @override
   Widget present(BuildContext context) {
     return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          AppBarWidget(
-            title: Text('Свободный груз'),
-          ),
-          Expanded(
-            child: FuturePage(
-              onSuccess: () => ListView.builder(
-                    padding: const EdgeInsets.all(16.0),
-                    physics: BouncingScrollPhysics(),
-                    itemCount: controller.data.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: CargoWidget(data: controller.data[index]),
-                      );
-                    },
-                  ),
-              state: controller.getFutureState(),
-              error: controller.error,
-              onRefresh: controller.load,
-            ),
+      child: Stack(
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              AppBarWidget(
+                title: Text('Свободный груз'),
+              ),
+              Expanded(
+                child: FuturePage(
+                  onSuccess: () => ListView.builder(
+                        padding: const EdgeInsets.all(16.0),
+                        physics: BouncingScrollPhysics(),
+                        itemCount: controller.data.length * 5,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 16.0),
+                            child: CargoWidget(data: controller.data[index % 3]),
+                          );
+                        },
+                      ),
+                  state: controller.getFutureState(),
+                  error: controller.error,
+                  onRefresh: controller.load,
+                ),
+              ),
+            ],
           ),
         ],
       ),

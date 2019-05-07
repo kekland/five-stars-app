@@ -29,7 +29,7 @@ class TwoLineInformationWidget extends StatelessWidget {
               children: [
                 Text(
                   value,
-                  style: ModernTextTheme.primaryAccented.copyWith(fontWeight: FontWeight.w600),
+                  style: ModernTextTheme.primaryAccented,
                 ),
                 Text(
                   unit,

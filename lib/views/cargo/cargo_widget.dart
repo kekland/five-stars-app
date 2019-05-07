@@ -1,5 +1,6 @@
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/divider_widget.dart';
+import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/arrival_destination_widget.dart';
@@ -33,14 +34,14 @@ class CargoWidget extends StatelessWidget {
               alignment: WrapAlignment.spaceBetween,
               children: <Widget>[
                 TwoLineInformationWidget(
-                  iconColor: Colors.purple,
+                  iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.box,
                   title: 'Объем (м³)',
                   value: data.volume.cubicMeter.round().toString(),
                   unit: "м³",
                 ),
                 TwoLineInformationWidget(
-                  iconColor: Colors.blue,
+                  iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.weightHanging,
                   title: 'Вес (тонн)',
                   value: data.weight.ton.round().toString(),

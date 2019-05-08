@@ -4,6 +4,7 @@ import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/vehicle_model.dart';
 import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/views/arrival_destination_widget.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_expanded_widget.dart';
@@ -100,7 +101,7 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.truckMoving,
                           title: 'Тип кузова',
-                          value: "Тент",
+                          value: vehicleTypeNames[widget.data.vehicleType],
                           unit: "",
                         ),
                         /*TwoLineInformationWidget(

@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     setStatusBar(Brightness.dark);
 
     return MaterialApp(
-      title: 'Пять Звёзд',
+      title: 'Пять звёзд',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Inter',

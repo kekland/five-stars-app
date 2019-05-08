@@ -29,6 +29,8 @@ dependencies:
   swipedetector:
   url_launcher:
   shared_preferences:
+  expandable:
+  flutter_range_slider:
 
 dev_dependencies:
   flutter_test:

@@ -5,7 +5,7 @@ import 'package:five_stars/design/future_page.dart';
 import 'package:five_stars/design/page_header_widget.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/mvc/view.dart';
-import 'package:five_stars/views/cargo/cargo_widget.dart';
+import 'package:five_stars/views/cargo_page/cargo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

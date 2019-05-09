@@ -5,7 +5,7 @@ import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/utils/volume.dart';
 import 'package:five_stars/utils/weight.dart';
-import 'package:five_stars/views/cargo/cargo_page.dart';
+import 'package:five_stars/views/cargo_page/cargo_page.dart';
 
 class CargoPageController extends Controller<CargoPage> {
   CargoPageController({Presenter<CargoPage, CargoPageController> presenter}) {

@@ -1,10 +1,8 @@
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/typography/typography.dart';
-import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/models/vehicle_model.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
-import 'package:five_stars/views/cargo/cargo_widget.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_widget.dart';
 import 'package:flutter/material.dart';

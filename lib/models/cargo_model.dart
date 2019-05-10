@@ -23,10 +23,16 @@ class Cargo {
   String imageKeyword;
 
   bool get starred {
+    if(SharedPreferencesManager.instance == null) {
+      return false;
+    }
     return SharedPreferencesManager.instance.getBool("cargo_${id}_star") ?? false;
   }
 
   void toggleStarred() {
+    if(SharedPreferencesManager.instance == null) {
+      return;
+    }
     SharedPreferencesManager.instance.setBool("cargo_${id}_star", !starred);
   }
 

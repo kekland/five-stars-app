@@ -9,9 +9,9 @@ import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
   _setTargetPlatformForDesktop();
-  //SharedPreferencesManager.initialize();
+  SharedPreferencesManager.initialize();
   runApp(MyApp());
 }
 

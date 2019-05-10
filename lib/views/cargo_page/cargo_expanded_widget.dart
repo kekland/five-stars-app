@@ -87,7 +87,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
           ),
           SizedBox(height: 32.0),
           buildInfoCardWidget(
-            TwoLineInformationWidget(
+            TwoLineInformationWidgetExpanded(
               iconColor: ModernTextTheme.captionIconColor,
               icon: FontAwesomeIcons.tag,
               title: 'Идентификатор',
@@ -101,7 +101,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TwoLineInformationWidget(
+                TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.truckLoading,
                   title: 'Место погрузки',
@@ -109,7 +109,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
                   unit: "",
                 ),
                 SizedBox(height: 16.0),
-                TwoLineInformationWidget(
+                TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.truckLoading,
                   showIcon: false,
@@ -126,7 +126,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TwoLineInformationWidget(
+                TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.dolly,
                   title: 'Место выгрузки',
@@ -134,7 +134,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
                   unit: "",
                 ),
                 SizedBox(height: 16.0),
-                TwoLineInformationWidget(
+                TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.truckLoading,
                   showIcon: false,
@@ -151,7 +151,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TwoLineInformationWidget(
+                TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.truckMoving,
                   title: 'Тип кузова',
@@ -159,7 +159,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
                   unit: "",
                 ),
                 SizedBox(height: 16.0),
-                TwoLineInformationWidget(
+                TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.cube,
                   title: 'Объём (м³)',
@@ -167,7 +167,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
                   unit: "м³",
                 ),
                 SizedBox(height: 16.0),
-                TwoLineInformationWidget(
+                TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.weightHanging,
                   title: 'Вес (тонн)',
@@ -175,7 +175,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
                   unit: "т.",
                 ),
                 SizedBox(height: 16.0),
-                TwoLineInformationWidget(
+                TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.boxOpen,
                   title: 'Тип груза',
@@ -187,7 +187,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
-            TwoLineInformationWidget(
+            TwoLineInformationWidgetExpanded(
               iconColor: Colors.green,
               icon: FontAwesomeIcons.tenge,
               title: 'Цена',

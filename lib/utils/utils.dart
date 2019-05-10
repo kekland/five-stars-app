@@ -64,6 +64,10 @@ class SharedPreferencesManager {
   static SharedPreferences instance;
 
   static Future initialize() async {
-    instance = await SharedPreferences.getInstance();
+    try {
+      instance = await SharedPreferences.getInstance();
+    } catch (err) {
+      print("could not initialize sharedprefs.");
+    }
   }
 }

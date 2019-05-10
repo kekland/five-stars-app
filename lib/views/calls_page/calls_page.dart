@@ -11,7 +11,7 @@ class CallsPage extends StatelessWidget {
   const CallsPage({Key key}) : super(key: key);
 
   void call() {
-    UrlLauncher.launch("tel://+77775445000");
+    UrlLauncher.launch("tel:+77775445000");
   }
 
   void requestCallAPI(BuildContext context) async {

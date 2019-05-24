@@ -32,6 +32,7 @@ dependencies:
   expandable:
   flutter_range_slider:
   firebase_auth:
+  google_sign_in:
 
 dev_dependencies:
   flutter_test:

@@ -6,6 +6,7 @@ import 'package:five_stars/views/authorization_page/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthorizationPage extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> with SingleTicker
   int currentPage = 1;
   AnimationController controller;
   Animation<double> animation;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {

@@ -1,9 +1,11 @@
 
+import 'package:five_stars/controllers/login_page_controller.dart';
 import 'package:five_stars/design/text_field.dart';
 import 'package:five_stars/design/typography/typography.dart';
+import 'package:five_stars/mvc/view.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({
     Key key,
     @required this.focusNode, this.onRegister,
@@ -13,7 +15,12 @@ class LoginPage extends StatelessWidget {
   final VoidCallback onRegister;
 
   @override
-  Widget build(BuildContext context) {
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends Presenter<LoginPage, LoginPageController> {
+  @override
+  Widget present(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -25,22 +32,22 @@ class LoginPage extends StatelessWidget {
             Text('Вход в систему', style: ModernTextTheme.caption),
             SizedBox(height: 32.0),
             ModernTextField(
-              focusNode: focusNode,
               hintText: 'Имя пользователя',
               icon: Icons.person,
+              onChanged: controller.setUsername,
             ),
             SizedBox(height: 16.0),
             ModernTextField(
-              focusNode: focusNode,
               hintText: 'Пароль',
               obscureText: true,
               icon: Icons.lock,
+              onChanged: controller.setPassword,
             ),
             SizedBox(height: 16.0),
             SizedBox(
               width: double.infinity,
               child: RaisedButton.icon(
-                onPressed: () => Navigator.of(context).pushReplacementNamed("/auth"),
+                onPressed: () => controller.login(context),
                 shape: StadiumBorder(),
                 icon: Icon(Icons.chevron_right),
                 label: Text('Вход в систему'),
@@ -50,7 +57,7 @@ class LoginPage extends StatelessWidget {
             ),
             FlatButton.icon(
               label: Text('Или может, зарегистрироваться?'),
-              onPressed: onRegister,
+              onPressed: widget.onRegister,
               icon: Icon(Icons.chevron_left),
               textColor: ModernTextTheme.captionColor,
             ),
@@ -59,4 +66,10 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  void initController() {
+    controller = LoginPageController(presenter: this);
+  }
+
 }

@@ -1,15 +1,10 @@
 import 'dart:io';
+import 'package:five_stars/utils/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 
-String baseUrl = 'http://192.168.1.104:8888';
+String baseUrl = 'http://192.168.43.155:8888';
 //String baseUrl = 'https://api.5zvezd.kz';
-
-Map<String, String> getHeaders() {
-  return {
-    "Content-Type": "application/json",
-  };
-}
 
 Future<bool> register({
   String username,
@@ -23,9 +18,6 @@ Future<bool> register({
     List<String> names = firstAndLastName.split(" ");
     final response = await Dio().post(
       '$baseUrl/user',
-      options: Options(
-        headers: getHeaders(),
-      ),
       data: {
         "username": username,
         "password": password,
@@ -47,5 +39,41 @@ Future<bool> register({
   } catch (e) {
     print(e);
     return false;
+  }
+}
+
+Future<String> getToken({
+  String username,
+  String password,
+}) async {
+  try {
+    if (username == null) {
+      username = SharedPreferencesManager.instance.getString("username");
+    }
+    if (password == null) {
+      password = SharedPreferencesManager.instance.getString("password");
+    }
+
+    final response = await Dio().post(
+      "$baseUrl/auth",
+      queryParameters: {
+        "username": username,
+        "password": password,
+        "grant_type": "password",
+      },
+      options: Options(
+        headers: {"Authorization": "Basic Y29tLmtla2xhbmQuZml2ZV9zdGFyczo="},
+      ),
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      print(response.data);
+      return response.data["access_token"];
+    } else {
+      print(response.statusCode);
+    }
+  } catch (e) {
+    print(e);
+    rethrow;
   }
 }

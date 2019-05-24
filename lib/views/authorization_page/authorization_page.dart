@@ -25,9 +25,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> with SingleTicker
     focusNode = null;
     controller = AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     animation = CurvedAnimation(curve: Curves.easeInOut, parent: controller);
-
     controller.addListener(() => setState(() => {}));
-
     super.initState();
   }
 

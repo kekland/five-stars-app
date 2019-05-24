@@ -2,7 +2,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 
-String baseUrl = 'https://api.5zvezd.kz';
+String baseUrl = 'http://192.168.1.104:8888';
+//String baseUrl = 'https://api.5zvezd.kz';
 
 Map<String, String> getHeaders() {
   return {

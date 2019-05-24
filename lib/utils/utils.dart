@@ -23,7 +23,7 @@ void setStatusBar(Brightness iconBrightness) {
   );
 }
 
-void showModernDialog({BuildContext context, String title, String text, List<Widget> actions}) {
+void showModernDialog({BuildContext context, String title, String text, Widget body, List<Widget> actions}) {
   showDialog(
     context: context,
     builder: (_) {
@@ -36,7 +36,7 @@ void showModernDialog({BuildContext context, String title, String text, List<Wid
       );*/
 
       return FutureDialog(
-        data: DialogData(title: title, subtitle: text, actions: actions),
+        data: DialogData(title: title, subtitle: text, customBody: body, actions: actions),
       );
     },
   );

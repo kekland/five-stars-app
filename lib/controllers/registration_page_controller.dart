@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/pages.dart';
+import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/authorization_page/registration_page.dart';
 import 'package:five_stars/views/calls_page/calls_page.dart';
 import 'package:five_stars/views/cargo_page/cargo_page.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
+import 'package:flutter_verification_code_input/flutter_verification_code_input.dart';
 import 'package:five_stars/views/profile_page/profile_page.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_page.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 
 class ValidatedField {
@@ -114,7 +117,80 @@ class RegistrationPageController extends Controller<RegistrationPage> {
   }
 
   final FirebaseAuth auth = FirebaseAuth.instance;
-  void register() {
-    
+  void register(BuildContext context) async {
+    showLoadingDialog(context: context, color: Colors.blue);
+    await auth.verifyPhoneNumber(
+        verificationCompleted: (cred) {
+          registrationFinished(context);
+        },
+        timeout: Duration.zero,
+        codeSent: (authCode, [forceResending]) {
+          //await Future.delayed(Duration(seconds: 3));
+          Navigator.pop(context);
+          showModernDialog(
+            context: context,
+            title: 'Вам отправлено СМС-сообщение',
+            text: 'Когда вам придёт СМС-сообщение с кодом, напишите 6 цифр кода здесь:',
+            body: LayoutBuilder(
+              builder: (_, constraints) {
+                return VerificationCodeInput(
+                  length: 6,
+                  itemSize: constraints.maxWidth / 7.0,
+                  onCompleted: (verificationCode) async {
+                    final AuthCredential credential = PhoneAuthProvider.getCredential(
+                      verificationId: authCode,
+                      smsCode: verificationCode,
+                    );
+
+                    try {
+                      Navigator.pop(context);
+                      showLoadingDialog(context: context, color: Colors.blue);
+                      await auth.signInWithCredential(credential);
+                      registrationFinished(context);
+                    } catch (e) {
+                      registrationFailed(context);
+                    }
+                  },
+                );
+              },
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Отмена'),
+                onPressed: () => Navigator.of(context).pop(),
+                textColor: Colors.deepPurple,
+              ),
+            ],
+          );
+        },
+        verificationFailed: (exception) {
+          print(exception.message);
+          registrationFailed(context);
+        },
+        phoneNumber: "+7${phoneNumber.value}",
+        codeAutoRetrievalTimeout: (t) {
+          print("ayy ${t}");
+        });
+  }
+
+  void registrationFinished(BuildContext context) {
+    Navigator.pop(context);
+    print("finished");
+  }
+
+  void registrationFailed(BuildContext context) {
+    Navigator.pop(context);
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text('Произошла ошибка.'),
+      duration: Duration(seconds: 3),
+      action: SnackBarAction(
+        label: "Закрыть",
+        onPressed: () => {},
+      ),
+      behavior: SnackBarBehavior.floating,
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+    ));
+    print("failed");
   }
 }

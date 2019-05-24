@@ -14,7 +14,7 @@ class DialogData {
 
 class FutureDialog extends StatelessWidget {
   final DialogData data;
-  
+
   const FutureDialog({
     Key key,
     @required this.data,
@@ -30,6 +30,11 @@ class FutureDialog extends StatelessWidget {
           Text(data.title, style: ModernTextTheme.title),
           SizedBox(height: 16.0),
           Text(data.subtitle, style: ModernTextTheme.caption),
+          if (data.customBody != null) ...[
+            SizedBox(height: 16.0),
+            data.customBody,
+            SizedBox(height: 16.0),
+          ],
           Align(
             alignment: Alignment.bottomRight,
             child: Row(
@@ -42,6 +47,7 @@ class FutureDialog extends StatelessWidget {
       padding: const EdgeInsets.only(top: 24.0, left: 32.0, right: 32.0, bottom: 16.0),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Center(

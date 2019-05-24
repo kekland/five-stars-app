@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -32,7 +32,11 @@ dependencies:
   expandable:
   flutter_range_slider:
   firebase_auth:
-  google_sign_in:
+  google_sign_in: ^4.0.0
+  firebase_core: ^0.4.0
+  flutter_verification_code_input:
+      git:
+        url: git://github.com/tinylife-io/flutter_verification_code_input.git
 
 dev_dependencies:
   flutter_test:

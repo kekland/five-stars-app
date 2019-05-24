@@ -58,7 +58,7 @@ packages:
     source: hosted
     version: "0.11.1"
   firebase_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
@@ -81,6 +81,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_verification_code_input:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "5ebc1c1145cd72ed4e27fc29c9e3136753667fe8"
+      url: "git://github.com/tinylife-io/flutter_verification_code_input.git"
+    source: git
+    version: "0.1.1"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -220,5 +229,5 @@ packages:
     source: hosted
     version: "2.0.8"
 sdks:
-  dart: ">=2.2.0 <3.0.0"
+  dart: ">=2.2.2 <3.0.0"
   flutter: ">=0.5.6 <2.0.0"

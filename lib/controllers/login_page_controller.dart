@@ -21,13 +21,7 @@ class LoginPageController extends Controller<LoginPage> {
     showLoadingDialog(color: Colors.blue, context: context);
     try {
       String token = await api.getToken(username: username, password: password);
-
-      SharedPreferencesManager.instance.setString("username", username);
-      SharedPreferencesManager.instance.setString("password", password);
-      SharedPreferencesManager.instance.setString("token", token);
-
-
-      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {
       Navigator.of(context).pop();
       Scaffold.of(context).showSnackBar(SnackBar(

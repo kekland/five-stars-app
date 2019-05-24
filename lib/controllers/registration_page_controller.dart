@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/pages.dart';
@@ -149,7 +150,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
                       await auth.signInWithCredential(credential);
                       phoneValidationFinished(context);
                     } catch (e) {
-                      phoneValidationFailed(context);
+                      registrationFailed('Произошла ошибка при проверке номера телефона, скорее всего неправильный код с СМС.', e, context);
                     }
                   },
                 );
@@ -166,7 +167,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
         },
         verificationFailed: (exception) {
           print(exception.message);
-          phoneValidationFailed(context);
+          registrationFailed('Произошла ошибка при проверке номера телефона.', exception, context);
         },
         phoneNumber: "+7${phoneNumber.value}",
         codeAutoRetrievalTimeout: (t) {
@@ -175,47 +176,50 @@ class RegistrationPageController extends Controller<RegistrationPage> {
   }
 
   void phoneValidationFinished(BuildContext context) async {
-    bool result = await api.register(
-      username: username.value,
-      password: password.value,
-      email: email.value,
-      validatedPhoneNumber: "+7${phoneNumber.value}",
-      firstAndLastName: firstLastName.value,
-      organization: organization.value,
-    );
-    Navigator.pop(context);
+    try {
+      await api.register(
+        username: username.value,
+        password: password.value,
+        email: email.value,
+        validatedPhoneNumber: "+7${phoneNumber.value}",
+        firstAndLastName: firstLastName.value,
+        organization: organization.value,
+      );
 
-    if (result) {
-      //Go somewhere
-    } else {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('Произошла ошибка при регистрации.'),
-        duration: Duration(seconds: 3),
-        action: SnackBarAction(
-          label: "Закрыть",
-          onPressed: () => {},
-        ),
-        behavior: SnackBarBehavior.floating,
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-      ));
+      String token = await api.getToken(username: username.value, password: password.value);
+      Navigator.of(context).pushReplacementNamed("/main");
+    } catch (e) {
+      registrationFailed('Произошла ошибка при регистрации.', e, context);
     }
-    print("finished");
+    Navigator.pop(context);
   }
 
-  void phoneValidationFailed(BuildContext context) {
+  void registrationFailed(String text, Exception e, BuildContext context) {
     Navigator.pop(context);
+
     Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text('Произошла ошибка при подтвержеднии номера телефона.'),
+      content: Text(text),
       duration: Duration(seconds: 3),
       action: SnackBarAction(
-        label: "Закрыть",
-        onPressed: () => {},
+        label: "Подробнее",
+        onPressed: () {
+          showModernDialog(
+            text: (e is DioError) ? "${e.message} ${e.response.data}" : e.toString(),
+            title: 'Ошибка',
+            context: context,
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Закрыть'),
+                onPressed: () => Navigator.of(context).pop(),
+                textColor: Colors.blue,
+              ),
+            ],
+          );
+        },
       ),
       behavior: SnackBarBehavior.floating,
       elevation: 4.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
     ));
-    print("failed");
   }
 }

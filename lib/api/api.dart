@@ -35,10 +35,8 @@ Future<bool> register({
     if (response.statusCode == 200) {
       return true;
     }
-    return false;
   } catch (e) {
-    print(e);
-    return false;
+    rethrow;
   }
 }
 
@@ -68,6 +66,11 @@ Future<String> getToken({
 
     if (response.statusCode == HttpStatus.ok) {
       print(response.data);
+
+      SharedPreferencesManager.instance.setString("username", username);
+      SharedPreferencesManager.instance.setString("password", password);
+      SharedPreferencesManager.instance.setString("token", response.data['access_token']);
+
       return response.data["access_token"];
     } else {
       print(response.statusCode);

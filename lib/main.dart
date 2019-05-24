@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:io' show Platform;
 
 import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/views/authorization_page/authorization_page.dart';
 import 'package:five_stars/views/intro_page/intro_page.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
 import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride;
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         "/": (context) => IntroPage(),
+        "/auth": (context) => AuthorizationPage(),
         "/main": (context) => MainPage(),
       },
       initialRoute: "/",

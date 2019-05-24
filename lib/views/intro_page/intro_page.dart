@@ -119,7 +119,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                   child: SizedBox(
                     width: double.infinity,
                     child: RaisedButton.icon(
-                      onPressed: () => Navigator.of(context).pushReplacementNamed("/main"),
+                      onPressed: () => Navigator.of(context).pushReplacementNamed("/auth"),
                       shape: StadiumBorder(),
                       icon: Icon(Icons.chevron_right),
                       label: Text('Вход в систему'),

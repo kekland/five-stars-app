@@ -53,7 +53,7 @@ void showLoadingDialog({BuildContext context, Color color}) {
         content: Text(text),
         contentTextStyle: ModernTextTheme.secondary,
         actions: actions,
-      );*/
+      );*/ 
 
       return Center(child: CircularProgressRevealWidget(color: color));
     },

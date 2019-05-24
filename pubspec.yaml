@@ -34,6 +34,8 @@ dependencies:
   firebase_auth:
   google_sign_in: ^4.0.0
   firebase_core: ^0.4.0
+  http:
+  dio:
   flutter_verification_code_input:
       git:
         url: git://github.com/tinylife-io/flutter_verification_code_input.git

@@ -107,7 +107,7 @@ class _RegistrationPageState extends Presenter<RegistrationPage, RegistrationPag
             SizedBox(
               width: double.infinity,
               child: RaisedButton.icon(
-                onPressed: !controller.isCorrect? () => controller.register(context) : null,
+                onPressed: controller.isCorrect? () => controller.register(context) : null,
                 shape: StadiumBorder(), 
                 icon: Icon(Icons.chevron_right),
                 label: Text('Зарегистрироваться'),

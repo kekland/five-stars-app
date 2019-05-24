@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/pages.dart';
 import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/api/api.dart' as api;
 import 'package:five_stars/views/authorization_page/registration_page.dart';
 import 'package:five_stars/views/calls_page/calls_page.dart';
 import 'package:five_stars/views/cargo_page/cargo_page.dart';
@@ -121,7 +122,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
     showLoadingDialog(context: context, color: Colors.blue);
     await auth.verifyPhoneNumber(
         verificationCompleted: (cred) {
-          registrationFinished(context);
+          phoneValidationFinished(context);
         },
         timeout: Duration.zero,
         codeSent: (authCode, [forceResending]) {
@@ -146,9 +147,9 @@ class RegistrationPageController extends Controller<RegistrationPage> {
                       Navigator.pop(context);
                       showLoadingDialog(context: context, color: Colors.blue);
                       await auth.signInWithCredential(credential);
-                      registrationFinished(context);
+                      phoneValidationFinished(context);
                     } catch (e) {
-                      registrationFailed(context);
+                      phoneValidationFailed(context);
                     }
                   },
                 );
@@ -165,7 +166,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
         },
         verificationFailed: (exception) {
           print(exception.message);
-          registrationFailed(context);
+          phoneValidationFailed(context);
         },
         phoneNumber: "+7${phoneNumber.value}",
         codeAutoRetrievalTimeout: (t) {
@@ -173,15 +174,39 @@ class RegistrationPageController extends Controller<RegistrationPage> {
         });
   }
 
-  void registrationFinished(BuildContext context) {
+  void phoneValidationFinished(BuildContext context) async {
+    bool result = await api.register(
+      username: username.value,
+      password: password.value,
+      email: email.value,
+      validatedPhoneNumber: "+7${phoneNumber.value}",
+      firstAndLastName: firstLastName.value,
+      organization: organization.value,
+    );
     Navigator.pop(context);
+
+    if (result) {
+      //Go somewhere
+    } else {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('Произошла ошибка при регистрации.'),
+        duration: Duration(seconds: 3),
+        action: SnackBarAction(
+          label: "Закрыть",
+          onPressed: () => {},
+        ),
+        behavior: SnackBarBehavior.floating,
+        elevation: 4.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ));
+    }
     print("finished");
   }
 
-  void registrationFailed(BuildContext context) {
+  void phoneValidationFailed(BuildContext context) {
     Navigator.pop(context);
     Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text('Произошла ошибка.'),
+      content: Text('Произошла ошибка при подтвержеднии номера телефона.'),
       duration: Duration(seconds: 3),
       action: SnackBarAction(
         label: "Закрыть",

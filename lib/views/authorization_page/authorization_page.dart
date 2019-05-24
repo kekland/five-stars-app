@@ -18,7 +18,6 @@ class _AuthorizationPageState extends State<AuthorizationPage> with SingleTicker
   int currentPage = 1;
   AnimationController controller;
   Animation<double> animation;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {

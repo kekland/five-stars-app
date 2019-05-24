@@ -31,6 +31,7 @@ dependencies:
   shared_preferences:
   expandable:
   flutter_range_slider:
+  firebase_auth:
 
 dev_dependencies:
   flutter_test:

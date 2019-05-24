@@ -44,7 +44,7 @@ class ModernTextField extends StatelessWidget {
             Icon(icon),
             SizedBox(width: 8.0),
             prefix ?? SizedBox(width: 0.0, height: 0.0),
-            SizedBox(width: 8.0),
+            if(prefix == null) SizedBox(width: 8.0),
           ],
         ),
         hintText: hintText,

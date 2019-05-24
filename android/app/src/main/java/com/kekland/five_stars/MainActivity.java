@@ -1,4 +1,4 @@
-package com.example.five_stars;
+package com.kekland.five_stars;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

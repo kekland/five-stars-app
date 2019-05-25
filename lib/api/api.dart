@@ -2,8 +2,9 @@ import 'dart:io';
 import 'package:five_stars/utils/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
+export 'package:five_stars/api/validity.dart';
 
-String baseUrl = 'http://192.168.43.155:8888';
+String baseUrl = 'http://192.168.1.104:8888';
 //String baseUrl = 'https://api.5zvezd.kz';
 
 Future<bool> register({
@@ -51,7 +52,7 @@ Future<String> getToken({
     if (password == null) {
       password = SharedPreferencesManager.instance.getString("password");
     }
-
+    
     final response = await Dio().post(
       "$baseUrl/auth",
       queryParameters: {

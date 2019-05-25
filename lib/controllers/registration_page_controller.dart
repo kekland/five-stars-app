@@ -121,58 +121,72 @@ class RegistrationPageController extends Controller<RegistrationPage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   void register(BuildContext context) async {
     showLoadingDialog(context: context, color: Colors.blue);
-    await auth.verifyPhoneNumber(
-        verificationCompleted: (cred) {
-          phoneValidationFinished(context);
-        },
-        timeout: Duration.zero,
-        codeSent: (authCode, [forceResending]) {
-          //await Future.delayed(Duration(seconds: 3));
-          Navigator.pop(context);
-          showModernDialog(
-            context: context,
-            title: 'Вам отправлено СМС-сообщение',
-            text: 'Когда вам придёт СМС-сообщение с кодом, напишите 6 цифр кода здесь:',
-            body: LayoutBuilder(
-              builder: (_, constraints) {
-                return VerificationCodeInput(
-                  length: 6,
-                  itemSize: constraints.maxWidth / 7.0,
-                  onCompleted: (verificationCode) async {
-                    final AuthCredential credential = PhoneAuthProvider.getCredential(
-                      verificationId: authCode,
-                      smsCode: verificationCode,
-                    );
+    final availability = await api.checkUserForAvailability(
+        username: username.value, email: email.value, phoneNumber: phoneNumber.value);
 
-                    try {
-                      Navigator.pop(context);
-                      showLoadingDialog(context: context, color: Colors.blue);
-                      await auth.signInWithCredential(credential);
-                      phoneValidationFinished(context);
-                    } catch (e) {
-                      registrationFailed('Произошла ошибка при проверке номера телефона, скорее всего неправильный код с СМС.', e, context);
-                    }
-                  },
-                );
-              },
+    if(!availability.usernameAvailable) {
+      username.error = "Это имя пользователя уже занято";
+    }
+    if(!availability.emailAvailable) {
+      email.error = "Эта почта уже занята";
+    }
+    if(!availability.phoneNumberAvailable) {
+      phoneNumber.error = "Этот номер уже занят";
+    }
+
+    if(!availability.available) {
+      registrationFailed('Произошла ошибка при регистрации.', Exception('Имя пользователя, почта, либо номер уже заняты.'), context);
+      refresh();
+      return;
+    }
+
+    await api.verifyPhoneNumber(
+      phoneNumber: "+7${phoneNumber.value}",
+      onFinished: () => phoneValidationFinished(context),
+      onFailed: (e) => registrationFailed('Произошла ошибка при проверке номера телефона.', e, context),
+      onCodeSent: (verificationId) {
+        Navigator.pop(context);
+        showModernDialog(
+          context: context,
+          title: 'Вам отправлено СМС-сообщение',
+          text: 'Когда вам придёт СМС-сообщение с кодом, напишите 6 цифр кода здесь:',
+          body: LayoutBuilder(
+            builder: (_, constraints) {
+              return VerificationCodeInput(
+                length: 6,
+                itemSize: constraints.maxWidth / 7.0,
+                onCompleted: (verificationCode) async {
+                  final AuthCredential credential = PhoneAuthProvider.getCredential(
+                    verificationId: verificationId,
+                    smsCode: verificationCode,
+                  );
+
+                  try {
+                    Navigator.pop(context);
+                    showLoadingDialog(context: context, color: Colors.blue);
+                    await auth.signInWithCredential(credential);
+                    phoneValidationFinished(context);
+                  } catch (e) {
+                    print(e);
+                    registrationFailed(
+                        'Произошла ошибка при проверке номера телефона, скорее всего неправильный код с СМС.',
+                        e,
+                        context);
+                  }
+                },
+              );
+            },
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Отмена'),
+              onPressed: () => Navigator.of(context).pop(),
+              textColor: Colors.deepPurple,
             ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Отмена'),
-                onPressed: () => Navigator.of(context).pop(),
-                textColor: Colors.deepPurple,
-              ),
-            ],
-          );
-        },
-        verificationFailed: (exception) {
-          print(exception.message);
-          registrationFailed('Произошла ошибка при проверке номера телефона.', exception, context);
-        },
-        phoneNumber: "+7${phoneNumber.value}",
-        codeAutoRetrievalTimeout: (t) {
-          print("ayy ${t}");
-        });
+          ],
+        );
+      },
+    );
   }
 
   void phoneValidationFinished(BuildContext context) async {
@@ -188,10 +202,10 @@ class RegistrationPageController extends Controller<RegistrationPage> {
 
       String token = await api.getToken(username: username.value, password: password.value);
       Navigator.of(context).pushReplacementNamed("/main");
+      Navigator.pop(context);
     } catch (e) {
       registrationFailed('Произошла ошибка при регистрации.', e, context);
     }
-    Navigator.pop(context);
   }
 
   void registrationFailed(String text, Exception e, BuildContext context) {
@@ -200,7 +214,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(text),
       duration: Duration(seconds: 3),
-      action: SnackBarAction(
+      action: (e == null)? null : SnackBarAction(
         label: "Подробнее",
         onPressed: () {
           showModernDialog(

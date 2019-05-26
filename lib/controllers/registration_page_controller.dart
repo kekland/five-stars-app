@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/pages.dart';
 import 'package:five_stars/utils/utils.dart';
-import 'package:five_stars/api/api.dart' as api;
+import 'package:five_stars/api/api.dart';
 import 'package:five_stars/views/authorization_page/registration_page.dart';
 import 'package:five_stars/views/calls_page/calls_page.dart';
 import 'package:five_stars/views/cargo_page/cargo_page.dart';
@@ -121,26 +121,27 @@ class RegistrationPageController extends Controller<RegistrationPage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   void register(BuildContext context) async {
     showLoadingDialog(context: context, color: Colors.blue);
-    final availability = await api.checkUserForAvailability(
-        username: username.value, email: email.value, phoneNumber: phoneNumber.value);
+    final availability = await ValidityApi.checkUserForAvailability(
+        username: username.value, email: email.value, phoneNumber: "+7${phoneNumber.value}");
 
-    if(!availability.usernameAvailable) {
+    if (!availability.usernameAvailable) {
       username.error = "Это имя пользователя уже занято";
     }
-    if(!availability.emailAvailable) {
+    if (!availability.emailAvailable) {
       email.error = "Эта почта уже занята";
     }
-    if(!availability.phoneNumberAvailable) {
+    if (!availability.phoneNumberAvailable) {
       phoneNumber.error = "Этот номер уже занят";
     }
 
-    if(!availability.available) {
-      registrationFailed('Произошла ошибка при регистрации.', Exception('Имя пользователя, почта, либо номер уже заняты.'), context);
+    if (!availability.available) {
+      registrationFailed(
+          'Произошла ошибка при регистрации.', Exception('Имя пользователя, почта, либо номер уже заняты.'), context);
       refresh();
       return;
     }
 
-    await api.verifyPhoneNumber(
+    await ValidityApi.verifyPhoneNumber(
       phoneNumber: "+7${phoneNumber.value}",
       onFinished: () => phoneValidationFinished(context),
       onFailed: (e) => registrationFailed('Произошла ошибка при проверке номера телефона.', e, context),
@@ -191,7 +192,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
 
   void phoneValidationFinished(BuildContext context) async {
     try {
-      await api.register(
+      await Api.register(
         username: username.value,
         password: password.value,
         email: email.value,
@@ -200,9 +201,9 @@ class RegistrationPageController extends Controller<RegistrationPage> {
         organization: organization.value,
       );
 
-      String token = await api.getToken(username: username.value, password: password.value);
-      Navigator.of(context).pushReplacementNamed("/main");
+      String token = await Api.getToken(username: username.value, password: password.value);
       Navigator.pop(context);
+      Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {
       registrationFailed('Произошла ошибка при регистрации.', e, context);
     }
@@ -211,29 +212,11 @@ class RegistrationPageController extends Controller<RegistrationPage> {
   void registrationFailed(String text, Exception e, BuildContext context) {
     Navigator.pop(context);
 
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(text),
-      duration: Duration(seconds: 3),
-      action: (e == null)? null : SnackBarAction(
-        label: "Подробнее",
-        onPressed: () {
-          showModernDialog(
-            text: (e is DioError) ? "${e.message} ${e.response.data}" : e.toString(),
-            title: 'Ошибка',
-            context: context,
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Закрыть'),
-                onPressed: () => Navigator.of(context).pop(),
-                textColor: Colors.blue,
-              ),
-            ],
-          );
-        },
-      ),
-      behavior: SnackBarBehavior.floating,
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ));
+    showErrorSnackbar(
+      context: context,
+      errorMessage: text,
+      exception: e,
+      showDialog: (e != null),
+    );
   }
 }

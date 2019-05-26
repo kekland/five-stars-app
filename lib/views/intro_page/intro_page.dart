@@ -1,6 +1,9 @@
+import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/intro_page/logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroPage extends StatefulWidget {
   @override
@@ -14,8 +17,14 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
   Animation<double> inflationAnimationEased;
 
   AnimationController deflationAnimationController;
-  Animation<double> deflationAnimation;
+  Animation<double> deflationAnimation; 
 
+  @override
+  void dispose() {
+    inflationAnimationController.dispose();
+    deflationAnimationController.dispose();
+    super.dispose();
+  }
   @override
   void initState() {
     super.initState();
@@ -119,7 +128,11 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                   child: SizedBox(
                     width: double.infinity,
                     child: RaisedButton.icon(
-                      onPressed: () => Navigator.of(context).pushReplacementNamed("/auth"),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed(
+                          (SharedPreferencesManager.instance.getString("token") != null ? "/main" : "/auth"),
+                        );
+                      },
                       shape: StadiumBorder(),
                       icon: Icon(Icons.chevron_right),
                       label: Text('Вход в систему'),

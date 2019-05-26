@@ -171,12 +171,12 @@ class _VehicleFilterWidgetState extends State<VehicleFilterWidget> {
             spacing: 4.0,
             runSpacing: 8.0,
             alignment: WrapAlignment.start,
-            children: vehicleTypeNames.keys
+            children: VehicleTypeUtils.vehicleTypeNames.keys
                 .map((type) => StadiumSwitchWidget(
                       checked: (options.allowedVehicleTypes.contains(type)),
                       color: Colors.purple,
                       backgroundColor: Colors.purple.shade50,
-                      title: vehicleTypeNames[type],
+                      title: VehicleTypeUtils.vehicleTypeNames[type],
                       onToggle: () {
                         print(type.toString());
                         print(options.allowedVehicleTypes.contains(type));

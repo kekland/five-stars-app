@@ -4,7 +4,7 @@ import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/authorization_page/login_page.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
 import 'package:flutter/material.dart';
-import 'package:five_stars/api/api.dart' as api;
+import 'package:five_stars/Api/Api.dart';
 
 class LoginPageController extends Controller<LoginPage> {
   LoginPageController({Presenter<LoginPage, LoginPageController> presenter}) {
@@ -20,34 +20,19 @@ class LoginPageController extends Controller<LoginPage> {
   void login(BuildContext context) async {
     showLoadingDialog(color: Colors.blue, context: context);
     try {
-      String token = await api.getToken(username: username, password: password);
+      String token = await Api.getToken(username: username, password: password);
       Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {
       Navigator.of(context).pop();
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('Произошла ошибка при входе в систему.'),
-        duration: Duration(seconds: 3),
-        action: SnackBarAction(
-          label: "Подробнее",
-          onPressed: () {
-            showModernDialog(
-              text: (e is DioError)? "${e.message} ${e.response.data}" : e.toString(),
-              title: 'Ошибка',
-              context: context,
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Закрыть'),
-                  onPressed: () => Navigator.of(context).pop(),
-                  textColor: Colors.blue,
-                ),
-              ],
-            );
-          },
-        ),
-        behavior: SnackBarBehavior.floating,
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-      ));
+      if (e is DioError) {
+        if (e.response.data['error'] == 'invalid_grant') {
+          showErrorSnackbar(
+              context: context, errorMessage: 'Неправильный логин или пароль', exception: e, showDialog: true);
+          return;
+        }
+      }
+      showErrorSnackbar(
+          context: context, errorMessage: 'Произошла ошибка при входе в систему', exception: e, showDialog: true);
     }
   }
 }

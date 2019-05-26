@@ -4,6 +4,7 @@ import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/views/arrival_destination_widget.dart';
 import 'package:five_stars/views/cargo_page/cargo_expanded_widget.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
@@ -71,10 +72,10 @@ class _CargoWidgetState extends State<CargoWidget> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   DepartureArrivalWidget(
-                    arrivalCity: widget.data.arrivalCity,
-                    arrivalDate: widget.data.arrivalDate,
-                    departureCity: widget.data.departureCity,
-                    departureDate: widget.data.departureDate,
+                    arrivalCity: widget.data.arrival,
+                    arrivalDate: widget.data.arrivalTime,
+                    departureCity: widget.data.departure,
+                    departureDate: widget.data.departureTime,
                     isCargo: true,
                   ),
                   DividerWidget(),
@@ -98,18 +99,18 @@ class _CargoWidgetState extends State<CargoWidget> {
                           value: widget.data.weight.ton.round().toString(),
                           unit: "т.",
                         ),
-                        TwoLineInformationWidget(
+                        /*TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.boxOpen,
                           title: 'Тип груза',
-                          value: widget.data.imageKeyword,
+                          value: VehicleTypeUtils.vehicleTypeNames[widget.data.vehicleType],
                           unit: "",
-                        ),
+                        ),*/
                         TwoLineInformationWidget(
                           iconColor: Colors.green,
                           icon: FontAwesomeIcons.tenge,
                           title: 'Цена',
-                          value: widget.data.shipmentCost.truncate().toString(),
+                          value: widget.data.price.truncate().toString(),
                           unit: "тг.",
                         ),
                       ],

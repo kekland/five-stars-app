@@ -21,35 +21,38 @@ class UserRegistrationAvailability {
   }
 }
 
-Future<UserRegistrationAvailability> checkUserForAvailability({String username, String email, String phoneNumber}) async {
-  final result = await Dio().post('$baseUrl/user/valid', data: {
-    "username": username,
-    "email": email,
-    "phoneNumber": phoneNumber,
-  });
+class ValidityApi {
+  static Future<UserRegistrationAvailability> checkUserForAvailability(
+      {String username, String email, String phoneNumber}) async {
+    final result = await Dio().post('$baseUrl/user/valid', data: {
+      "username": username,
+      "email": email,
+      "phoneNumber": phoneNumber,
+    });
 
-  return UserRegistrationAvailability.fromJson(result.data);
-}
+    return UserRegistrationAvailability.fromJson(result.data);
+  }
 
-final FirebaseAuth auth = FirebaseAuth.instance;
-Future verifyPhoneNumber(
-    {Function(Exception) onFailed,
-    Function(String verificationId) onCodeSent,
-    Function onFinished,
-    String phoneNumber}) async {
-  await auth.verifyPhoneNumber(
-    phoneNumber: phoneNumber,
-    timeout: Duration.zero,
-    codeSent: (verificationId, [forceResending]) => onCodeSent(verificationId),
-    verificationFailed: (exception) {
-      print(exception.message);
-      onFailed(exception);
-    },
-    codeAutoRetrievalTimeout: (t) {
-      print("codeAuthRetrievalTimeout $t");
-    },
-    verificationCompleted: (cred) {
-      onFinished();
-    },
-  );
+  static final FirebaseAuth auth = FirebaseAuth.instance;
+  static Future verifyPhoneNumber(
+      {Function(Exception) onFailed,
+      Function(String verificationId) onCodeSent,
+      Function onFinished,
+      String phoneNumber}) async {
+    await auth.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      timeout: Duration.zero,
+      codeSent: (verificationId, [forceResending]) => onCodeSent(verificationId),
+      verificationFailed: (exception) {
+        print(exception.message);
+        onFailed(exception);
+      },
+      codeAutoRetrievalTimeout: (t) {
+        print("codeAuthRetrievalTimeout $t");
+      },
+      verificationCompleted: (cred) {
+        onFinished();
+      },
+    );
+  }
 }

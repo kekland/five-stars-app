@@ -129,7 +129,7 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget> with Sing
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.truckMoving,
                   title: 'Тип кузова',
-                  value: vehicleTypeNames[widget.data.vehicleType],
+                  value: VehicleTypeUtils.vehicleTypeNames[widget.data.vehicleType],
                   unit: "",
                 ),
                 SizedBox(height: 16.0),

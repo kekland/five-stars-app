@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/design/future_dialog.dart';
 import 'package:five_stars/design/future_page.dart';
@@ -53,10 +54,42 @@ void showLoadingDialog({BuildContext context, Color color}) {
         content: Text(text),
         contentTextStyle: ModernTextTheme.secondary,
         actions: actions,
-      );*/ 
+      );*/
 
       return Center(child: CircularProgressRevealWidget(color: color));
     },
+  );
+}
+
+void showErrorSnackbar(
+    {@required BuildContext context, @required String errorMessage, Exception exception, bool showDialog = true}) {
+  Scaffold.of(context).showSnackBar(
+    SnackBar(
+      content: Text(errorMessage),
+      duration: Duration(seconds: 3),
+      action: (showDialog)
+          ? SnackBarAction(
+              label: "Подробнее",
+              onPressed: () {
+                showModernDialog(
+                  text: (exception is DioError) ? "${exception.message} ${exception.response.data}" : exception.toString(),
+                  title: 'Ошибка',
+                  context: context,
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Закрыть'),
+                      onPressed: () => Navigator.of(context).pop(),
+                      textColor: Colors.blue,
+                    ),
+                  ],
+                );
+              },
+            )
+          : null,
+      behavior: SnackBarBehavior.floating,
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+    ),
   );
 }
 

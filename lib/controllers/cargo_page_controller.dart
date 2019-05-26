@@ -1,3 +1,4 @@
+import 'package:five_stars/api/api.dart';
 import 'package:five_stars/design/future_page.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/mvc/view.dart';
@@ -21,59 +22,22 @@ class CargoPageController extends Controller<CargoPage> {
   Future load() async {
     loading = true;
     error = "";
-    Future.delayed(Duration(seconds: 2), () {
-      data = [
-        Cargo(
-          id: '1001',
-          departureCity: City(name: 'Челябинск, Челябинская область'),
-          departureDate: DateTime.utc(2019, 4, 9),
-          arrivalCity: City(name: 'Костанай'),
-          arrivalDate: DateTime.utc(2019, 4, 10),
-          imageKeyword: 'Шины',
-          vehicleType: VehicleType.open,
-          volume: Volume(cubicMeter: 90),
-          weight: Weight(ton: 20),
-          shipmentCost: 130000.0,
-        ),
-        Cargo(
-          id: '1002',
-          departureCity: City(name: 'Усть-Каменогорск'),
-          departureDate: DateTime.utc(2019, 9, 26),
-          arrivalCity: City(name: 'Алматы'),
-          arrivalDate: DateTime.utc(2019, 9, 28),
-          imageKeyword: 'Мука',
-          vehicleType: VehicleType.isothermRefrigerated,
-          volume: Volume(cubicMeter: 20),
-          weight: Weight(ton: 86),
-          shipmentCost: 190000.0,
-        ),
-        Cargo(
-          id: '1003',
-          departureCity: City(name: 'Алматы'),
-          departureDate: DateTime.utc(2019, 7, 31),
-          arrivalCity: City(name: 'Астана'),
-          arrivalDate: DateTime.utc(2019, 8, 2),
-          imageKeyword: 'Стройматериалы',
-          vehicleType: VehicleType.mega,
-          volume: Volume(cubicMeter: 86),
-          weight: Weight(ton: 20),
-          shipmentCost: 820000.0,
-        ),
-      ];
-      loading = false;
-      presenter.refresh();
-    });
+    try {
+      data = await CargoApi.getCargo();
+    } catch (e) {
+      error = e.toString();
+    }
+    loading = false;
+    presenter.refresh();
   }
 
   FutureState getFutureState() {
-    if(loading) {
+    if (loading) {
       return FutureState.Loading;
-    }
-    else {
-      if(error != "") {
+    } else {
+      if (error != "") {
         return FutureState.Error;
-      }
-      else {
+      } else {
         return FutureState.Success;
       }
     }

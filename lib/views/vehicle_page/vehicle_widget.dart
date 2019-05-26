@@ -101,7 +101,7 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.truckMoving,
                           title: 'Тип кузова',
-                          value: vehicleTypeNames[widget.data.vehicleType],
+                          value: VehicleTypeUtils.vehicleTypeNames[widget.data.vehicleType],
                           unit: "",
                         ),
                         /*TwoLineInformationWidget(

@@ -6,8 +6,7 @@ class CargoApi {
   static Future<List<Cargo>> getCargo() async {
     try {
       final response = await Dio().get('${baseUrl}/cargo', options: Api.options);
-
-      List<Cargo> cargo = (response.data as List<Map<String, dynamic>>).map((cargo) => Cargo.fromJson(cargo)).toList();
+      List<Cargo> cargo = (response.data as List<dynamic>).map((cargo) => Cargo.fromJson(cargo)).toList();
       return cargo;
     } catch (e) {
       rethrow;

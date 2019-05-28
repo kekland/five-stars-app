@@ -3,29 +3,34 @@ import 'package:five_stars/design/future_page.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/city.dart';
+import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/utils/volume.dart';
 import 'package:five_stars/utils/weight.dart';
 import 'package:five_stars/views/cargo_page/cargo_page.dart';
+import 'package:flutter/material.dart';
 
 class CargoPageController extends Controller<CargoPage> {
   CargoPageController({Presenter<CargoPage, CargoPageController> presenter}) {
     this.presenter = presenter;
     data = null;
-    load();
   }
 
   List<Cargo> data;
   bool loading = false;
   String error;
 
-  Future load() async {
+  Future load(BuildContext context) async {
     loading = true;
     error = "";
+    presenter.refresh();
     try {
       data = await CargoApi.getCargo();
     } catch (e) {
       error = e.toString();
+      await Future.delayed(Duration.zero, () {
+        showErrorSnackbar(context: context, errorMessage: 'Что-то пошло не так', exception: e, showDialog: true);
+      });
     }
     loading = false;
     presenter.refresh();

@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class AppBarWidget extends StatelessWidget {
   final Widget title;
+  final Widget action;
 
-  const AppBarWidget({Key key, this.title}) : super(key: key);
+  const AppBarWidget({Key key, this.title, this.action}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +18,21 @@ class AppBarWidget extends StatelessWidget {
         boxShadow: [Shadows.slightShadow],
       ),
       alignment: Alignment.center,
-      child: DefaultTextStyle.merge(
-        style: ModernTextTheme.boldTitle,
-        child: title,
+      child: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.center,
+            child: DefaultTextStyle.merge(
+              style: ModernTextTheme.boldTitle,
+              child: title,
+            ),
+          ),
+          if (action != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: action,
+            ),
+        ],
       ),
     );
   }

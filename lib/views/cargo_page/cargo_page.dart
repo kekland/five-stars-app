@@ -1,6 +1,7 @@
 import 'package:five_stars/controllers/cargo_page_controller.dart';
 import 'package:five_stars/design/app_bar_widget.dart';
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
+import 'package:five_stars/design/empty_widget.dart';
 import 'package:five_stars/design/future_page.dart';
 import 'package:five_stars/design/page_header_widget.dart';
 import 'package:five_stars/models/cargo_model.dart';
@@ -22,6 +23,12 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    controller.load(context);
+  }
+
+  @override
   Widget present(BuildContext context) {
     return SafeArea(
       child: Stack(
@@ -31,23 +38,30 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
             children: <Widget>[
               AppBarWidget(
                 title: Text('Свободный груз'),
+                action: IconButton(icon: Icon(Icons.add), color: Colors.pink, onPressed: () {}),
               ),
               Expanded(
                 child: FuturePage(
-                  onSuccess: () => ListView.builder(
-                        padding: const EdgeInsets.all(16.0),
-                        physics: BouncingScrollPhysics(),
-                        itemCount: controller.data.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 16.0),
-                            child: CargoWidget(data: controller.data[index % 3]),
-                          );
-                        },
-                      ),
+                  accentColor: Colors.pink,
+                  onSuccess: () => (controller.data.length > 0)
+                      ? ListView.builder(
+                          padding: const EdgeInsets.all(16.0),
+                          physics: BouncingScrollPhysics(),
+                          itemCount: controller.data.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: CargoWidget(data: controller.data[index % 3]),
+                            );
+                          },
+                        )
+                      : EmptyWidget(
+                          accentColor: Colors.pink,
+                          onRefresh: () => controller.load(context),
+                        ),
                   state: controller.getFutureState(),
                   error: controller.error,
-                  onRefresh: controller.load,
+                  onRefresh: () => controller.load(context),
                 ),
               ),
             ],

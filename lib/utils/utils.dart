@@ -62,7 +62,7 @@ void showLoadingDialog({BuildContext context, Color color}) {
 }
 
 void showErrorSnackbar(
-    {@required BuildContext context, @required String errorMessage, Exception exception, bool showDialog = true}) {
+    {@required BuildContext context, @required String errorMessage, Object exception, bool showDialog = true}) {
   Scaffold.of(context).showSnackBar(
     SnackBar(
       content: Text(errorMessage),
@@ -72,7 +72,7 @@ void showErrorSnackbar(
               label: "Подробнее",
               onPressed: () {
                 showModernDialog(
-                  text: (exception is DioError) ? "${exception.message} ${exception.response.data}" : exception.toString(),
+                  text: (exception is DioError) ? "${exception?.message} ${exception.response?.data}" : exception.toString(),
                   title: 'Ошибка',
                   context: context,
                   actions: <Widget>[

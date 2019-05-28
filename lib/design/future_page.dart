@@ -1,5 +1,7 @@
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
+import 'package:five_stars/design/typography/typography.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 enum FutureState { NotRan, Loading, Error, Success }
 
@@ -8,8 +10,10 @@ class FuturePage extends StatefulWidget {
   final String error;
   final Widget Function() onSuccess;
   final VoidCallback onRefresh;
+  final Color accentColor;
 
-  const FuturePage({Key key, this.state, this.error, this.onSuccess, this.onRefresh}) : super(key: key);
+  const FuturePage({Key key, this.state, this.error, this.onSuccess, this.onRefresh, this.accentColor})
+      : super(key: key);
 
   @override
   _FuturePageState createState() => _FuturePageState();
@@ -61,17 +65,29 @@ class _FuturePageState extends State<FuturePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (widget.state == FutureState.Loading) {
-      return Center(child: CircularProgressRevealWidget());
+      return Center(child: CircularProgressRevealWidget(color: widget.accentColor));
     }
     if (widget.state == FutureState.Error) {
-      return Center(child: Text('Что-то пошло не так.'));
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Что-то пошло не так. Нажмите, чтобы обновить.', style: ModernTextTheme.caption),
+              IconButton(
+                  icon: Icon(Icons.refresh), onPressed: widget.onRefresh, color: widget.accentColor, iconSize: 24.0),
+            ],
+          ),
+        ),
+      );
     } else {
       return Stack(
         children: [
           Opacity(
             opacity: progressOpacityAnimation.value,
             child: Center(
-              child: CircularProgressRevealWidget(),
+              child: CircularProgressRevealWidget(color: widget.accentColor),
             ),
           ),
           Transform.translate(

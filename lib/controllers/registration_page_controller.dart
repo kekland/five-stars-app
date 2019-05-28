@@ -123,16 +123,10 @@ class RegistrationPageController extends Controller<RegistrationPage> {
     showLoadingDialog(context: context, color: Colors.blue);
     final availability = await ValidityApi.checkUserForAvailability(
         username: username.value, email: email.value, phoneNumber: "+7${phoneNumber.value}");
-
-    if (!availability.usernameAvailable) {
-      username.error = "Это имя пользователя уже занято";
-    }
-    if (!availability.emailAvailable) {
-      email.error = "Эта почта уже занята";
-    }
-    if (!availability.phoneNumberAvailable) {
-      phoneNumber.error = "Этот номер уже занят";
-    }
+    
+    username.error = (!availability.usernameAvailable)? "Это имя пользователя уже занято" : null;
+    email.error = (!availability.emailAvailable)? "Эта почта уже занята" : null;
+    phoneNumber.error = (!availability.phoneNumberAvailable)? "Этот номер телефона уже занят" : null;
 
     if (!availability.available) {
       registrationFailed(
@@ -140,6 +134,8 @@ class RegistrationPageController extends Controller<RegistrationPage> {
       refresh();
       return;
     }
+
+    print("+7${phoneNumber.value}");
 
     await ValidityApi.verifyPhoneNumber(
       phoneNumber: "+7${phoneNumber.value}",

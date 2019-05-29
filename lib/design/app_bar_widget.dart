@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 class AppBarWidget extends StatelessWidget {
   final Widget title;
   final Widget action;
+  final bool includeBackButton;
+  final Color accentColor;
 
-  const AppBarWidget({Key key, this.title, this.action}) : super(key: key);
+  const AppBarWidget({Key key, this.title, this.action, this.includeBackButton = false, this.accentColor = Colors.pink})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +23,15 @@ class AppBarWidget extends StatelessWidget {
       alignment: Alignment.center,
       child: Stack(
         children: <Widget>[
+          if (includeBackButton)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: accentColor,
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
           Align(
             alignment: Alignment.center,
             child: DefaultTextStyle.merge(

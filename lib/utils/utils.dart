@@ -72,7 +72,9 @@ void showErrorSnackbar(
               label: "Подробнее",
               onPressed: () {
                 showModernDialog(
-                  text: (exception is DioError) ? "${exception?.message} ${exception.response?.data}" : exception.toString(),
+                  text: (exception is DioError)
+                      ? "${exception?.message} ${exception.response?.data}"
+                      : exception.toString(),
                   title: 'Ошибка',
                   context: context,
                   actions: <Widget>[

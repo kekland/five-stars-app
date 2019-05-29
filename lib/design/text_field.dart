@@ -10,6 +10,7 @@ class ModernTextField extends StatelessWidget {
   final IconData icon;
   final TextInputType keyboardType;
   final Widget prefix;
+  final String suffixText;
   final bool obscureText;
   final bool autocorrect;
   final String error;
@@ -25,7 +26,7 @@ class ModernTextField extends StatelessWidget {
     this.prefix,
     this.autocorrect = false,
     this.error,
-    this.onSubmitted,
+    this.onSubmitted, this.suffixText,
   }) : super(key: key);
 
   @override
@@ -71,6 +72,7 @@ class ModernTextField extends StatelessWidget {
         ),
         hintText: hintText,
         hintStyle: ModernTextTheme.caption,
+        suffixText: suffixText,
       ),
     );
   }

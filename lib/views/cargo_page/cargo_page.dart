@@ -4,8 +4,10 @@ import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/design/empty_widget.dart';
 import 'package:five_stars/design/future_page.dart';
 import 'package:five_stars/design/page_header_widget.dart';
+import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/mvc/view.dart';
+import 'package:five_stars/views/cargo_page/cargo_add_sheet.dart';
 import 'package:five_stars/views/cargo_page/cargo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,6 +30,14 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
     controller.load(context);
   }
 
+  void addCargo(BuildContext context) {
+    Navigator.of(context).push(TransparentRoute(
+      builder: (_) {
+        return CargoAddPage();
+      },
+    ));
+  }
+
   @override
   Widget present(BuildContext context) {
     return SafeArea(
@@ -38,7 +48,7 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
             children: <Widget>[
               AppBarWidget(
                 title: Text('Свободный груз'),
-                action: IconButton(icon: Icon(Icons.add), color: Colors.pink, onPressed: () {}),
+                action: IconButton(icon: Icon(Icons.add), color: Colors.pink, onPressed: () => addCargo(context)),
               ),
               Expanded(
                 child: FuturePage(

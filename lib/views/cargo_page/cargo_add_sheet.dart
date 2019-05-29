@@ -88,26 +88,61 @@ class _CargoAddPageState extends State<CargoAddPage> {
       ),
     );
   }
+  
+  Widget buildAdditionalInfoWidget(BuildContext context) {
+    return CardWidget(
+      padding: const EdgeInsets.all(24.0),
+      body: Column(
+        children: [
+          ModernTextField(
+            icon: FontAwesomeIcons.weightHanging,
+            hintText: "Вес",
+            keyboardType: TextInputType.number,
+            suffixText: "кг.",
+          ),
+          SizedBox(height: 16.0),
+          ModernTextField(
+            icon: FontAwesomeIcons.box,
+            hintText: "Объём",
+            keyboardType: TextInputType.number,
+            suffixText: "м3.",
+          ),
+          SizedBox(height: 16.0),
+          ModernTextField(
+            icon: FontAwesomeIcons.box,
+            hintText: "Цена",
+            keyboardType: TextInputType.number,
+            suffixText: "тг.",
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3.0, left: 18.0, right: 18.0, bottom: 36.0),
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            CardWidget(
-              padding: const EdgeInsets.all(24.0),
-              body: Text('Добавить груз', style: ModernTextTheme.boldTitle),
-            ),
-            SizedBox(height: 16.0),
-            buildDepartureWidget(context),
-            SizedBox(height: 16.0),
-            buildArrivalWidget(context),
-            SizedBox(height: 16.0),
-            buildInfoWidget(context),
-          ],
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height / 3.0, left: 18.0, right: 18.0, bottom: 36.0),
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              CardWidget(
+                padding: const EdgeInsets.all(24.0),
+                body: Text('Добавить груз', style: ModernTextTheme.boldTitle),
+              ),
+              SizedBox(height: 16.0),
+              buildDepartureWidget(context),
+              SizedBox(height: 16.0),
+              buildArrivalWidget(context),
+              SizedBox(height: 16.0),
+              buildInfoWidget(context),
+            ],
+          ),
         ),
       ),
     );

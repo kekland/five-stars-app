@@ -146,7 +146,7 @@ class _CargoAddPageState extends Presenter<CargoAddPage, CargoAddController> {
           child: Text('Добавить'),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-          onPressed: (controller.isValid())? () {} : null,
+          onPressed: (controller.isValid())? () => controller.addCargo(context) : null,
         ),
       ),
     );

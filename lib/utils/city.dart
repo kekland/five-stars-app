@@ -9,4 +9,10 @@ class City {
     latitude = (json['latitude'] as num).toDouble();
     longitude = (json['longitude'] as num).toDouble();
   }
+
+  Map toJson() => {
+    "latitude": latitude,
+    "longitude": longitude,
+    "name": name,
+  };
 }

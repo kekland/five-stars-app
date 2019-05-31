@@ -107,6 +107,25 @@ void showErrorSnackbar(
   );
 }
 
+void showInfoSnackbar({
+  @required BuildContext context,
+  @required String message,
+}) {
+  Scaffold.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      duration: Duration(seconds: 3),
+      action: SnackBarAction(
+        label: "Хорошо",
+        onPressed: () {},
+      ),
+      behavior: SnackBarBehavior.floating,
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+    ),
+  );
+}
+
 class SharedPreferencesManager {
   static SharedPreferences instance;
 

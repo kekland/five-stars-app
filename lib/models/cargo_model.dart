@@ -7,7 +7,7 @@ import 'package:five_stars/utils/weight.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cargo {
-  int id;
+  String id;
 
   DateTime departureTime;
   City departure;
@@ -18,10 +18,12 @@ class Cargo {
   Weight weight;
   Volume volume;
   double price;
+  
+  String description;
 
   VehicleType vehicleType;
 
-  User owner;
+  String ownerId;
 
   DateTime createdAt;
   DateTime updatedAt;
@@ -50,28 +52,31 @@ class Cargo {
     this.volume,
     this.price,
     this.vehicleType,
-    this.owner,
+    this.ownerId,
+    this.description,
     this.updatedAt,
     this.createdAt,
   });
 
   Cargo.fromJson(Map<String, dynamic> json) {
-    id = json['id'] as int;
+    id = json['meta']['id'] as String;
 
-    departureTime = DateTime.parse(json['departureTime']);
-    departure = City.fromJson(json['departure']);
+    departureTime = DateTime.parse(json['departure']['time']);
+    departure = City.fromJson(json['departure']['position']);
 
-    arrivalTime = DateTime.parse(json['arrivalTime']);
-    arrival = City.fromJson(json['arrival']);
+    arrivalTime = DateTime.parse(json['arrival']['time']);
+    arrival = City.fromJson(json['arrival']['position']);
 
-    weight = Weight(kilogram: json['weight'] as double);
-    volume = Volume(cubicMeter: json['volume'] as double);
-    price = json['price'] as double;
+    weight = Weight(kilogram: (json['weight'] as num).toDouble());
+    volume = Volume(cubicMeter: (json['volume'] as num).toDouble());
+    price = (json['price'] as num).toDouble();
+
     vehicleType = VehicleTypeUtils.fromJson(json['vehicleType'] as String);
 
-    owner = User.fromJson(json['owner']);
+    ownerId = json['owner'] as String;
+    description = json['description'] as String;
 
-    createdAt = DateTime.parse(json['createdAt']);
-    updatedAt = DateTime.parse(json['updatedAt']);
+    createdAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['created']);
+    updatedAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['updated']);
   }
 }

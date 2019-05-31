@@ -10,9 +10,9 @@ class UserRegistrationAvailability {
 
   UserRegistrationAvailability.fromJson(Map<String, dynamic> json) {
     print("$json");
-    usernameAvailable = json['usernameAvailable'] as bool;
-    emailAvailable = json['emailAvailable'] as bool;
-    phoneNumberAvailable = json['phoneNumberAvailable'] as bool;
+    usernameAvailable = !(json['usernameTaken'] as bool);
+    emailAvailable = !(json['emailTaken'] as bool);
+    phoneNumberAvailable = !(json['phoneNumberTaken'] as bool);
     print("Xd");
   }
 
@@ -24,7 +24,7 @@ class UserRegistrationAvailability {
 class ValidityApi {
   static Future<UserRegistrationAvailability> checkUserForAvailability(
       {String username, String email, String phoneNumber}) async {
-    final result = await Dio().post('$baseUrl/user/valid', data: {
+    final result = await Dio().post('$baseUrl/auth/availability', data: {
       "username": username,
       "email": email,
       "phoneNumber": phoneNumber,

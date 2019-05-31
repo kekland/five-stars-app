@@ -18,6 +18,25 @@ class VehicleTypeUtils {
     VehicleType.other: "Другой",
   };
 
+  static Map<String, VehicleType> vehicleTypeNamesReversed = {
+    "Автотранспортер": VehicleType.autoTransporter,
+    "Бортовой": VehicleType.onboard,
+    "Джамбо": VehicleType.jumbo,
+    "Закрытый": VehicleType.closed,
+    "Изотермический": VehicleType.isotherm,
+    "Изотерм. реф.": VehicleType.isothermRefrigerated,
+    "Контейнеровоз": VehicleType.containerTransporter,
+    "Мега": VehicleType.mega,
+    "Открытый": VehicleType.open,
+    "Рефрижератор": VehicleType.refrigerator,
+    "Самосвал": VehicleType.dumpTruck,
+    "Тент": VehicleType.tent,
+    "Трал": VehicleType.trawl,
+    "Цельнометаллический": VehicleType.allMetal,
+    "Шторка": VehicleType.curtain,
+    "Другой": VehicleType.other,
+  };
+
   static VehicleType fromJson(String json) {
     switch (json) {
       case "autoTransporter":

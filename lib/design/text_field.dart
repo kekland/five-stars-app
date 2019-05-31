@@ -11,6 +11,7 @@ class ModernTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final Widget prefix;
   final String suffixText;
+  final int lines;
   final bool obscureText;
   final bool autocorrect;
   final String error;
@@ -26,7 +27,9 @@ class ModernTextField extends StatelessWidget {
     this.prefix,
     this.autocorrect = false,
     this.error,
-    this.onSubmitted, this.suffixText,
+    this.onSubmitted,
+    this.suffixText,
+    this.lines = 1,
   }) : super(key: key);
 
   @override
@@ -40,6 +43,7 @@ class ModernTextField extends StatelessWidget {
       onSubmitted: (text) => onSubmitted(),
       keyboardType: keyboardType,
       focusNode: focusNode,
+      maxLines: lines,
       obscureText: obscureText,
       autocorrect: autocorrect,
       decoration: InputDecoration(

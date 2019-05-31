@@ -24,7 +24,12 @@ void setStatusBar(Brightness iconBrightness) {
   );
 }
 
-void showModernDialog({BuildContext context, String title, String text, Widget body, List<Widget> actions}) {
+void showModernDialog(
+    {BuildContext context,
+    String title,
+    String text,
+    Widget body,
+    List<Widget> actions}) {
   showDialog(
     context: context,
     builder: (_) {
@@ -36,8 +41,12 @@ void showModernDialog({BuildContext context, String title, String text, Widget b
         actions: actions,
       );*/
 
-      return FutureDialog(
-        data: DialogData(title: title, subtitle: text, customBody: body, actions: actions),
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 32.0),
+        child: FutureDialog(
+          data: DialogData(
+              title: title, subtitle: text, customBody: body, actions: actions),
+        ),
       );
     },
   );
@@ -62,7 +71,10 @@ void showLoadingDialog({BuildContext context, Color color}) {
 }
 
 void showErrorSnackbar(
-    {@required BuildContext context, @required String errorMessage, Object exception, bool showDialog = true}) {
+    {@required BuildContext context,
+    @required String errorMessage,
+    Object exception,
+    bool showDialog = true}) {
   Scaffold.of(context).showSnackBar(
     SnackBar(
       content: Text(errorMessage),

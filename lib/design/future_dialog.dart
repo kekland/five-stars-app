@@ -9,7 +9,8 @@ class DialogData {
   final Widget customBody;
   final List<Widget> actions;
 
-  DialogData({this.title, this.subtitle, this.customBody, this.actions = const []});
+  DialogData(
+      {this.title, this.subtitle, this.customBody, this.actions = const []});
 }
 
 class FutureDialog extends StatelessWidget {
@@ -29,22 +30,27 @@ class FutureDialog extends StatelessWidget {
         children: [
           Text(data.title, style: ModernTextTheme.title),
           SizedBox(height: 16.0),
-          Text(data.subtitle, style: ModernTextTheme.caption),
-          if (data.customBody != null) ...[
-            SizedBox(height: 16.0),
-            data.customBody,
+          if (data.subtitle != null) ...[
+            Text(data.subtitle, style: ModernTextTheme.caption),
             SizedBox(height: 16.0),
           ],
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: data.actions,
+          if (data.customBody != null) ...[
+            Expanded(child: data.customBody),
+          ],
+          if (data.actions != null) ...[
+            SizedBox(height: 16.0),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: data.actions,
+              ),
             ),
-          ),
+          ],
         ],
       ),
-      padding: const EdgeInsets.only(top: 24.0, left: 32.0, right: 32.0, bottom: 16.0),
+      padding: const EdgeInsets.only(
+          top: 24.0, left: 32.0, right: 32.0, bottom: 16.0),
     );
   }
 

@@ -3,8 +3,10 @@ import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/divider_widget.dart';
 import 'package:five_stars/design/select_city_widget.dart';
 import 'package:five_stars/design/select_time_widget.dart';
+import 'package:five_stars/design/select_vehicle_type.dart';
 import 'package:five_stars/design/text_field.dart';
 import 'package:five_stars/design/typography/typography.dart';
+import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -16,6 +18,7 @@ class CargoAddPage extends StatefulWidget {
 class _CargoAddPageState extends State<CargoAddPage> {
   DateTime departureTime = DateTime.now();
   DateTime arrivalTime = DateTime.now();
+  VehicleType selectedVehicleType = VehicleType.closed;
 
   Widget buildDepartureWidget(BuildContext context) {
     return CardWidget(
@@ -89,30 +92,29 @@ class _CargoAddPageState extends State<CargoAddPage> {
     );
   }
   
-  Widget buildAdditionalInfoWidget(BuildContext context) {
+  Widget buildVehicleTypeWidget(BuildContext context) {
+    return CardWidget(
+      padding: const EdgeInsets.all(8.0),
+      body: Column(
+        children: [
+          SelectVehicleType(
+            selectedVehicleType: selectedVehicleType,
+            onSelect: (type) => setState(() => selectedVehicleType = type),
+          ),
+        ]
+      ),
+    );
+  }
+
+  Widget buildDescriptionWidget(BuildContext context) {
     return CardWidget(
       padding: const EdgeInsets.all(24.0),
       body: Column(
         children: [
           ModernTextField(
-            icon: FontAwesomeIcons.weightHanging,
-            hintText: "Вес",
+            icon: FontAwesomeIcons.infoCircle,
+            hintText: "Описание груза",
             keyboardType: TextInputType.number,
-            suffixText: "кг.",
-          ),
-          SizedBox(height: 16.0),
-          ModernTextField(
-            icon: FontAwesomeIcons.box,
-            hintText: "Объём",
-            keyboardType: TextInputType.number,
-            suffixText: "м3.",
-          ),
-          SizedBox(height: 16.0),
-          ModernTextField(
-            icon: FontAwesomeIcons.box,
-            hintText: "Цена",
-            keyboardType: TextInputType.number,
-            suffixText: "тг.",
           ),
         ],
       ),
@@ -141,6 +143,10 @@ class _CargoAddPageState extends State<CargoAddPage> {
               buildArrivalWidget(context),
               SizedBox(height: 16.0),
               buildInfoWidget(context),
+              SizedBox(height: 16.0),
+              buildVehicleTypeWidget(context),
+              SizedBox(height: 16.0),
+              buildDescriptionWidget(context),
             ],
           ),
         ),

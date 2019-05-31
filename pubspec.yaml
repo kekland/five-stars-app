@@ -36,6 +36,7 @@ dependencies:
   firebase_core: ^0.4.0
   http:
   dio:
+  google_maps_flutter:
   flutter_verification_code_input:
       git:
         url: git://github.com/tinylife-io/flutter_verification_code_input.git

@@ -91,18 +91,16 @@ class _CargoAddPageState extends State<CargoAddPage> {
       ),
     );
   }
-  
+
   Widget buildVehicleTypeWidget(BuildContext context) {
     return CardWidget(
       padding: const EdgeInsets.all(8.0),
-      body: Column(
-        children: [
-          SelectVehicleType(
-            selectedVehicleType: selectedVehicleType,
-            onSelect: (type) => setState(() => selectedVehicleType = type),
-          ),
-        ]
-      ),
+      body: Column(children: [
+        SelectVehicleType(
+          selectedVehicleType: selectedVehicleType,
+          onSelect: (type) => setState(() => selectedVehicleType = type),
+        ),
+      ]),
     );
   }
 
@@ -121,6 +119,22 @@ class _CargoAddPageState extends State<CargoAddPage> {
     );
   }
 
+  Widget buildAddWidget(BuildContext context) {
+    return CardWidget(
+      padding: EdgeInsets.zero,
+      body: SizedBox(
+        width: double.infinity,
+        height: 56.0,
+        child: FlatButton(
+          child: Text('Добавить'),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,8 +142,11 @@ class _CargoAddPageState extends State<CargoAddPage> {
       backgroundColor: Colors.transparent,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding:
-              EdgeInsets.only(top: MediaQuery.of(context).size.height / 3.0, left: 18.0, right: 18.0, bottom: 36.0),
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height / 3.0,
+              left: 18.0,
+              right: 18.0,
+              bottom: 36.0),
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
@@ -147,6 +164,8 @@ class _CargoAddPageState extends State<CargoAddPage> {
               buildVehicleTypeWidget(context),
               SizedBox(height: 16.0),
               buildDescriptionWidget(context),
+              SizedBox(height: 16.0),
+              buildAddWidget(context),
             ],
           ),
         ),

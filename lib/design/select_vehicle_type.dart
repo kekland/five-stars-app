@@ -29,7 +29,9 @@ class SelectVehicleType extends StatelessWidget {
                   groupValue: selectedVehicleType,
                   onChanged: (selected) {
                     onSelect(selected);
+                    Navigator.of(context).pop();
                   },
+                  materialTapTargetSize: MaterialTapTargetSize.padded,
                   activeColor: Colors.blue,
                 ),
                 Expanded(

@@ -28,7 +28,7 @@ class GeocoderApi {
 
       return "$city, $country";
     } catch (err) {
-      return "Ошибка";
+      rethrow;
     }
   }
 }

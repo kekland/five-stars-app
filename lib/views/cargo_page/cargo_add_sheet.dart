@@ -1,3 +1,4 @@
+import 'package:five_stars/controllers/cargo_add_controller.dart';
 import 'package:five_stars/design/app_bar_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/divider_widget.dart';
@@ -6,6 +7,8 @@ import 'package:five_stars/design/select_time_widget.dart';
 import 'package:five_stars/design/select_vehicle_type.dart';
 import 'package:five_stars/design/text_field.dart';
 import 'package:five_stars/design/typography/typography.dart';
+import 'package:five_stars/mvc/view.dart';
+import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,11 +18,7 @@ class CargoAddPage extends StatefulWidget {
   _CargoAddPageState createState() => _CargoAddPageState();
 }
 
-class _CargoAddPageState extends State<CargoAddPage> {
-  DateTime departureTime = DateTime.now();
-  DateTime arrivalTime = DateTime.now();
-  VehicleType selectedVehicleType = VehicleType.closed;
-
+class _CargoAddPageState extends Presenter<CargoAddPage, CargoAddController> {
   Widget buildDepartureWidget(BuildContext context) {
     return CardWidget(
       padding: const EdgeInsets.all(8.0),
@@ -28,13 +27,16 @@ class _CargoAddPageState extends State<CargoAddPage> {
           SelectCityWidget(
             icon: FontAwesomeIcons.truckLoading,
             subtitle: 'Город погрузки',
+            selectedCity: controller.selectedDepartureCity,
+            onSelected: (city) => setState(() => controller.selectedDepartureCity = city),
           ),
           SizedBox(height: 8.0),
           SelectTimeWidget(
             icon: FontAwesomeIcons.calendarAlt,
             subtitle: 'Дата погрузки',
-            onSelected: (DateTime time) => setState(() => departureTime = time),
-            selectedTime: departureTime,
+            predicate: (DateTime time) => time.isBefore(controller.arrivalTime),
+            onSelected: (DateTime time) => setState(() => controller.departureTime = time),
+            selectedTime: controller.departureTime,
           ),
         ],
       ),
@@ -49,13 +51,16 @@ class _CargoAddPageState extends State<CargoAddPage> {
           SelectCityWidget(
             icon: FontAwesomeIcons.dolly,
             subtitle: 'Город выгрузки',
+            selectedCity: controller.selectedArrivalCity,
+            onSelected: (city) => setState(() => controller.selectedArrivalCity = city),
           ),
           SizedBox(height: 8.0),
           SelectTimeWidget(
             icon: FontAwesomeIcons.calendarAlt,
             subtitle: 'Дата выгрузки',
-            onSelected: (DateTime time) => setState(() => arrivalTime = time),
-            selectedTime: arrivalTime,
+            predicate: (DateTime time) => time.isAfter(controller.departureTime),
+            onSelected: (DateTime time) => setState(() => controller.arrivalTime = time),
+            selectedTime: controller.arrivalTime,
           ),
         ],
       ),
@@ -64,12 +69,13 @@ class _CargoAddPageState extends State<CargoAddPage> {
 
   Widget buildInfoWidget(BuildContext context) {
     return CardWidget(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(16.0),
       body: Column(
         children: [
           ModernTextField(
             icon: FontAwesomeIcons.weightHanging,
             hintText: "Вес",
+            error: controller.weight.error,
             keyboardType: TextInputType.number,
             suffixText: "кг.",
           ),
@@ -77,13 +83,15 @@ class _CargoAddPageState extends State<CargoAddPage> {
           ModernTextField(
             icon: FontAwesomeIcons.box,
             hintText: "Объём",
+            error: controller.volume.error,
             keyboardType: TextInputType.number,
             suffixText: "м3.",
           ),
           SizedBox(height: 16.0),
           ModernTextField(
-            icon: FontAwesomeIcons.box,
+            icon: FontAwesomeIcons.dollarSign,
             hintText: "Цена",
+            error: controller.price.error,
             keyboardType: TextInputType.number,
             suffixText: "тг.",
           ),
@@ -97,8 +105,8 @@ class _CargoAddPageState extends State<CargoAddPage> {
       padding: const EdgeInsets.all(8.0),
       body: Column(children: [
         SelectVehicleType(
-          selectedVehicleType: selectedVehicleType,
-          onSelect: (type) => setState(() => selectedVehicleType = type),
+          selectedVehicleType: controller.selectedVehicleType,
+          onSelect: (type) => setState(() => controller.selectedVehicleType = type),
         ),
       ]),
     );
@@ -106,13 +114,13 @@ class _CargoAddPageState extends State<CargoAddPage> {
 
   Widget buildDescriptionWidget(BuildContext context) {
     return CardWidget(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(16.0),
       body: Column(
         children: [
           ModernTextField(
             icon: FontAwesomeIcons.infoCircle,
-            hintText: "Описание груза",
-            keyboardType: TextInputType.number,
+            hintText: "Тип груза",
+            lines: 1,
           ),
         ],
       ),
@@ -129,14 +137,14 @@ class _CargoAddPageState extends State<CargoAddPage> {
           child: Text('Добавить'),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-          onPressed: () {},
+          onPressed: (controller.isValid())? () {} : null,
         ),
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget present(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.transparent,
@@ -171,5 +179,10 @@ class _CargoAddPageState extends State<CargoAddPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void initController() {
+    controller = new CargoAddController(presenter: this);
   }
 }

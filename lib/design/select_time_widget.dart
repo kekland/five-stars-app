@@ -11,17 +11,31 @@ class SelectTimeWidget extends StatelessWidget {
   final String subtitle;
   final IconData icon;
 
+  final bool Function(DateTime) predicate;
+
   void onClick(BuildContext context) async {
     DateTime date = await showDatePicker(
-        context: context, initialDate: DateTime.now(), firstDate: DateTime(2018), lastDate: DateTime(2030));
-    
-    if(date == null) {
+      selectableDayPredicate: predicate,
+      context: context,
+      initialDate: selectedTime,
+      firstDate: DateTime(2018),
+      lastDate: DateTime(2030),
+    );
+
+    if (date == null) {
       date = selectedTime;
     }
     onSelected(date);
   }
 
-  const SelectTimeWidget({Key key, this.onSelected, this.selectedTime, this.subtitle, this.icon}) : super(key: key);
+  const SelectTimeWidget(
+      {Key key,
+      this.onSelected,
+      this.selectedTime,
+      this.subtitle,
+      this.icon,
+      this.predicate})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

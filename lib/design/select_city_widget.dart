@@ -17,7 +17,7 @@ class SelectCityWidget extends StatelessWidget {
 
   void onClick(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => SelectLocationPage()));
+        .push(MaterialPageRoute(builder: (_) => SelectLocationPage(selectedCity: selectedCity, onSelected: onSelected)));
   }
 
   @override
@@ -33,7 +33,7 @@ class SelectCityWidget extends StatelessWidget {
               Expanded(
                 child: TwoLineInformationWidgetExpanded(
                   title: subtitle,
-                  value: 'Алма-Ата, Казахстан',
+                  value: selectedCity?.name ?? "Не выбрано",
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: icon,
                   unit: "",

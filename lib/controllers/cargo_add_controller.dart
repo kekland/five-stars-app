@@ -11,19 +11,19 @@ class CargoAddController extends Controller<CargoAddPage> {
       controller: this,
       errorMessage: 'Некорректные данные',
       validator: (field) =>
-          int.tryParse(field) != null && int.tryParse(field) > 0,
+          double.tryParse(field) != null && double.tryParse(field) > 0,
     );
     volume = ValidatedField(
       controller: this,
       errorMessage: 'Некорректные данные',
       validator: (field) =>
-          int.tryParse(field) != null && int.tryParse(field) > 0,
+          double.tryParse(field) != null && double.tryParse(field) > 0,
     );
     price = ValidatedField(
       controller: this,
       errorMessage: 'Некорректные данные',
       validator: (field) =>
-          int.tryParse(field) != null && int.tryParse(field) > 0,
+          double.tryParse(field) != null && double.tryParse(field) > 0,
     );
     info = ValidatedField(
       controller: this,

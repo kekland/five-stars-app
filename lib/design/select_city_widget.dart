@@ -1,3 +1,4 @@
+import 'package:five_stars/design/select_location_page.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
@@ -10,12 +11,20 @@ class SelectCityWidget extends StatelessWidget {
   final String subtitle;
   final IconData icon;
 
-  const SelectCityWidget({Key key, this.onSelected, this.selectedCity, this.subtitle, this.icon}) : super(key: key);
+  const SelectCityWidget(
+      {Key key, this.onSelected, this.selectedCity, this.subtitle, this.icon})
+      : super(key: key);
+
+  void onClick(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => SelectLocationPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: InkWell(
-        onTap: () {},
+        onTap: () => onClick(context),
         borderRadius: BorderRadius.circular(8.0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),

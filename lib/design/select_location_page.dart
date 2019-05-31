@@ -20,6 +20,7 @@ class SelectLocationPage extends StatefulWidget {
 class _SelectLocationPageState extends State<SelectLocationPage> {
   String location = "Загрузка...";
   LatLng selectedPoint;
+  LatLng pendingPoint;
 
   @override
   void initState() {
@@ -39,11 +40,13 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
       setState(() {
         location = "Загрузка...";
         selectedPoint = null;
+        pendingPoint = point;
       });
       final data = await GeocoderApi.getLocationName(point);
       setState(() {
         location = data;
         selectedPoint = point;
+        pendingPoint = null;
       });
     } catch (e) {
       location = null;
@@ -99,11 +102,14 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                       if (selectedPoint != null)
                         Marker(
                           markerId: MarkerId("selected-point"),
-                          infoWindow: InfoWindow(
-                            title: 'Выбранное место',
-                          ),
                           position: selectedPoint,
-                        )
+                        ),
+                      if(pendingPoint != null)
+                        Marker(
+                          markerId: MarkerId("pending-point"),
+                          position: pendingPoint,
+                          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+                        ),
                     },
                   ),
                   Align(

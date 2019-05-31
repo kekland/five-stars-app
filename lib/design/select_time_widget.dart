@@ -15,11 +15,11 @@ class SelectTimeWidget extends StatelessWidget {
 
   void onClick(BuildContext context) async {
     DateTime date = await showDatePicker(
-      selectableDayPredicate: predicate,
-      context: context,
-      initialDate: selectedTime,
-      firstDate: DateTime(2018),
-      lastDate: DateTime(2030),
+        selectableDayPredicate: predicate,
+        context: context,
+        initialDate: selectedTime,
+        firstDate: DateTime(2018),
+        lastDate: DateTime(2030),
     );
 
     if (date == null) {

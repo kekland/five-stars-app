@@ -14,6 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CargoAddPage extends StatefulWidget {
+  final BuildContext mainContext;
+
+  const CargoAddPage({Key key, this.mainContext}) : super(key: key);
   @override
   _CargoAddPageState createState() => _CargoAddPageState();
 }
@@ -146,7 +149,7 @@ class _CargoAddPageState extends Presenter<CargoAddPage, CargoAddController> {
           child: Text('Добавить'),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-          onPressed: (controller.isValid())? () => controller.addCargo(context) : null,
+          onPressed: (controller.isValid())? () => controller.addCargo(widget.mainContext) : null,
         ),
       ),
     );

@@ -73,6 +73,43 @@ class VehicleTypeUtils {
         return VehicleType.other;
     }
   }
+
+  static String toJson(VehicleType json) {
+    switch (json) {
+      case VehicleType.autoTransporter:
+        return "autoTransporter";
+      case VehicleType.onboard:
+        return "onboard";
+      case VehicleType.jumbo:
+        return "jumbo";
+      case VehicleType.closed:
+        return "closed";
+      case VehicleType.isotherm:
+        return "isotherm";
+      case VehicleType.isothermRefrigerated:
+        return "isothermRefrigerated";
+      case VehicleType.containerTransporter:
+        return "containerTransporter";
+      case VehicleType.mega:
+        return "mega";
+      case VehicleType.open:
+        return "open";
+      case VehicleType.refrigerator:
+        return "refrigerator";
+      case VehicleType.dumpTruck:
+        return "dumpTruck";
+      case VehicleType.tent:
+        return "tent";
+      case VehicleType.trawl:
+        return "trawl";
+      case VehicleType.allMetal:
+        return "allMetal";
+      case VehicleType.curtain:
+        return "curtain";
+      default:
+        return "other";
+    }
+  }
 }
 
 enum VehicleType {

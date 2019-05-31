@@ -61,8 +61,10 @@ class CargoAddController extends Controller<CargoAddPage> {
         type: selectedVehicleType,
       );
       Navigator.of(context).pop();
+      Navigator.of(context).pop();
       showInfoSnackbar(context: context, message: 'Груз добавлен.');
     } catch (e) {
+      Navigator.of(context).pop();
       Navigator.of(context).pop();
       showErrorSnackbar(context: context, errorMessage: "Произошла ошибка при добавлении груза", exception: e);
     }

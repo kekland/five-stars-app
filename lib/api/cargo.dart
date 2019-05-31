@@ -42,12 +42,12 @@ class CargoApi {
         "price": price,
         "weight": weight,
         "volume": volume,
-        "vehicleType": VehicleTypeUtils.vehicleTypeNames[type],
+        "vehicleType": VehicleTypeUtils.toJson(type),
         "description": description,
         "images": []
       };
 
-      final response = await Dio().post('${baseUrl}/cargo', options: Api.options);
+      final response = await Dio().post('${baseUrl}/cargo', data: data, options: Api.options);
       return Cargo.fromJson(response.data);
     } catch (e) {
       rethrow;

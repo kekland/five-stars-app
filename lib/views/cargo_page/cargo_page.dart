@@ -33,7 +33,7 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
   void addCargo(BuildContext context) {
     Navigator.of(context).push(TransparentRoute(
       builder: (_) {
-        return CargoAddPage();
+        return CargoAddPage(mainContext: context);
       },
     ));
   }
@@ -61,7 +61,7 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 16.0),
-                              child: CargoWidget(data: controller.data[index % 3]),
+                              child: CargoWidget(data: controller.data[index]),
                             );
                           },
                         )

@@ -22,9 +22,10 @@ class CargoPageController extends Controller<CargoPage> {
 
   Future load(BuildContext context) async {
     loading = true;
-    error = "";
+    error = null;
     presenter.refresh();
     try {
+      //await Future.delayed(Duration(seconds: 5));
       data = await CargoApi.getCargo();
     } catch (e) {
       error = e.toString();

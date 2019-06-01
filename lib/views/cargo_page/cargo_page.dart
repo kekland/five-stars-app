@@ -11,6 +11,7 @@ import 'package:five_stars/views/cargo_page/cargo_add_sheet.dart';
 import 'package:five_stars/views/cargo_page/cargo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class CargoPage extends StatefulWidget {
   const CargoPage({Key key}) : super(key: key);
@@ -48,30 +49,22 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
             children: <Widget>[
               AppBarWidget(
                 title: Text('Свободный груз'),
-                action: IconButton(icon: Icon(Icons.add), color: Colors.pink, onPressed: () => addCargo(context)),
+                action: IconButton(
+                    icon: Icon(Icons.add),
+                    color: Colors.pink,
+                    onPressed: () => addCargo(context)),
               ),
               Expanded(
-                child: FuturePage(
-                  accentColor: Colors.pink,
-                  onSuccess: () => (controller.data.length > 0)
-                      ? ListView.builder(
-                          padding: const EdgeInsets.all(16.0),
-                          physics: BouncingScrollPhysics(),
-                          itemCount: controller.data.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: CargoWidget(data: controller.data[index]),
-                            );
-                          },
-                        )
-                      : EmptyWidget(
-                          accentColor: Colors.pink,
-                          onRefresh: () => controller.load(context),
-                        ),
-                  state: controller.getFutureState(),
-                  error: controller.error,
-                  onRefresh: () => controller.load(context),
+                child: LiquidPullToRefresh(
+                  color: Colors.pink,
+                  springAnimationDurationInMilliseconds: 500,
+                  child: buildDataPage<Cargo>(
+                    accentColor: Colors.pink,
+                    builder: (context, item) => CargoWidget(data: item),
+                    data: controller.data,
+                    error: controller.error,
+                  ),
+                  onRefresh: () async => await controller.load(context),
                 ),
               ),
             ],

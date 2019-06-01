@@ -14,7 +14,12 @@ class CargoApi {
           .toList();
       return cargo;
     } catch (e) {
-      rethrow;
+      bool handled = await Api.handleError(e);
+      if (handled) {
+        return await getCargo();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -47,10 +52,26 @@ class CargoApi {
         "images": []
       };
 
-      final response = await Dio().post('${baseUrl}/cargo', data: data, options: Api.options);
+      final response = await Dio()
+          .post('${baseUrl}/cargo', data: data, options: Api.options);
       return Cargo.fromJson(response.data);
     } catch (e) {
-      rethrow;
+      bool handled = await Api.handleError(e);
+      if (handled) {
+        return await addCargo(
+          arrival: arrival,
+          departure: departure,
+          arrivalTime: arrivalTime,
+          departureTime: departureTime,
+          description: description,
+          price: price,
+          volume: volume,
+          weight: weight,
+          type: type,
+        );
+      } else {
+        rethrow;
+      }
     }
   }
 }

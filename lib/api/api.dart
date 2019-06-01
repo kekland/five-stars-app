@@ -74,6 +74,21 @@ class Api {
     }
   }
 
+  static Future<bool> handleError(dynamic e) async {
+    try {
+      if (e is DioError) {
+        if (e.response.statusCode == 401) {
+          await getToken();
+          return true;
+        }
+        return false;
+      }
+    } catch (error) {
+      return false;
+    }
+    return false;
+  }
+
   static Options get options => Options(headers: {
         "Authorization":
             "Bearer ${SharedPreferencesManager.instance.getString("token")}",

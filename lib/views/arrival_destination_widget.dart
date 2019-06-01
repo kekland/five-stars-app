@@ -70,6 +70,7 @@ class DepartureArrivalWidget extends StatelessWidget {
                 ),
                 Text(
                   arrivalCity.name,
+                  textAlign: TextAlign.right,
                   style: ModernTextTheme.primaryAccented,
                 ),
               ],

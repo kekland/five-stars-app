@@ -13,6 +13,7 @@ ListView buildDataPage<T>({
 }) {
   if (error != null) {
     return ListView(
+      physics: BouncingScrollPhysics(),
       children: [
         Center(
           child: Padding(
@@ -37,6 +38,7 @@ ListView buildDataPage<T>({
     return ListView();
   } else if (data.isEmpty) {
     return ListView(
+      physics: BouncingScrollPhysics(),
       children: [
         Center(
           child: Padding(

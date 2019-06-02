@@ -56,6 +56,7 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
               ),
               Expanded(
                 child: LiquidPullToRefresh(
+                  
                   color: Colors.pink,
                   springAnimationDurationInMilliseconds: 500,
                   child: buildDataPage<Cargo>(

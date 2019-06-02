@@ -30,30 +30,6 @@ class VehiclePageState extends Presenter<VehiclePage, VehiclePageController> {
               AppBarWidget(
                 title: Text('Свободный транспорт'),
               ),
-              Expanded(
-                child: FuturePage(
-                  onSuccess: () => ListView.builder(
-                        padding: const EdgeInsets.all(16.0),
-                        physics: BouncingScrollPhysics(),
-                        itemCount: controller.data.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: VehicleFilterWidget(),
-                            );
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 16.0),
-                            child: VehicleWidget(data: controller.data[index - 1]),
-                          );
-                        },
-                      ),
-                  state: controller.getFutureState(),
-                  error: controller.error,
-                  onRefresh: controller.load,
-                ),
-              ),
             ],
           ),
         ],

@@ -23,6 +23,7 @@ ListView buildDataPage<T>({
               children: <Widget>[
                 Icon(FontAwesomeIcons.solidFrownOpen,
                     color: ModernTextTheme.captionIconColor),
+                SizedBox(height: 8.0),
                 Text(
                   'Что-то пошло не так. Потяните сверху, чтобы обновить.',
                   style: ModernTextTheme.caption,
@@ -48,6 +49,7 @@ ListView buildDataPage<T>({
               children: <Widget>[
                 Icon(FontAwesomeIcons.boxOpen,
                     color: ModernTextTheme.captionIconColor),
+                SizedBox(height: 8.0),
                 Text(
                   'Нет грузов. Потяните сверху, чтобы обновить.',
                   style: ModernTextTheme.caption,

@@ -37,11 +37,6 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
             color: Colors.purple,
           ),
           TabData(
-            iconData: FontAwesomeIcons.phone,
-            title: 'Звонки',
-            color: Colors.deepPurple,
-          ),
-          TabData(
             iconData: FontAwesomeIcons.solidUserCircle,
             title: 'Личный кабинет',
             color: Colors.indigo,

@@ -18,7 +18,6 @@ class MainPageController extends Controller<MainPage> {
   final List<Widget> bodyWidget = [
     CargoPage(key: GlobalKey()),
     VehiclePage(key: GlobalKey()),
-    CallsPage(key: GlobalKey()),
     ProfilePage(key: GlobalKey())
   ];
 

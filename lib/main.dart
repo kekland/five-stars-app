@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
     }
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Пять звёзд',
       theme: ThemeData(
         primarySwatch: Colors.blue,

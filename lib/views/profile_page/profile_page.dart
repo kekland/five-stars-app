@@ -1,9 +1,11 @@
 import 'package:five_stars/controllers/profile_page_controller.dart';
 import 'package:five_stars/design/app_bar_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/views/profile_page/profile_view.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,9 +25,10 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
   @override
   void initState() {
     super.initState();
-    controller.load(context: context, username: SharedPreferencesManager.instance.getString("username"));
+    controller.load(
+        context: context,
+        username: SharedPreferencesManager.instance.getString("username"));
   }
-
 
   @override
   Widget present(BuildContext context) {
@@ -36,35 +39,13 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
             title: Text('Личный кабинет'),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  CardWidget(
-                    padding: const EdgeInsets.all(24.0),
-                    body: TwoLineInformationWidgetExpanded(
-                      title: 'Имя пользователя',
-                      value: '${SharedPreferencesManager.instance.getString("username")}',
-                      unit: '',
-                      icon: FontAwesomeIcons.solidUser,
-                      iconColor: ModernTextTheme.captionIconColor,
-                    ),
+            child: (controller.isLoading)
+                ? Center(
+                    child: CircularProgressRevealWidget(color: Colors.indigo),
+                  )
+                : ProfileViewWidget(
+                    profile: controller.data,
                   ),
-                  SizedBox(height: 16.0),
-                  CardWidget(
-                    padding: const EdgeInsets.all(24.0),
-                    body: TwoLineInformationWidgetExpanded(
-                      title: 'Имя пользователя',
-                      value: '${SharedPreferencesManager.instance.getString("username")}',
-                      unit: '',
-                      icon: FontAwesomeIcons.solidUser,
-                      iconColor: ModernTextTheme.captionIconColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ),
         ],
       ),

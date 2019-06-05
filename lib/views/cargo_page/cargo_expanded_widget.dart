@@ -4,9 +4,12 @@ import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/views/cargo_page/cargo_widget.dart';
+import 'package:five_stars/views/profile_page/profile_page.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'cargo_page.dart';
 
 class CargoExpandedWidget extends StatefulWidget {
   final Cargo data;
@@ -17,13 +20,15 @@ class CargoExpandedWidget extends StatefulWidget {
   _CargoExpandedWidgetState createState() => _CargoExpandedWidgetState();
 }
 
-class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTickerProviderStateMixin {
+class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
+    with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<double> animation;
 
   @override
   void initState() {
-    controller = AnimationController(vsync: this, duration: Duration(milliseconds: 200));
+    controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
     animation = CurvedAnimation(parent: controller, curve: Curves.easeOut);
 
     controller.addListener(() => setState(() {}));
@@ -34,50 +39,26 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
     super.initState();
   }
 
-  void requestCallAPI(BuildContext context) async {
-    //TODO
-    Navigator.of(context).pop();
-    showLoadingDialog(context: context, color: Colors.pink);
-    await Future.delayed(Duration(seconds: 1));
-    Navigator.of(context).pop();
-    showModernDialog(
-      context: context,
-      title: 'Запрос отправлен.',
-      text: 'Наш оператор перезвонит вам в ближайшее время',
-      actions: <Widget>[
-        FlatButton(
-          child: Text('Хорошо'),
-          onPressed: () => Navigator.of(context).pop(),
-          textColor: Colors.pink,
-        ),
-      ],
-    );
-  }
-
-  void requestCall(BuildContext context) {
-    showModernDialog(
-      context: context,
-      title: 'Запросить дополнительную информацию о грузе?',
-      text: 'Наш оператор перезвонит вам в ближайшее время',
-      actions: <Widget>[
-        FlatButton(
-          child: Text('Отмена'),
-          onPressed: () => Navigator.of(context).pop(),
-          textColor: Colors.pink,
-        ),
-        FlatButton(
-          child: Text('Запросить'),
-          onPressed: () => requestCallAPI(context),
-          textColor: Colors.pink,
-        ),
-      ],
+  void openProfile(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return Scaffold(
+            body: ProfilePage(username: widget.data.ownerId),
+          );
+        },
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3.0, left: 18.0, right: 18.0, bottom: 36.0),
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height / 3.0,
+          left: 18.0,
+          right: 18.0,
+          bottom: 36.0),
       physics: BouncingScrollPhysics(),
       child: Column(
         children: <Widget>[
@@ -155,7 +136,8 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.truckMoving,
                   title: 'Тип кузова',
-                  value: VehicleTypeUtils.vehicleTypeNames[widget.data.vehicleType],
+                  value: VehicleTypeUtils
+                      .vehicleTypeNames[widget.data.vehicleType],
                   unit: "",
                 ),
                 SizedBox(height: 16.0),
@@ -204,16 +186,16 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
               value: widget.data.ownerId,
               unit: "",
             ),
-            () {
-
-            },
+            () {},
           ),
         ],
       ),
     );
   }
 
-  Widget buildInfoCardWidget(Widget child, [VoidCallback onTap = null, EdgeInsets padding = const EdgeInsets.all(16.0)]) {
+  Widget buildInfoCardWidget(Widget child,
+      [VoidCallback onTap = null,
+      EdgeInsets padding = const EdgeInsets.all(16.0)]) {
     return Transform.translate(
       offset: Offset(0.0, 25.0 * (1.0 - animation.value)),
       child: Opacity(

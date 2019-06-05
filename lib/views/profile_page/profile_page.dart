@@ -57,7 +57,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
       child: Column(
         children: <Widget>[
           AppBarWidget(
-            title: Text('Личный кабинет'),
+            title: Text('Профиль ${widget.username}'),
           ),
           Expanded(
             child: LiquidPullToRefresh(

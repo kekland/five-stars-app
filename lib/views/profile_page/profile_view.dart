@@ -19,7 +19,7 @@ class ProfileViewWidget extends StatelessWidget {
           child: TwoLineInformationWidget(
             title: "Имя пользователя",
             value: profile.username,
-            icon: FontAwesomeIcons.user,
+            icon: FontAwesomeIcons.userAlt,
             unit: "",
             iconColor: ModernTextTheme.captionIconColor,
           ),
@@ -29,7 +29,7 @@ class ProfileViewWidget extends StatelessWidget {
           child: TwoLineInformationWidget(
             title: "Почта",
             value: profile.email,
-            icon: FontAwesomeIcons.envelope,
+            icon: FontAwesomeIcons.solidEnvelope,
             unit: "",
             iconColor: ModernTextTheme.captionIconColor,
           ),
@@ -39,7 +39,7 @@ class ProfileViewWidget extends StatelessWidget {
           child: TwoLineInformationWidget(
             title: "Имя",
             value: "${profile.name}",
-            icon: FontAwesomeIcons.user,
+            icon: FontAwesomeIcons.userAlt,
             unit: "",
             iconColor: ModernTextTheme.captionIconColor,
           ),
@@ -49,7 +49,7 @@ class ProfileViewWidget extends StatelessWidget {
           child: TwoLineInformationWidget(
             title: "Номер телефона",
             value: profile.phoneNumber,
-            icon: FontAwesomeIcons.envelope,
+            icon: FontAwesomeIcons.phone,
             unit: "",
             iconColor: ModernTextTheme.captionIconColor,
           ),
@@ -59,7 +59,7 @@ class ProfileViewWidget extends StatelessWidget {
           child: TwoLineInformationWidget(
             title: "Организация",
             value: profile.organization,
-            icon: FontAwesomeIcons.building,
+            icon: FontAwesomeIcons.solidBuilding,
             unit: "",
             iconColor: ModernTextTheme.captionIconColor,
           ),

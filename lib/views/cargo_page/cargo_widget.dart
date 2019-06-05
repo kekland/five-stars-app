@@ -99,13 +99,13 @@ class _CargoWidgetState extends State<CargoWidget> {
                           value: widget.data.weight.ton.round().toString(),
                           unit: "т.",
                         ),
-                        /*TwoLineInformationWidget(
+                        TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.boxOpen,
-                          title: 'Тип груза',
+                          title: 'Тип кузова',
                           value: VehicleTypeUtils.vehicleTypeNames[widget.data.vehicleType],
                           unit: "",
-                        ),*/
+                        ),
                         TwoLineInformationWidget(
                           iconColor: Colors.green,
                           icon: FontAwesomeIcons.tenge,

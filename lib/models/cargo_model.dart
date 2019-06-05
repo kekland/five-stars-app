@@ -73,7 +73,7 @@ class Cargo {
 
     vehicleType = VehicleTypeUtils.fromJson(json['vehicleType'] as String);
 
-    ownerId = json['owner'] as String;
+    ownerId = json['ownerId'] as String;
     description = json['description'] as String;
 
     createdAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['created']);

@@ -174,14 +174,14 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
                   value: widget.data.weight.ton.round().toString(),
                   unit: "т.",
                 ),
-                /*SizedBox(height: 16.0),
+                SizedBox(height: 16.0),
                 TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.boxOpen,
-                  title: 'Тип груза',
-                  value: widget.data.imageKeyword,
+                  title: 'Описание',
+                  value: widget.data.description,
                   unit: "",
-                ),*/
+                ),
               ],
             ),
           ),
@@ -197,30 +197,29 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget> with SingleTi
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
-            SizedBox(
-              width: double.infinity,
-              child: FlatButton.icon(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                icon: Icon(FontAwesomeIcons.infoCircle, size: 20.0),
-                label: Text('Запросить дополнительную информацию'),
-                onPressed: () => requestCall(context),
-                textColor: ModernTextTheme.secondaryColor,
-                padding: const EdgeInsets.all(18.0),
-              ),
+            TwoLineInformationWidgetExpanded(
+              iconColor: ModernTextTheme.captionIconColor,
+              icon: FontAwesomeIcons.userAlt,
+              title: 'Перейти к профилю владельца',
+              value: widget.data.ownerId,
+              unit: "",
             ),
-            EdgeInsets.zero,
+            () {
+
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget buildInfoCardWidget(Widget child, [EdgeInsets padding = const EdgeInsets.all(16.0)]) {
+  Widget buildInfoCardWidget(Widget child, [VoidCallback onTap = null, EdgeInsets padding = const EdgeInsets.all(16.0)]) {
     return Transform.translate(
-      offset: Offset(0.0, 15.0 * (1.0 - animation.value)),
+      offset: Offset(0.0, 25.0 * (1.0 - animation.value)),
       child: Opacity(
         opacity: animation.value.clamp(0.0, 1.0),
         child: CardWidget(
+          onTap: onTap,
           padding: padding,
           body: child,
         ),

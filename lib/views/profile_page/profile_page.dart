@@ -1,17 +1,22 @@
 import 'package:five_stars/controllers/profile_page_controller.dart';
 import 'package:five_stars/design/app_bar_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/future_page.dart';
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/design/typography/typography.dart';
+import 'package:five_stars/models/cargo_model.dart';
+import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/profile_page/profile_view.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key key}) : super(key: key);
+  final String username;
+  const ProfilePage({Key key, this.username}) : super(key: key);
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -27,7 +32,23 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
     super.initState();
     controller.load(
         context: context,
-        username: SharedPreferencesManager.instance.getString("username"));
+        username: widget.username);
+  }
+
+  Widget buildChild() {
+    if (controller.isLoading) {
+      return Center(
+        child: CircularProgressRevealWidget(color: Colors.indigo),
+      );
+    } else if (controller.data == null) {
+      return Center(
+        child: CircularProgressRevealWidget(color: Colors.indigo),
+      );
+    } else {
+      return ProfileViewWidget(
+        profile: controller.data,
+      );
+    }
   }
 
   @override
@@ -39,13 +60,14 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
             title: Text('Личный кабинет'),
           ),
           Expanded(
-            child: (controller.isLoading)
-                ? Center(
-                    child: CircularProgressRevealWidget(color: Colors.indigo),
-                  )
-                : ProfileViewWidget(
-                    profile: controller.data,
-                  ),
+            child: LiquidPullToRefresh(
+              color: Colors.pink,
+              springAnimationDurationInMilliseconds: 500,
+              child: buildSingularDataPage(
+                builder: (context, profile) => ProfileViewWidget.buildAsListView(context: context, profile: profile),
+              ),
+              onRefresh: () async => await controller.load(context: context, username: widget.username),
+            ),
           ),
         ],
       ),

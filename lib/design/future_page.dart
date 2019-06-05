@@ -75,3 +75,41 @@ ListView buildDataPage<T>({
     );
   }
 }
+
+ListView buildSingularDataPage<T>({
+  final BuildContext context,
+  final T data,
+  final String error,
+  final ListView Function(BuildContext context, T data) builder,
+  final Color accentColor,
+}) {
+  if (error != null) {
+    return ListView(
+      physics: BouncingScrollPhysics(),
+      children: [
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(FontAwesomeIcons.solidFrownOpen,
+                    color: ModernTextTheme.captionIconColor),
+                SizedBox(height: 8.0),
+                Text(
+                  'Что-то пошло не так. Потяните сверху, чтобы обновить.',
+                  style: ModernTextTheme.caption,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  } else if (data == null) {
+    return ListView();
+  } else {
+    return builder(context, data);
+  }
+}

@@ -6,7 +6,7 @@ class UserApi {
   static Future<User> getProfile(String username) async {
     try {
       final response =
-          await Dio().get('$baseUrl/cargo', options: Api.options);
+          await Dio().get('$baseUrl/user/$username', options: Api.options);
       
       return User.fromJson(response.data);
     } catch (e) {

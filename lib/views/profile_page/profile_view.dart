@@ -13,12 +13,53 @@ class ProfileViewWidget extends StatelessWidget {
   
   static ListView buildAsListView({BuildContext context, User profile}) {
     return ListView(
+      padding: const EdgeInsets.all(24.0),
       children: [
+        buildCard(
+          child: TwoLineInformationWidget(
+            title: "Имя пользователя",
+            value: profile.username,
+            icon: FontAwesomeIcons.user,
+            unit: "",
+            iconColor: ModernTextTheme.captionIconColor,
+          ),
+        ),
+        SizedBox(height: 16.0),
         buildCard(
           child: TwoLineInformationWidget(
             title: "Почта",
             value: profile.email,
             icon: FontAwesomeIcons.envelope,
+            unit: "",
+            iconColor: ModernTextTheme.captionIconColor,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        buildCard(
+          child: TwoLineInformationWidget(
+            title: "Имя",
+            value: "${profile.name}",
+            icon: FontAwesomeIcons.user,
+            unit: "",
+            iconColor: ModernTextTheme.captionIconColor,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        buildCard(
+          child: TwoLineInformationWidget(
+            title: "Номер телефона",
+            value: profile.phoneNumber,
+            icon: FontAwesomeIcons.envelope,
+            unit: "",
+            iconColor: ModernTextTheme.captionIconColor,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        buildCard(
+          child: TwoLineInformationWidget(
+            title: "Организация",
+            value: profile.organization,
+            icon: FontAwesomeIcons.building,
             unit: "",
             iconColor: ModernTextTheme.captionIconColor,
           ),

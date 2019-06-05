@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 class ProfilePageController extends Controller<ProfilePage> {
   bool isLoading;
   User data;
+
   ProfilePageController({Presenter<ProfilePage, ProfilePageController> presenter}) {
     this.presenter = presenter;
   }

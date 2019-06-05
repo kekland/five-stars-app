@@ -79,11 +79,11 @@ ListView buildDataPage<T>({
 ListView buildSingularDataPage<T>({
   final BuildContext context,
   final T data,
-  final String error,
+  final bool isLoading,
   final ListView Function(BuildContext context, T data) builder,
   final Color accentColor,
 }) {
-  if (error != null) {
+  if (data == null && !isLoading) {
     return ListView(
       physics: BouncingScrollPhysics(),
       children: [

@@ -11,6 +11,11 @@ class Name {
     first = json['first'] as String;
     last = json['last'] as String;
   }
+
+  @override
+  String toString() {
+    return first + " " + last;
+  }
 }
 
 class User {

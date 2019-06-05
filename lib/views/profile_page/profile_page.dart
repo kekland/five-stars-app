@@ -61,9 +61,13 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
           ),
           Expanded(
             child: LiquidPullToRefresh(
-              color: Colors.pink,
+              color: Colors.indigo,
               springAnimationDurationInMilliseconds: 500,
               child: buildSingularDataPage(
+                context: context,
+                accentColor: Colors.indigo,
+                data: controller.data,
+                isLoading: controller.isLoading,
                 builder: (context, profile) => ProfileViewWidget.buildAsListView(context: context, profile: profile),
               ),
               onRefresh: () async => await controller.load(context: context, username: widget.username),

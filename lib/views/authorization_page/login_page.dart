@@ -71,5 +71,4 @@ class _LoginPageState extends Presenter<LoginPage, LoginPageController> {
   void initController() {
     controller = LoginPageController(presenter: this);
   }
-
 }

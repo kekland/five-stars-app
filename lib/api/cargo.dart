@@ -74,4 +74,75 @@ class CargoApi {
       }
     }
   }
+
+  static Future<Cargo> editCargo({
+    String id,
+    City arrival,
+    City departure,
+    DateTime arrivalTime,
+    DateTime departureTime,
+    double price,
+    double weight,
+    double volume,
+    VehicleType type,
+    String description,
+  }) async {
+    try {
+      final Map data = {
+        "arrival": {
+          "position": arrival.toJson(),
+          "time": arrivalTime.toIso8601String()
+        },
+        "departure": {
+          "position": departure.toJson(),
+          "time": departureTime.toIso8601String()
+        },
+        "price": price,
+        "weight": weight,
+        "volume": volume,
+        "vehicleType": VehicleTypeUtils.toJson(type),
+        "description": description,
+        "images": []
+      };
+
+      final response = await Dio()
+          .put('${baseUrl}/cargo/${id}', data: data, options: Api.options);
+      return Cargo.fromJson(response.data);
+    } catch (e) {
+      bool handled = await Api.handleError(e);
+      if (handled) {
+        return await editCargo(
+          id: id,
+          arrival: arrival,
+          departure: departure,
+          arrivalTime: arrivalTime,
+          departureTime: departureTime,
+          description: description,
+          price: price,
+          volume: volume,
+          weight: weight,
+          type: type,
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  static Future<Cargo> deleteCargo({
+    String id,
+  }) async {
+    try {
+      final response =
+          await Dio().delete('${baseUrl}/cargo/${id}', options: Api.options);
+      return Cargo.fromJson(response.data);
+    } catch (e) {
+      bool handled = await Api.handleError(e);
+      if (handled) {
+        return await deleteCargo(id: id);
+      } else {
+        rethrow;
+      }
+    }
+  }
 }

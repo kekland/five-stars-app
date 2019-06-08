@@ -124,7 +124,7 @@ class _CargoWidgetState extends State<CargoWidget> {
                                   .toStringAsFixed(1)
                                   .toString()
                               : 'Неизвестно',
-                          unit: "км.",
+                          unit: widget.data.route != null? "км." : '',
                         ),
                         TwoLineInformationWidget(
                           iconColor: Colors.green,

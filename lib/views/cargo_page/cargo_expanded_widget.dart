@@ -238,7 +238,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
                   value: widget.data.route != null? (widget.data.route.distance / 1000.0)
                       .toStringAsFixed(1)
                       .toString() : 'Неизвестно',
-                  unit: "км.",
+                          unit: widget.data.route != null? "км." : '',
                 ),
                 SizedBox(height: 16.0),
                 TwoLineInformationWidgetExpanded(

@@ -71,6 +71,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
           AppBarWidget(
             title: Text('Профиль ${widget.username}'),
             includeBackButton: widget.includeBackButton,
+            accentColor: Colors.indigo,
             action: (widget.username == AppData.username)
                 ? IconButton(
                     color: Colors.indigo,
@@ -80,18 +81,29 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
                 : null,
           ),
           Expanded(
-            child: LiquidPullToRefresh(
-              color: Colors.indigo,
-              springAnimationDurationInMilliseconds: 500,
-              child: buildSingularDataPage(
-                context: context,
-                accentColor: Colors.indigo,
-                data: controller.data,
-                isLoading: controller.isLoading,
-                builder: (context, profile) => buildChild(),
-              ),
-              onRefresh: () async => await controller.load(
-                  context: context, username: widget.username),
+            child: Stack(
+              children: <Widget>[
+                if (controller.firstLoad && controller.data == null)
+                  Center(
+                    child: CircularProgressRevealWidget(color: Colors.indigo),
+                  ),
+                LiquidPullToRefresh(
+                  color: Colors.indigo,
+                  springAnimationDurationInMilliseconds: 500,
+                  child: buildSingularDataPage(
+                    context: context,
+                    accentColor: Colors.indigo,
+                    data: controller.data,
+                    isLoading: controller.isLoading,
+                    builder: (context, profile) =>
+                        ProfileViewWidget.buildAsListView(
+                          profile: controller.data,
+                        ),
+                  ),
+                  onRefresh: () async => await controller.load(
+                      context: context, username: widget.username),
+                ),
+              ],
             ),
           ),
         ],

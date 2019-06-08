@@ -19,6 +19,7 @@ class CargoPageController extends Controller<CargoPage> {
   List<Cargo> data;
   bool loading = false;
   String error;
+  bool firstLoad = true;
 
   Future load(BuildContext context) async {
     loading = true;
@@ -34,6 +35,7 @@ class CargoPageController extends Controller<CargoPage> {
       });
     }
     loading = false;
+    firstLoad = false;
     presenter.refresh();
   }
 

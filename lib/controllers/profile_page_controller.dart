@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 class ProfilePageController extends Controller<ProfilePage> {
   bool isLoading;
+  bool firstLoad = true;
   User data;
 
   ProfilePageController({Presenter<ProfilePage, ProfilePageController> presenter}) {
@@ -31,6 +32,7 @@ class ProfilePageController extends Controller<ProfilePage> {
     }
 
     isLoading = false;
+    firstLoad = false;
     refresh();
   }
 }

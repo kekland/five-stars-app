@@ -57,16 +57,24 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
                     onPressed: () => addCargo(context)),
               ),
               Expanded(
-                child: LiquidPullToRefresh(
-                  color: Colors.pink,
-                  springAnimationDurationInMilliseconds: 500,
-                  child: buildDataPage<Cargo>(
-                    accentColor: Colors.pink,
-                    builder: (context, item) => CargoWidget(data: item),
-                    data: controller.data,
-                    error: controller.error,
-                  ),
-                  onRefresh: () async => await controller.load(context),
+                child: Stack(
+                  children: <Widget>[
+                    if (controller.firstLoad && controller.data == null)
+                      Center(
+                        child: CircularProgressRevealWidget(color: Colors.pink),
+                      ),
+                    LiquidPullToRefresh(
+                      color: Colors.pink,
+                      springAnimationDurationInMilliseconds: 500,
+                      child: buildDataPage<Cargo>(
+                        accentColor: Colors.pink,
+                        builder: (context, item) => CargoWidget(data: item),
+                        data: controller.data,
+                        error: controller.error,
+                      ),
+                      onRefresh: () async => await controller.load(context),
+                    ),
+                  ],
                 ),
               ),
             ],

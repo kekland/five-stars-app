@@ -74,62 +74,53 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
+        child: Stack(
           children: <Widget>[
-            AppBarWidget(
-              title: Text('Выберите место'),
-              includeBackButton: true,
-              action: IconButton(
-                icon: Icon(Icons.arrow_forward),
-                color: Colors.pink,
-                onPressed:
-                    (this.selectedPoint != null) ? () => onNext(context) : null,
+            GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: LatLng(43.238949, 76.889709),
+                zoom: 10,
+              ),
+              onTap: (point) => onSelectLocation(context, point),
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              markers: {
+                if (selectedPoint != null)
+                  Marker(
+                    markerId: MarkerId("selected-point"),
+                    position: selectedPoint,
+                  ),
+                if (pendingPoint != null)
+                  Marker(
+                    markerId: MarkerId("pending-point"),
+                    position: pendingPoint,
+                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                        BitmapDescriptor.hueAzure),
+                  ),
+              },
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 32.0, horizontal: 24.0),
+                child: CardWidget(
+                  padding: const EdgeInsets.all(16.0),
+                  body: TwoLineInformationWidget(
+                    icon: Icons.pin_drop,
+                    title: 'Выбранное место',
+                    value: location ?? "Не выбрано",
+                    unit: '',
+                    iconColor: Colors.pink,
+                  ),
+                ),
               ),
             ),
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(43.238949, 76.889709),
-                      zoom: 10,
-                    ),
-                    onTap: (point) => onSelectLocation(context, point),
-                    myLocationButtonEnabled: true,
-                    myLocationEnabled: true,
-                    markers: {
-                      if (selectedPoint != null)
-                        Marker(
-                          markerId: MarkerId("selected-point"),
-                          position: selectedPoint,
-                        ),
-                      if(pendingPoint != null)
-                        Marker(
-                          markerId: MarkerId("pending-point"),
-                          position: pendingPoint,
-                          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-                        ),
-                    },
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 32.0, horizontal: 24.0),
-                      child: CardWidget(
-                        padding: const EdgeInsets.all(16.0),
-                        body: TwoLineInformationWidget(
-                          icon: Icons.pin_drop,
-                          title: 'Выбранное место',
-                          value: location ?? "Не выбрано",
-                          unit: '',
-                          iconColor: Colors.pink,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+            Align(
+              alignment: Alignment.topCenter,
+              child: AppBarWidget(
+                title: Text('Путь'),
+                includeBackButton: true,
               ),
             ),
           ],

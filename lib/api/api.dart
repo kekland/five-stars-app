@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 export 'package:five_stars/api/validity.dart';
@@ -90,6 +91,16 @@ class Api {
       return false;
     }
     return false;
+  }
+
+  static void logOut(BuildContext context) {
+    SharedPreferencesManager.instance.setString("username", null);
+    SharedPreferencesManager.instance.setString("password", null);
+    AppData.username = null;
+    SharedPreferencesManager.instance.setString("token", null);
+ 
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.of(context).pushReplacementNamed('/auth');
   }
 
   static Options get options => Options(headers: {

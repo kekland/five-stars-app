@@ -1,3 +1,4 @@
+import 'package:five_stars/api/api.dart';
 import 'package:five_stars/controllers/profile_page_controller.dart';
 import 'package:five_stars/design/app_bar_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
@@ -13,7 +14,6 @@ import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/cargo_page/cargo_widget.dart';
 import 'package:five_stars/views/profile_page/profile_data.dart';
 import 'package:five_stars/views/profile_page/profile_edit.dart';
-import 'package:five_stars/views/profile_page/profile_view.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -71,7 +71,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TwoLineInformationWidget(
+              TwoLineInformationWidgetExpanded(
                 title: "Имя пользователя",
                 value: profile.username,
                 icon: FontAwesomeIcons.userAlt,
@@ -79,7 +79,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
                 iconColor: ModernTextTheme.captionIconColor,
               ),
               SizedBox(height: 24.0),
-              TwoLineInformationWidget(
+              TwoLineInformationWidgetExpanded(
                 title: "Почта",
                 value: profile.email,
                 icon: FontAwesomeIcons.solidEnvelope,
@@ -89,7 +89,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
                     'mailto:${profile.email}?body=Здравствуйте,%20${profile.name}.'),
               ),
               SizedBox(height: 24.0),
-              TwoLineInformationWidget(
+              TwoLineInformationWidgetExpanded(
                 title: "Имя",
                 value: "${profile.name}",
                 icon: FontAwesomeIcons.userAlt,
@@ -97,7 +97,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
                 iconColor: ModernTextTheme.captionIconColor,
               ),
               SizedBox(height: 24.0),
-              TwoLineInformationWidget(
+              TwoLineInformationWidgetExpanded(
                 title: "Организация",
                 value: profile.organization,
                 icon: FontAwesomeIcons.solidBuilding,
@@ -105,7 +105,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
                 iconColor: ModernTextTheme.captionIconColor,
               ),
               SizedBox(height: 24.0),
-              TwoLineInformationWidget(
+              TwoLineInformationWidgetExpanded(
                 title: "Номер телефона",
                 value: profile.phoneNumber,
                 icon: FontAwesomeIcons.phone,
@@ -116,7 +116,18 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
             ],
           ),
         ),
-        SizedBox(height: 48.0),
+        if (AppData.username == profile.username) ...[
+          SizedBox(height: 24.0),
+          buildCard(
+            child: SingleLineInformationWidget(
+              icon: Icons.exit_to_app,
+              label: 'Выйти из профиля',
+              color: Colors.indigo,
+            ),
+            onTap: () => Api.logOut(context),
+          ),
+        ],
+        SizedBox(height: 24.0),
         buildCard(
           padding: EdgeInsets.zero,
           child: Row(
@@ -135,6 +146,9 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
                           color: (controller.isCargoSelected)
                               ? Colors.indigo
                               : Colors.black,
+                          fontWeight: (controller.isCargoSelected)
+                              ? FontWeight.w600
+                              : FontWeight.w500,
                         ),
                       ),
                     ),
@@ -155,6 +169,9 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
                           color: (!controller.isCargoSelected)
                               ? Colors.indigo
                               : Colors.black,
+                          fontWeight: (!controller.isCargoSelected)
+                              ? FontWeight.w600
+                              : FontWeight.w500,
                         ),
                       ),
                     ),

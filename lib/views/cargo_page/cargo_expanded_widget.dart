@@ -262,36 +262,18 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
-            Row(
-                children: [
-                  Icon(Icons.map, color: ModernTextTheme.captionIconColor),
-                  SizedBox(width: 24.0),
-                  Text("Посмотреть на карте", style: ModernTextTheme.primaryAccented),
-                ],
-              ),
+              SingleLineInformationWidget(icon: FontAwesomeIcons.globeAsia, label: 'Посмотреть на карте'),
               () => openMap(context),
           ),
           SizedBox(height: 16.0),
           if (AppData.username == widget.data.ownerId) ...[
             buildInfoCardWidget(
-              Row(
-                children: [
-                  Icon(Icons.edit, color: ModernTextTheme.captionIconColor),
-                  SizedBox(width: 24.0),
-                  Text("Изменить", style: ModernTextTheme.primaryAccented),
-                ],
-              ),
+              SingleLineInformationWidget(icon: Icons.edit, label: 'Изменить'),
               () => editCargo(context),
             ),
             SizedBox(height: 16.0),
             buildInfoCardWidget(
-              Row(
-                children: [
-                  Icon(Icons.delete, color: ModernTextTheme.captionIconColor),
-                  SizedBox(width: 24.0),
-                  Text("Удалить", style: ModernTextTheme.primaryAccented),
-                ],
-              ),
+              SingleLineInformationWidget(icon: Icons.delete, label: 'Удалить'),
               () => deleteCargo(context),
             ),
           ],

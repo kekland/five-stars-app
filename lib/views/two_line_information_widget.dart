@@ -79,6 +79,7 @@ class TwoLineInformationWidgetExpanded extends StatelessWidget {
   final String title;
   final String value;
   final String unit;
+  final VoidCallback onTap;
 
   const TwoLineInformationWidgetExpanded(
       {Key key,
@@ -87,50 +88,77 @@ class TwoLineInformationWidgetExpanded extends StatelessWidget {
       this.unit,
       this.icon,
       this.iconColor,
-      this.showIcon = true})
+      this.showIcon = true,
+      this.onTap})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.transparency,
+      borderRadius: BorderRadius.circular(12.0),
+      child: InkWell(
+        onTap: onTap,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            (showIcon)
+                ? Icon(
+                    icon,
+                    color: iconColor,
+                  )
+                : SizedBox(
+                    width: 24.0,
+                    height: 24.0,
+                  ),
+            SizedBox(width: 24.0),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Wrap(
+                    //mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        value,
+                        softWrap: true,
+                        maxLines: 2,
+                        style: ModernTextTheme.primaryAccented,
+                      ),
+                      Text(
+                        unit,
+                        style: ModernTextTheme.secondary,
+                      ),
+                    ],
+                  ),
+                  Text(
+                    title,
+                    style: ModernTextTheme.caption,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SingleLineInformationWidget extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+
+  const SingleLineInformationWidget({Key key, this.icon, this.label, this.color = Colors.black})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        (showIcon)
-            ? Icon(
-                icon,
-                color: iconColor,
-              )
-            : SizedBox(
-                width: 24.0,
-                height: 24.0,
-              ),
+      children: [
+        Icon(icon, color: color.withOpacity(0.125)),
         SizedBox(width: 24.0),
-        Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Wrap(
-                //mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    value,
-                    softWrap: true,
-                    maxLines: 2,
-                    style: ModernTextTheme.primaryAccented,
-                  ),
-                  Text(
-                    unit,
-                    style: ModernTextTheme.secondary,
-                  ),
-                ],
-              ),
-              Text(
-                title,
-                style: ModernTextTheme.caption,
-              ),
-            ],
-          ),
-        ),
+        Text(label, style: ModernTextTheme.primaryAccented.copyWith(color: color)),
       ],
     );
   }

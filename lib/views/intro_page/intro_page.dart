@@ -89,7 +89,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
             Transform.scale(
               scale: inflationAnimationEased.value,
               child: Transform.translate(
-                offset: Offset(-30.0 * (1.0 - inflationAnimationEased.value), 0.0),
+                offset: Offset(0.0, -30.0 * (1.0 - inflationAnimationEased.value)),
                 child: IconLogoWidget(
                   size: MediaQuery.of(context).size.shortestSide / 2.0,
                 ),
@@ -97,7 +97,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
             ),
             Opacity(
               opacity: (1.0 - deflationAnimation.value),
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.red)),
             ),
           ],
         ),

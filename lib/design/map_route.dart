@@ -22,6 +22,7 @@ class MapRoutePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -35,6 +36,8 @@ class MapRoutePage extends StatelessWidget {
               ),
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
+              polylines: {
+              },
               markers: {
                 Marker(
                   markerId: MarkerId("departure-marker"),

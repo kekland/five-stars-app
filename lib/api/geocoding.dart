@@ -2,7 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:five_stars/api/secret.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class GeocoderApi {
+class GeoApi {
+  static Future<List<LatLng>> getDirections(LatLng departure, LatLng arrival) {
+    try {
+
+    }
+    catch(e) {
+      rethrow;
+    }
+  }
   static Future<String> getLocationName(LatLng point) async {
     try {
       final response = await Dio()

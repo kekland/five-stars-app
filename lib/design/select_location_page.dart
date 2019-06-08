@@ -42,7 +42,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
         selectedPoint = null;
         pendingPoint = point;
       });
-      final data = await GeocoderApi.getLocationName(point);
+      final data = await GeoApi.getLocationName(point);
       setState(() {
         location = data;
         selectedPoint = point;

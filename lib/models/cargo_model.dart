@@ -1,3 +1,4 @@
+import 'package:five_stars/models/route_model.dart';
 import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/utils.dart';
@@ -27,6 +28,8 @@ class Cargo {
 
   DateTime createdAt;
   DateTime updatedAt;
+
+  DirectionRoute route;
 
   bool get starred {
     if (SharedPreferencesManager.instance == null) {
@@ -81,5 +84,7 @@ class Cargo {
 
     departureTime = departureTime.toLocal();
     arrivalTime = arrivalTime.toLocal();
+
+    route = json['route'] != null? DirectionRoute.fromJson(json['route']) : null;
   }
 }

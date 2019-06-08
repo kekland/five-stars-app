@@ -22,26 +22,36 @@ class SelectVehicleType extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: VehicleTypeUtils.vehicleTypeNames.keys.map((type) {
-              return Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Radio(
-                    value: type,
-                    groupValue: selectedVehicleType,
-                    onChanged: (selected) {
-                      onSelect(selected);
-                      Navigator.of(context).pop();
-                    },
-                    materialTapTargetSize: MaterialTapTargetSize.padded,
-                    activeColor: Colors.blue,
-                  ),
-                  Expanded(
-                    child: Text(
-                      VehicleTypeUtils.vehicleTypeNames[type] ?? "xd",
-                      style: ModernTextTheme.primary,
+              return Material(
+                borderRadius: BorderRadius.circular(8.0),
+                type: MaterialType.transparency,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(8.0),
+                  onTap: () {
+                    onSelect(type);
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(
+                          (selectedVehicleType == type)? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                          color: (selectedVehicleType == type)? Colors.indigo : Colors.grey,
+                        ),
+                        SizedBox(width: 12.0),
+                        Expanded(
+                          child: Text(
+                            VehicleTypeUtils.vehicleTypeNames[type] ?? "xd",
+                            style: ModernTextTheme.primary,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               );
             }).toList(),
           ),

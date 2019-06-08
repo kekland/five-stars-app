@@ -21,12 +21,15 @@ class CargoAlterPage extends StatefulWidget {
 
   final Cargo defaultData;
 
-  const CargoAlterPage({Key key, this.mainContext, this.mode = AlterMode.add, this.defaultData}) : super(key: key);
+  const CargoAlterPage(
+      {Key key, this.mainContext, this.mode = AlterMode.add, this.defaultData})
+      : super(key: key);
   @override
   _CargoAlterPageState createState() => _CargoAlterPageState();
 }
 
-class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterController> {
+class _CargoAlterPageState
+    extends Presenter<CargoAlterPage, CargoAlterController> {
   Widget buildDepartureWidget(BuildContext context) {
     return CardWidget(
       padding: const EdgeInsets.all(8.0),
@@ -36,14 +39,16 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
             icon: FontAwesomeIcons.truckLoading,
             subtitle: 'Город погрузки',
             selectedCity: controller.selectedDepartureCity,
-            onSelected: (city) => setState(() => controller.selectedDepartureCity = city),
+            onSelected: (city) =>
+                setState(() => controller.selectedDepartureCity = city),
           ),
           SizedBox(height: 8.0),
           SelectTimeWidget(
             icon: FontAwesomeIcons.calendarAlt,
             subtitle: 'Дата погрузки',
             predicate: (DateTime time) => time.isBefore(controller.arrivalTime),
-            onSelected: (DateTime time) => setState(() => controller.departureTime = time),
+            onSelected: (DateTime time) =>
+                setState(() => controller.departureTime = time),
             selectedTime: controller.departureTime,
           ),
         ],
@@ -60,14 +65,17 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
             icon: FontAwesomeIcons.dolly,
             subtitle: 'Город выгрузки',
             selectedCity: controller.selectedArrivalCity,
-            onSelected: (city) => setState(() => controller.selectedArrivalCity = city),
+            onSelected: (city) =>
+                setState(() => controller.selectedArrivalCity = city),
           ),
           SizedBox(height: 8.0),
           SelectTimeWidget(
             icon: FontAwesomeIcons.calendarAlt,
             subtitle: 'Дата выгрузки',
-            predicate: (DateTime time) => time.isAfter(controller.departureTime),
-            onSelected: (DateTime time) => setState(() => controller.arrivalTime = time),
+            predicate: (DateTime time) =>
+                time.isAfter(controller.departureTime),
+            onSelected: (DateTime time) =>
+                setState(() => controller.arrivalTime = time),
             selectedTime: controller.arrivalTime,
           ),
         ],
@@ -123,7 +131,8 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
       body: Column(children: [
         SelectVehicleType(
           selectedVehicleType: controller.selectedVehicleType,
-          onSelect: (type) => setState(() => controller.selectedVehicleType = type),
+          onSelect: (type) =>
+              setState(() => controller.selectedVehicleType = type),
         ),
       ]),
     );
@@ -149,10 +158,9 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
   }
 
   void alterCargo(BuildContext context) {
-    if(widget.mode == AlterMode.add) {
+    if (widget.mode == AlterMode.add) {
       controller.addCargo(widget.mainContext);
-    }
-    else {
+    } else {
       controller.editCargo(context);
     }
   }
@@ -164,10 +172,17 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
         width: double.infinity,
         height: 56.0,
         child: FlatButton(
-          child: Text((widget.mode == AlterMode.add)? 'Добавить' : 'Изменить'),
+          child: Text(
+            (widget.mode == AlterMode.add) ? 'Добавить' : 'Изменить',
+            style: ModernTextTheme.primaryAccented.copyWith(
+              color: (controller.isValid())
+                  ? Colors.black
+                  : ModernTextTheme.captionColor,
+            ),
+          ),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-          onPressed: (controller.isValid())? () => alterCargo(context) : null,
+          onPressed: (controller.isValid()) ? () => alterCargo(context) : null,
         ),
       ),
     );
@@ -190,7 +205,11 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
             children: [
               CardWidget(
                 padding: const EdgeInsets.all(24.0),
-                body: Text((widget.mode == AlterMode.add)? 'Добавить груз' : 'Изменить груз', style: ModernTextTheme.boldTitle),
+                body: Text(
+                    (widget.mode == AlterMode.add)
+                        ? 'Добавить груз'
+                        : 'Изменить груз',
+                    style: ModernTextTheme.boldTitle),
               ),
               SizedBox(height: 16.0),
               buildDepartureWidget(context),
@@ -215,7 +234,7 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
   void initController() {
     controller = new CargoAlterController(presenter: this);
 
-    if(widget.mode == AlterMode.edit) {
+    if (widget.mode == AlterMode.edit) {
       controller.setFields(widget.defaultData);
     }
   }

@@ -150,15 +150,17 @@ class SingleLineInformationWidget extends StatelessWidget {
   final String label;
   final Color color;
 
-  const SingleLineInformationWidget({Key key, this.icon, this.label, this.color = Colors.black})
+  const SingleLineInformationWidget(
+      {Key key, this.icon, this.label, this.color = Colors.black})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, color: color.withOpacity(0.125)),
+        Icon(icon, color: (color == Colors.black)? color.withOpacity(0.125) : color.withOpacity(0.65)),
         SizedBox(width: 24.0),
-        Text(label, style: ModernTextTheme.primaryAccented.copyWith(color: color)),
+        Text(label,
+            style: ModernTextTheme.primaryAccented.copyWith(color: color)),
       ],
     );
   }

@@ -268,12 +268,12 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
           SizedBox(height: 16.0),
           if (AppData.username == widget.data.ownerId) ...[
             buildInfoCardWidget(
-              SingleLineInformationWidget(icon: Icons.edit, label: 'Изменить'),
+              SingleLineInformationWidget(icon: Icons.edit, label: 'Изменить', color: Colors.indigo),
               () => editCargo(context),
             ),
             SizedBox(height: 16.0),
             buildInfoCardWidget(
-              SingleLineInformationWidget(icon: Icons.delete, label: 'Удалить'),
+              SingleLineInformationWidget(icon: Icons.delete, label: 'Удалить', color: Colors.red),
               () => deleteCargo(context),
             ),
           ],

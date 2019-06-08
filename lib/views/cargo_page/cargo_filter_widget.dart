@@ -1,47 +1,49 @@
+import 'package:expandable/expandable.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/divider_widget.dart';
 import 'package:five_stars/design/stadium_switch_widget.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/utils/filter/bounded.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
-import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:expandable/expandable.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class VehicleFilterOptions {
+class CargoFilterOptions {
   Bounded volume;
   Bounded weight;
-  List<VehicleType> allowedVehicleTypes;
+  Bounded price;
+  List<VehicleType> vehicleTypes;
 
-  VehicleFilterOptions({this.volume, this.weight, this.allowedVehicleTypes});
+  CargoFilterOptions({this.volume, this.weight, this.price, this.vehicleTypes});
 }
 
-class VehicleFilterWidget extends StatefulWidget {
+class CargoFilterWidget extends StatefulWidget {
   @override
-  _VehicleFilterWidgetState createState() => _VehicleFilterWidgetState();
+  _CargoFilterWidgetState createState() => _CargoFilterWidgetState();
 }
 
-class _VehicleFilterWidgetState extends State<VehicleFilterWidget> {
-  VehicleFilterOptions options = VehicleFilterOptions(
+class _CargoFilterWidgetState extends State<CargoFilterWidget> {
+  CargoFilterOptions options = CargoFilterOptions(
     volume: Bounded(lower: 0.0, upper: 1000.0),
-    weight: Bounded(lower: 0.0, upper: 250.0),
-    allowedVehicleTypes: List.from(VehicleType.values),
+    price: Bounded(lower: 0.0, upper: 1000000.0),
+    weight: Bounded(lower: 0.0, upper: 10000.0),
+    vehicleTypes: List.from(VehicleType.values),
   );
-
   @override
   Widget build(BuildContext context) {
     return CardWidget(
       padding: EdgeInsets.zero,
       body: ExpandablePanel(
+        iconPlacement: ExpandablePanelIconPlacement.right,
+        initialExpanded: false,
+
         header: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
           child: Text('Фильтр', style: ModernTextTheme.primaryAccented),
         ),
         hasIcon: false,
-        collapsed: SizedBox(),
+        collapsed: SizedBox(width: double.infinity),
         expanded: buildExpanded(),
         tapBodyToCollapse: false,
         tapHeaderToExpand: true,
@@ -51,6 +53,7 @@ class _VehicleFilterWidgetState extends State<VehicleFilterWidget> {
 
   Widget buildExpanded() {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,7 +63,8 @@ class _VehicleFilterWidgetState extends State<VehicleFilterWidget> {
             title: 'Объём (м³)',
             unit: 'м³',
             bounds: options.volume,
-            onChange: (Bounded newBounds) => setState(() => options.volume = newBounds),
+            onChange: (Bounded newBounds) =>
+                setState(() => options.volume = newBounds),
             maximumBound: 1000.0,
             divisions: 20,
             color: Colors.purple,
@@ -70,11 +74,12 @@ class _VehicleFilterWidgetState extends State<VehicleFilterWidget> {
           ),
           SizedBox(height: 24.0),
           BoundedRangeWidget(
-            title: 'Вес (тонн)',
-            unit: 'т.',
+            title: 'Вес (кг.)',
+            unit: 'кг.',
             bounds: options.weight,
-            onChange: (Bounded newBounds) => setState(() => options.weight = newBounds),
-            maximumBound: 250.0,
+            onChange: (Bounded newBounds) =>
+                setState(() => options.weight = newBounds),
+            maximumBound: 10000.0,
             divisions: 25,
             color: Colors.purple,
             colorLight: Colors.purple.shade300,
@@ -90,17 +95,17 @@ class _VehicleFilterWidgetState extends State<VehicleFilterWidget> {
             alignment: WrapAlignment.start,
             children: VehicleTypeUtils.vehicleTypeNames.keys
                 .map((type) => StadiumSwitchWidget(
-                      checked: (options.allowedVehicleTypes.contains(type)),
+                      checked: (options.vehicleTypes.contains(type)),
                       color: Colors.purple,
                       backgroundColor: Colors.purple.shade50,
                       title: VehicleTypeUtils.vehicleTypeNames[type],
                       onToggle: () {
                         print(type.toString());
-                        print(options.allowedVehicleTypes.contains(type));
-                        if (options.allowedVehicleTypes.contains(type)) {
-                          options.allowedVehicleTypes.remove(type);
+                        print(options.vehicleTypes.contains(type));
+                        if (options.vehicleTypes.contains(type)) {
+                          options.vehicleTypes.remove(type);
                         } else {
-                          options.allowedVehicleTypes.add(type);
+                          options.vehicleTypes.add(type);
                         }
                         setState(() {});
                       },

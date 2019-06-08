@@ -1,5 +1,6 @@
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/design/typography/typography.dart';
+import 'package:five_stars/views/cargo_page/cargo_filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -65,11 +66,15 @@ ListView buildDataPage<T>({
     return ListView.builder(
       padding: const EdgeInsets.all(16.0),
       physics: BouncingScrollPhysics(),
-      itemCount: data.length,
+      itemCount: data.length + 1,
       itemBuilder: (context, index) {
+        if(index == 0) return Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: CargoFilterWidget(),
+        );
         return Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
-          child: builder(context, data[index]),
+          child: builder(context, data[index - 1]),
         );
       },
     );

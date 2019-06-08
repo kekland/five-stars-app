@@ -1,4 +1,5 @@
 import 'package:five_stars/api/api.dart';
+import 'package:five_stars/api/user.dart';
 import 'package:five_stars/controllers/registration_page_controller.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/models/user_model.dart';
@@ -86,5 +87,26 @@ class ProfileEditController extends Controller<ProfileEditPage> {
         name.isValid() &&
         organization.isValid() &&
         phoneNumber.isValid();
+  }
+
+  void editProfile(BuildContext context) async {
+    try {
+      showLoadingDialog(context: context, color: Colors.indigo);
+      await UserApi.editProfile(
+        username: username,
+        email: email.value,
+        firstAndLastName: name.value,
+        organization: organization.value,
+        validatedPhoneNumber: "+7${phoneNumber.value}",
+      );
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      showInfoSnackbarMain(message: 'Профиль изменен.');
+    } catch (e) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      showErrorSnackbarMain(
+          errorMessage: "Произошла ошибка при изменении профиля", exception: e);
+    }
   }
 }

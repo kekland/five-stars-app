@@ -88,7 +88,7 @@ class _ProfileEditPageState
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           onPressed:
-              null, //(controller.isValid())? () => alterCargo(context) : null,
+              (controller.isValid())? () => controller.editProfile(context) : null,
         ),
       ),
     );

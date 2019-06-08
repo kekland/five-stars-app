@@ -35,7 +35,7 @@ class FutureDialog extends StatelessWidget {
             SizedBox(height: 16.0),
           ],
           if (data.customBody != null) ...[
-            Expanded(child: data.customBody),
+            data.customBody,
           ],
           if (data.actions != null) ...[
             SizedBox(height: 16.0),

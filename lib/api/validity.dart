@@ -41,7 +41,7 @@ class ValidityApi {
       String phoneNumber}) async {
     await auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
-      timeout: Duration.zero,
+      timeout: Duration(seconds: 30),
       codeSent: (verificationId, [forceResending]) => onCodeSent(verificationId),
       verificationFailed: (exception) {
         print(exception.message);

@@ -130,7 +130,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                     child: RaisedButton.icon(
                       onPressed: () {
                         Navigator.of(context).pushReplacementNamed(
-                          (SharedPreferencesManager.instance.getString("token") != null ? "/main" : "/auth"),
+                          (SharedPreferencesManager.instance.getString("token") != null ? "/auth" : "/auth"),
                         );
                       },
                       shape: StadiumBorder(),

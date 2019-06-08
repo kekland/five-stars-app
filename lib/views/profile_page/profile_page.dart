@@ -10,6 +10,7 @@ import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/views/profile_page/profile_edit.dart';
 import 'package:five_stars/views/profile_page/profile_view.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
     Navigator.of(context).push(
       TransparentRoute(
         builder: (context) {
-          //return CargoExpandedWidget(data: widget.data);
+          return ProfileEditPage(data: controller.data);
         },
       ),
     );
@@ -76,7 +77,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
                 ? IconButton(
                     color: Colors.indigo,
                     icon: Icon(Icons.edit),
-                    onPressed: () {},
+                    onPressed: (controller.data != null)? () => editProfile(context) : null,
                   )
                 : null,
           ),

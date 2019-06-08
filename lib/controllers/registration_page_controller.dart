@@ -1,18 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:five_stars/mvc/view.dart';
-import 'package:five_stars/utils/pages.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/api/api.dart';
 import 'package:five_stars/views/authorization_page/registration_page.dart';
-import 'package:five_stars/views/calls_page/calls_page.dart';
-import 'package:five_stars/views/cargo_page/cargo_page.dart';
-import 'package:five_stars/views/main_page/main_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_verification_code_input/flutter_verification_code_input.dart';
-import 'package:five_stars/views/profile_page/profile_page.dart';
-import 'package:five_stars/views/vehicle_page/vehicle_page.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 
 class ValidatedField {

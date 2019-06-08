@@ -55,8 +55,8 @@ class MapRoutePage extends StatelessWidget {
                       Marker(
                         markerId: MarkerId("arrival-marker"),
                         position: LatLng(
-                          departure.latitude,
-                          departure.longitude,
+                          arrival.latitude,
+                          arrival.longitude,
                         ),
                         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
                       ),
@@ -74,6 +74,8 @@ class MapRoutePage extends StatelessWidget {
                           departureCity: departure,
                           arrivalDate: arrivalTime,
                           departureDate: departureTime,
+                          arrivalColor: Colors.indigo.shade700,
+                          departureColor: Colors.red.shade700,
                           isCargo: true,
                         ),
                       ),

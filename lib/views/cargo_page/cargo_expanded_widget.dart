@@ -1,6 +1,7 @@
 import 'package:five_stars/Api/Api.dart';
 import 'package:five_stars/controllers/main_page_controller.dart';
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/map_route.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/cargo_model.dart';
@@ -72,7 +73,16 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
   }
 
   void openMap(BuildContext context) {
-    
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) {
+        return MapRoutePage(
+          arrival: widget.data.arrival,
+          departure: widget.data.departure,
+          arrivalTime: widget.data.arrivalTime,
+          departureTime: widget.data.departureTime,
+        );
+      },
+    ));
   }
 
   void deleteCargo(BuildContext context) async {

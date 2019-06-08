@@ -11,10 +11,20 @@ class DepartureArrivalWidget extends StatelessWidget {
   final City arrivalCity;
   final DateTime arrivalDate;
 
+  final Color departureColor;
+  final Color arrivalColor;
+
   final bool isCargo;
 
   const DepartureArrivalWidget(
-      {Key key, this.departureCity, this.departureDate, this.arrivalCity, this.arrivalDate, this.isCargo})
+      {Key key,
+      this.departureCity,
+      this.departureDate,
+      this.arrivalCity,
+      this.arrivalDate,
+      this.isCargo,
+      this.departureColor = Colors.black,
+      this.arrivalColor = Colors.black})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -40,7 +50,7 @@ class DepartureArrivalWidget extends StatelessWidget {
                 ),
                 Text(
                   departureCity.name,
-                  style: ModernTextTheme.primaryAccented,
+                  style: ModernTextTheme.primaryAccented.copyWith(color: departureColor),
                 ),
               ],
             ),
@@ -71,7 +81,7 @@ class DepartureArrivalWidget extends StatelessWidget {
                 Text(
                   arrivalCity.name,
                   textAlign: TextAlign.right,
-                  style: ModernTextTheme.primaryAccented,
+                  style: ModernTextTheme.primaryAccented.copyWith(color: arrivalColor),
                 ),
               ],
             ),

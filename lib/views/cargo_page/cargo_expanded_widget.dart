@@ -72,7 +72,8 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
     ));
   }
 
-  void openMap(BuildContext context) {
+  void openMap(BuildContext context) async {
+    await checkForLocationPermission();
     Navigator.of(context).push(MaterialPageRoute(
       builder: (_) {
         return MapRoutePage(

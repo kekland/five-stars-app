@@ -37,6 +37,7 @@ dependencies:
   flutter_svg:
   http:
   dio:
+  location_permissions:
   liquid_pull_to_refresh: 
     path: ../Liquid-Pull-To-Refresh/
   google_maps_flutter:

@@ -7,6 +7,7 @@ import 'package:five_stars/design/typography/typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:location_permissions/location_permissions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var formatter = DateFormat("dd.MM.yyyy");
@@ -193,6 +194,14 @@ class SharedPreferencesManager {
       print("could not initialize sharedprefs.");
     }
   }
+}
+
+Future<PermissionStatus> checkForLocationPermission() async {
+  PermissionStatus permissionBefore = await LocationPermissions().checkPermissionStatus();
+  if(permissionBefore != PermissionStatus.granted) {
+    return await LocationPermissions().requestPermissions();
+  }
+  return PermissionStatus.granted;
 }
 
 enum AlterMode { add, edit }

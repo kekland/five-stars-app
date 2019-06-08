@@ -1,3 +1,4 @@
+import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/intro_page/logo_widget.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
             ),
             Opacity(
               opacity: (1.0 - deflationAnimation.value),
-              child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.red)),
+              child: CircularProgressRevealWidget(color: Colors.red),
             ),
           ],
         ),

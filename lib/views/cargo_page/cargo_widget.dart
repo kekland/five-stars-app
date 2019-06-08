@@ -37,7 +37,6 @@ class _CargoWidgetState extends State<CargoWidget> {
       sizedBoxSize = context.size;
     });
 
-    setStatusBar(Brightness.light);
     await Navigator.of(context).push(
       TransparentRoute(
         builder: (context) {
@@ -46,7 +45,6 @@ class _CargoWidgetState extends State<CargoWidget> {
       ),
     );
 
-    setStatusBar(Brightness.dark);
     await Future.delayed(Duration(milliseconds: 284));
 
     setState(() {

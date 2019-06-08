@@ -1,5 +1,7 @@
+import 'package:five_stars/design/shadows/shadows.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TextLogoWidget extends StatelessWidget {
   @override
@@ -30,8 +32,17 @@ class IconLogoWidget extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: Colors.white,
+        boxShadow: [Shadows.slightShadow],
         borderRadius: BorderRadius.circular(size / 2.0),
+      ),
+      alignment: Alignment.center,
+      child: SizedBox(
+        width: size / 1.25,
+        height: size / 1.25,
+        child: SvgPicture.asset(
+          'assets/identity/logo-svg.svg',
+        ),
       ),
     );
   }

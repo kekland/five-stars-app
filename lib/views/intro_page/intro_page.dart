@@ -127,6 +127,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                   opacity: inflationAnimationEased.value,
                   child: SizedBox(
                     width: double.infinity,
+                    height: 48.0,
                     child: RaisedButton.icon(
                       onPressed: () {
                         Navigator.of(context).pushReplacementNamed(
@@ -136,7 +137,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                       shape: StadiumBorder(),
                       icon: Icon(Icons.chevron_right),
                       label: Text('Вход в систему'),
-                      color: Colors.blue,
+                      color: Colors.red,
                       textColor: Colors.white,
                     ),
                   ),

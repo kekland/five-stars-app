@@ -81,6 +81,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
           departure: widget.data.departure,
           arrivalTime: widget.data.arrivalTime,
           departureTime: widget.data.departureTime,
+          route: widget.data.route,
         );
       },
     ));
@@ -232,6 +233,16 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
                 SizedBox(height: 16.0),
                 TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
+                  icon: FontAwesomeIcons.route,
+                  title: 'Дистанция',
+                  value: widget.data.route != null? (widget.data.route.distance / 1000.0)
+                      .toStringAsFixed(1)
+                      .toString() : 'Неизвестно',
+                  unit: "км.",
+                ),
+                SizedBox(height: 16.0),
+                TwoLineInformationWidgetExpanded(
+                  iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.boxOpen,
                   title: 'Описание',
                   value: widget.data.description,
@@ -263,18 +274,21 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
-              SingleLineInformationWidget(icon: FontAwesomeIcons.globeAsia, label: 'Посмотреть на карте'),
-              () => openMap(context),
+            SingleLineInformationWidget(
+                icon: FontAwesomeIcons.globeAsia, label: 'Посмотреть на карте'),
+            () => openMap(context),
           ),
           SizedBox(height: 16.0),
           if (AppData.username == widget.data.ownerId) ...[
             buildInfoCardWidget(
-              SingleLineInformationWidget(icon: Icons.edit, label: 'Изменить', color: Colors.indigo),
+              SingleLineInformationWidget(
+                  icon: Icons.edit, label: 'Изменить', color: Colors.indigo),
               () => editCargo(context),
             ),
             SizedBox(height: 16.0),
             buildInfoCardWidget(
-              SingleLineInformationWidget(icon: Icons.delete, label: 'Удалить', color: Colors.red),
+              SingleLineInformationWidget(
+                  icon: Icons.delete, label: 'Удалить', color: Colors.red),
               () => deleteCargo(context),
             ),
           ],

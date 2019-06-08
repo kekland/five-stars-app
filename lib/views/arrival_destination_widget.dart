@@ -50,7 +50,8 @@ class DepartureArrivalWidget extends StatelessWidget {
                 ),
                 Text(
                   departureCity.name,
-                  style: ModernTextTheme.primaryAccented.copyWith(color: departureColor),
+                  style: ModernTextTheme.primaryAccented
+                      .copyWith(color: departureColor),
                 ),
               ],
             ),
@@ -81,7 +82,8 @@ class DepartureArrivalWidget extends StatelessWidget {
                 Text(
                   arrivalCity.name,
                   textAlign: TextAlign.right,
-                  style: ModernTextTheme.primaryAccented.copyWith(color: arrivalColor),
+                  style: ModernTextTheme.primaryAccented
+                      .copyWith(color: arrivalColor),
                 ),
               ],
             ),

@@ -17,7 +17,9 @@ class CargoWidget extends StatefulWidget {
   final String heroPrefix;
   final bool addButtons;
 
-  const CargoWidget({Key key, this.data, this.addButtons = true, this.heroPrefix = ""}) : super(key: key);
+  const CargoWidget(
+      {Key key, this.data, this.addButtons = true, this.heroPrefix = ""})
+      : super(key: key);
 
   @override
   _CargoWidgetState createState() => _CargoWidgetState();
@@ -40,7 +42,10 @@ class _CargoWidgetState extends State<CargoWidget> {
     await Navigator.of(context).push(
       TransparentRoute(
         builder: (context) {
-          return CargoExpandedWidget(data: widget.data, heroPrefix: widget.heroPrefix,);
+          return CargoExpandedWidget(
+            data: widget.data,
+            heroPrefix: widget.heroPrefix,
+          );
         },
       ),
     );
@@ -56,7 +61,8 @@ class _CargoWidgetState extends State<CargoWidget> {
   Widget build(BuildContext context) {
     return Hero(
       tag: "${widget.heroPrefix}_cargo_${this.widget.data.id}",
-      flightShuttleBuilder: (context, animation, direction, context1, context2) {
+      flightShuttleBuilder:
+          (context, animation, direction, context1, context2) {
         return CargoWidget(data: widget.data, addButtons: true);
       },
       child: (isExpanded)
@@ -90,7 +96,8 @@ class _CargoWidgetState extends State<CargoWidget> {
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.cube,
                           title: 'Объем (м³)',
-                          value: widget.data.volume.cubicMeter.round().toString(),
+                          value:
+                              widget.data.volume.cubicMeter.round().toString(),
                           unit: "м³",
                         ),
                         TwoLineInformationWidget(
@@ -104,8 +111,20 @@ class _CargoWidgetState extends State<CargoWidget> {
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.boxOpen,
                           title: 'Тип кузова',
-                          value: VehicleTypeUtils.vehicleTypeNames[widget.data.vehicleType],
+                          value: VehicleTypeUtils
+                              .vehicleTypeNames[widget.data.vehicleType],
                           unit: "",
+                        ),
+                        TwoLineInformationWidget(
+                          iconColor: ModernTextTheme.captionIconColor,
+                          icon: FontAwesomeIcons.route,
+                          title: 'Дистанция',
+                          value: widget.data.route != null
+                              ? (widget.data.route.distance / 1000.0)
+                                  .toStringAsFixed(1)
+                                  .toString()
+                              : 'Неизвестно',
+                          unit: "км.",
                         ),
                         TwoLineInformationWidget(
                           iconColor: Colors.green,
@@ -122,17 +141,28 @@ class _CargoWidgetState extends State<CargoWidget> {
               actions: [
                 Expanded(
                   child: FlatButton(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0)),
                     padding: const EdgeInsets.all(16.0),
-                    child: Text('Подробнее' + ((widget.data.ownerId == AppData.username)? " (Ваш груз)" : "")),
+                    child: Text('Подробнее' +
+                        ((widget.data.ownerId == AppData.username)
+                            ? " (Ваш груз)"
+                            : "")),
                     textColor: ModernTextTheme.secondaryColor,
                     disabledTextColor: ModernTextTheme.disabledColor,
-                    onPressed: (widget.addButtons) ? () => expand(context) : null,
+                    onPressed:
+                        (widget.addButtons) ? () => expand(context) : null,
                   ),
                 ),
                 IconButton(
-                  icon: Icon((widget.data.starred) ? FontAwesomeIcons.solidStar : FontAwesomeIcons.star, size: 20.0),
-                  color: (widget.data.starred) ? Colors.amber : ModernTextTheme.secondaryColor,
+                  icon: Icon(
+                      (widget.data.starred)
+                          ? FontAwesomeIcons.solidStar
+                          : FontAwesomeIcons.star,
+                      size: 20.0),
+                  color: (widget.data.starred)
+                      ? Colors.amber
+                      : ModernTextTheme.secondaryColor,
                   iconSize: 20.0,
                   padding: const EdgeInsets.all(12.0),
                   onPressed: () => setState(() => widget.data.toggleStarred()),

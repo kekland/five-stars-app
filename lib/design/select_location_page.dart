@@ -119,7 +119,14 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
             Align(
               alignment: Alignment.topCenter,
               child: AppBarWidget(
-                title: Text('Путь'),
+                title: Text('Выберите место'),
+                action: IconButton(
+                  icon: Icon(Icons.arrow_forward),
+                  color: Colors.pink,
+                  onPressed: (this.selectedPoint != null)
+                      ? () => onNext(context)
+                      : null,
+                ),
                 includeBackButton: true,
               ),
             ),

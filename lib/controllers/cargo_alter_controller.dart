@@ -41,6 +41,7 @@ class CargoAlterController extends Controller<CargoAlterPage> {
     );
   }
 
+  String editingId;
   TextEditingController weightEditingController = TextEditingController();
   TextEditingController volumeEditingController = TextEditingController();
   TextEditingController priceEditingController = TextEditingController();
@@ -69,6 +70,8 @@ class CargoAlterController extends Controller<CargoAlterPage> {
     price.setValue(cargo?.price?.toString(), true);
     info.setValue(cargo?.description, true);
 
+    editingId = cargo.id;
+
     refresh();
   }
 
@@ -96,6 +99,32 @@ class CargoAlterController extends Controller<CargoAlterPage> {
           context: context,
           errorMessage: "Произошла ошибка при добавлении груза",
           exception: e);
+    }
+  }
+
+  void editCargo(BuildContext context) async {
+    try {
+      showLoadingDialog(context: context, color: Colors.pink);
+      await CargoApi.editCargo(
+        id: editingId,
+        arrival: selectedArrivalCity,
+        departure: selectedDepartureCity,
+        arrivalTime: arrivalTime,
+        departureTime: departureTime,
+        description: info.value,
+        price: double.parse(price.value),
+        volume: double.parse(volume.value),
+        weight: double.parse(weight.value),
+        type: selectedVehicleType,
+      );
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      showInfoSnackbarMain(message: 'Груз изменен.');
+    } catch (e) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      showErrorSnackbarMain(
+          errorMessage: "Произошла ошибка при изменении груза", exception: e);
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:five_stars/Api/Api.dart';
 import 'package:five_stars/controllers/main_page_controller.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
@@ -69,7 +70,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
   }
 
   void deleteCargo(BuildContext context) async {
-    bool shouldDelete = await showModernDialog(
+    bool shouldDelete = (await showModernDialog(
       context: context,
       title: 'Вы уверены, что хотите удалить свой груз?',
       text: 'Этот процесс необратим.',
@@ -84,16 +85,22 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
           child: Text("Удалить"),
         ),
       ],
-    );
+    )) ?? false;
 
-    if(shouldDelete) {
-      //API.delete()
-      showLoadingDialog(context: context, color: Colors.pink);
-      await Future.delayed(Duration(seconds: 2));
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      showInfoSnackbarMain(message: 'Груз успешно удалён');
-
+    if (shouldDelete) {
+      try {
+        //API.delete()
+        showLoadingDialog(context: context, color: Colors.pink);
+        //await Future.delayed(Duration(seconds: 2));
+        await CargoApi.deleteCargo(id: widget.data.id);
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        showInfoSnackbarMain(message: 'Груз успешно удалён');
+      } catch (e) {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        showErrorSnackbarMain(errorMessage: 'Произошла ошибка при удалении груза', exception: e);
+      }
     }
   }
 

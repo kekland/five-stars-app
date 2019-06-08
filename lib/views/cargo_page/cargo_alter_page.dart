@@ -148,6 +148,15 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
     );
   }
 
+  void alterCargo(BuildContext context) {
+    if(widget.mode == AlterMode.add) {
+      controller.addCargo(widget.mainContext);
+    }
+    else {
+      controller.editCargo(context);
+    }
+  }
+
   Widget buildAddWidget(BuildContext context) {
     return CardWidget(
       padding: EdgeInsets.zero,
@@ -158,7 +167,7 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
           child: Text((widget.mode == AlterMode.add)? 'Добавить' : 'Изменить'),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-          onPressed: (controller.isValid())? () => controller.addCargo(widget.mainContext) : null,
+          onPressed: (controller.isValid())? () => alterCargo(context) : null,
         ),
       ),
     );

@@ -109,6 +109,43 @@ void showErrorSnackbar(
   );
 }
 
+void showErrorSnackbarMain(
+    {
+    @required String errorMessage,
+    Object exception,
+    bool showDialog = true}) {
+  MainPageController.scaffoldKey.currentState.showSnackBar(
+    SnackBar(
+      content: Text(errorMessage),
+      duration: Duration(seconds: 3),
+      action: (showDialog)
+          ? SnackBarAction(
+              label: "Подробнее",
+              onPressed: () {
+                showModernDialog(
+                  text: (exception is DioError)
+                      ? "${exception?.message} ${exception.response?.data}"
+                      : exception.toString(),
+                  title: 'Ошибка',
+                  context: MainPageController.scaffoldKey.currentContext,
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Закрыть'),
+                      onPressed: () => Navigator.of(MainPageController.scaffoldKey.currentContext).pop(),
+                      textColor: Colors.blue,
+                    ),
+                  ],
+                );
+              },
+            )
+          : null,
+      behavior: SnackBarBehavior.floating,
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+    ),
+  );
+}
+
 void showInfoSnackbar({
   @required BuildContext context,
   @required String message,

@@ -5,6 +5,7 @@ import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileViewWidget extends StatelessWidget {
   final User profile;
@@ -36,6 +37,7 @@ class ProfileViewWidget extends StatelessWidget {
               ),
             ],
           ),
+          onTap: () => launch('mailto:${profile.email}?body=Здравствуйте,%20${profile.name}.'),
         ),
         SizedBox(height: 16.0),
         buildCard(
@@ -66,16 +68,18 @@ class ProfileViewWidget extends StatelessWidget {
             unit: "",
             iconColor: ModernTextTheme.captionIconColor,
           ),
+          onTap: () => launch('tel:${profile.phoneNumber}'),
         ),
       ],
     );
   }
 
-  static Widget buildCard({Widget child}) {
+  static Widget buildCard({Widget child, VoidCallback onTap}) {
     return CardWidget(
       actions: [],
       body: child,
       padding: const EdgeInsets.all(16.0),
+      onTap: onTap,
     );
   }
 

@@ -47,7 +47,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
         child: CircularProgressRevealWidget(color: Colors.indigo),
       );
     } else {
-      return ProfileViewWidget(
+      return ProfileViewWidget.buildAsListView(
         profile: controller.data,
       );
     }
@@ -88,9 +88,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
                 accentColor: Colors.indigo,
                 data: controller.data,
                 isLoading: controller.isLoading,
-                builder: (context, profile) =>
-                    ProfileViewWidget.buildAsListView(
-                        context: context, profile: profile),
+                builder: (context, profile) => buildChild(),
               ),
               onRefresh: () async => await controller.load(
                   context: context, username: widget.username),

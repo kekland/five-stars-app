@@ -34,7 +34,7 @@ class DepartureArrivalWidget extends StatelessWidget {
                 Visibility(
                   visible: departureDate != null,
                   child: Text(
-                    dateTimeToString(departureDate),
+                    dateTimeToString(departureDate.toLocal()),
                     style: ModernTextTheme.caption,
                   ),
                 ),
@@ -64,7 +64,7 @@ class DepartureArrivalWidget extends StatelessWidget {
                 Visibility(
                   visible: arrivalDate != null,
                   child: Text(
-                    dateTimeToString(arrivalDate),
+                    dateTimeToString(arrivalDate.toLocal()),
                     style: ModernTextTheme.caption,
                   ),
                 ),

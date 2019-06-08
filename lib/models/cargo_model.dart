@@ -78,5 +78,8 @@ class Cargo {
 
     createdAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['created']);
     updatedAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['updated']);
+
+    departureTime = departureTime.toLocal();
+    arrivalTime = arrivalTime.toLocal();
   }
 }

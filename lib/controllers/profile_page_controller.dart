@@ -1,5 +1,8 @@
+import 'package:five_stars/api/cargo.dart';
 import 'package:five_stars/api/user.dart';
+import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/models/user_model.dart';
+import 'package:five_stars/models/vehicle_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/profile_page/profile_page.dart';
@@ -10,22 +13,54 @@ class ProfilePageController extends Controller<ProfilePage> {
   bool firstLoad = true;
   User data;
 
+  bool isCargoLoading;
+  List<Cargo> cargo;
+
+  bool isVehicleLoading;
+  List<Vehicle> vehicle;
+
   bool isCargoSelected = true;
 
-  ProfilePageController({Presenter<ProfilePage, ProfilePageController> presenter}) {
+  ProfilePageController(
+      {Presenter<ProfilePage, ProfilePageController> presenter}) {
     this.presenter = presenter;
+  }
+
+  Future loadCargo({BuildContext context}) async {
+    cargo = null;
+    isCargoLoading = true;
+    
+    refresh();
+    try {
+      cargo = await CargoApi.getCargoBatched(data.cargo);
+    } catch (e) {
+      showErrorSnackbar(
+        context: context,
+        errorMessage: "Произошла ошибка при получении грузов у пользователя",
+        exception: e,
+      );
+    }
+    isCargoLoading = false;
+    refresh();
   }
 
   Future load({BuildContext context, String username}) async {
     data = null;
+    vehicle = null;
     isLoading = true;
+    isVehicleLoading = true;
+    cargo = null;
+    isCargoLoading = true;
     refresh();
     try {
       data = await UserApi.getProfile(username);
-    }
-    catch(e) {
+      loadCargo(context: context);
+    } catch (e) {
       data = null;
-      showErrorSnackbar(context: context, errorMessage: "Произошла ошибка при получении профиля", exception: e);
+      showErrorSnackbar(
+          context: context,
+          errorMessage: "Произошла ошибка при получении профиля",
+          exception: e);
     }
 
     isLoading = false;

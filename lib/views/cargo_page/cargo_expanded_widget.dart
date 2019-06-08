@@ -18,8 +18,9 @@ import 'cargo_page.dart';
 
 class CargoExpandedWidget extends StatefulWidget {
   final Cargo data;
+  final String heroPrefix;
 
-  const CargoExpandedWidget({Key key, this.data}) : super(key: key);
+  const CargoExpandedWidget({Key key, this.data, this.heroPrefix}) : super(key: key);
 
   @override
   _CargoExpandedWidgetState createState() => _CargoExpandedWidgetState();
@@ -117,6 +118,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
         children: <Widget>[
           CargoWidget(
             data: widget.data,
+            heroPrefix: widget.heroPrefix,
             addButtons: false,
           ),
           SizedBox(height: 32.0),

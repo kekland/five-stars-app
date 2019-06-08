@@ -10,6 +10,8 @@ import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/views/cargo_page/cargo_widget.dart';
+import 'package:five_stars/views/profile_page/profile_data.dart';
 import 'package:five_stars/views/profile_page/profile_edit.dart';
 import 'package:five_stars/views/profile_page/profile_view.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
@@ -114,7 +116,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
             ],
           ),
         ),
-        SizedBox(height: 24.0),
+        SizedBox(height: 48.0),
         buildCard(
           padding: EdgeInsets.zero,
           child: Row(
@@ -162,6 +164,21 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
             ],
           ),
         ),
+        SizedBox(height: 16.0),
+        if (controller.isCargoSelected)
+          ...buildProfileDataSection(
+            data: controller.cargo,
+            builder: (item) => CargoWidget(heroPrefix: "profile", data: item),
+            isLoading: controller.isCargoLoading,
+            onRefresh: () => controller.loadCargo(context: context),
+          )
+        else
+          ...buildProfileDataSection(
+            data: controller.vehicle,
+            builder: (item) {},
+            isLoading: controller.isVehicleLoading,
+            onRefresh: () => {},
+          ),
       ],
     );
   }

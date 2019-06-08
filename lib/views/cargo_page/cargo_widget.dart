@@ -14,9 +14,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CargoWidget extends StatefulWidget {
   final Cargo data;
+  final String heroPrefix;
   final bool addButtons;
 
-  const CargoWidget({Key key, this.data, this.addButtons = true}) : super(key: key);
+  const CargoWidget({Key key, this.data, this.addButtons = true, this.heroPrefix = ""}) : super(key: key);
 
   @override
   _CargoWidgetState createState() => _CargoWidgetState();
@@ -40,7 +41,7 @@ class _CargoWidgetState extends State<CargoWidget> {
     await Navigator.of(context).push(
       TransparentRoute(
         builder: (context) {
-          return CargoExpandedWidget(data: widget.data);
+          return CargoExpandedWidget(data: widget.data, heroPrefix: widget.heroPrefix,);
         },
       ),
     );
@@ -56,7 +57,7 @@ class _CargoWidgetState extends State<CargoWidget> {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: "cargo_${this.widget.data.id}",
+      tag: "${widget.heroPrefix}_cargo_${this.widget.data.id}",
       flightShuttleBuilder: (context, animation, direction, context1, context2) {
         return CargoWidget(data: widget.data, addButtons: true);
       },

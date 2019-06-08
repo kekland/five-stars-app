@@ -22,6 +22,24 @@ class CargoApi {
       }
     }
   }
+  
+  static Future<List<Cargo>> getCargoBatched(List<String> identifiers) async {
+    try {
+      final response =
+          await Dio().post('${baseUrl}/cargo/getBatched', data: {"values": identifiers}, options: Api.options);
+      List<Cargo> cargo = (response.data as List<dynamic>)
+          .map((cargo) => Cargo.fromJson(cargo))
+          .toList();
+      return cargo;
+    } catch (e) {
+      bool handled = await Api.handleError(e);
+      if (handled) {
+        return await getCargo();
+      } else {
+        rethrow;
+      }
+    }
+  }
 
   static Future<Cargo> addCargo({
     City arrival,

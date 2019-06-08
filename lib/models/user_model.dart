@@ -28,6 +28,9 @@ class User {
 
   String organization;
 
+  List<String> cargo;
+  List<String> vehicles;
+
   User(
       {this.id,
       this.email,
@@ -44,5 +47,8 @@ class User {
     name = Name.fromJson(json['name']);
 
     organization = json['organization'] as String;
+
+    cargo = (json['cargo'] as List<dynamic>).cast<String>();
+    vehicles = (json['vehicles'] as List<dynamic>).cast<String>();
   }
 }

@@ -15,6 +15,7 @@ class ModernTextField extends StatelessWidget {
   final bool obscureText;
   final bool autocorrect;
   final String error;
+  final TextEditingController controller;
 
   const ModernTextField({
     Key key,
@@ -30,11 +31,13 @@ class ModernTextField extends StatelessWidget {
     this.onSubmitted,
     this.suffixText,
     this.lines = 1,
+    this.controller,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       onChanged: (String text) {
         onChanged(text);
         onSubmitted();

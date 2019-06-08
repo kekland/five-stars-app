@@ -1,4 +1,4 @@
-import 'package:five_stars/controllers/cargo_add_controller.dart';
+import 'package:five_stars/controllers/cargo_alter_controller.dart';
 import 'package:five_stars/design/app_bar_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/divider_widget.dart';
@@ -7,16 +7,21 @@ import 'package:five_stars/design/select_time_widget.dart';
 import 'package:five_stars/design/select_vehicle_type.dart';
 import 'package:five_stars/design/text_field.dart';
 import 'package:five_stars/design/typography/typography.dart';
+import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/city.dart';
+import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CargoAlterPage extends StatefulWidget {
+  final AlterMode mode;
   final BuildContext mainContext;
 
-  const CargoAlterPage({Key key, this.mainContext}) : super(key: key);
+  final Cargo defaultData;
+
+  const CargoAlterPage({Key key, this.mainContext, this.mode = AlterMode.add, this.defaultData}) : super(key: key);
   @override
   _CargoAlterPageState createState() => _CargoAlterPageState();
 }
@@ -78,6 +83,7 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
           ModernTextField(
             icon: FontAwesomeIcons.weightHanging,
             hintText: "Вес",
+            controller: controller.weightEditingController,
             error: controller.weight.error,
             onSubmitted: controller.weight.validate,
             onChanged: controller.weight.setValue,
@@ -88,6 +94,7 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
           ModernTextField(
             icon: FontAwesomeIcons.box,
             hintText: "Объём",
+            controller: controller.volumeEditingController,
             error: controller.volume.error,
             onSubmitted: controller.volume.validate,
             onChanged: controller.volume.setValue,
@@ -98,6 +105,7 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
           ModernTextField(
             icon: FontAwesomeIcons.dollarSign,
             hintText: "Цена",
+            controller: controller.priceEditingController,
             error: controller.price.error,
             onSubmitted: controller.price.validate,
             onChanged: controller.price.setValue,
@@ -130,6 +138,7 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
             icon: FontAwesomeIcons.infoCircle,
             hintText: "Тип груза",
             lines: 1,
+            controller: controller.infoEditingController,
             error: controller.info.error,
             onSubmitted: controller.info.validate,
             onChanged: controller.info.setValue,
@@ -146,7 +155,7 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
         width: double.infinity,
         height: 56.0,
         child: FlatButton(
-          child: Text('Добавить'),
+          child: Text((widget.mode == AlterMode.add)? 'Добавить' : 'Изменить'),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           onPressed: (controller.isValid())? () => controller.addCargo(widget.mainContext) : null,
@@ -172,7 +181,7 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
             children: [
               CardWidget(
                 padding: const EdgeInsets.all(24.0),
-                body: Text('Добавить груз', style: ModernTextTheme.boldTitle),
+                body: Text((widget.mode == AlterMode.add)? 'Добавить груз' : 'Изменить груз', style: ModernTextTheme.boldTitle),
               ),
               SizedBox(height: 16.0),
               buildDepartureWidget(context),
@@ -196,5 +205,9 @@ class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterControlle
   @override
   void initController() {
     controller = new CargoAlterController(presenter: this);
+
+    if(widget.mode == AlterMode.edit) {
+      controller.setFields(widget.defaultData);
+    }
   }
 }

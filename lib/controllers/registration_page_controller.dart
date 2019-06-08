@@ -8,6 +8,7 @@ import 'package:five_stars/views/authorization_page/registration_page.dart';
 import 'package:five_stars/views/calls_page/calls_page.dart';
 import 'package:five_stars/views/cargo_page/cargo_page.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_verification_code_input/flutter_verification_code_input.dart';
 import 'package:five_stars/views/profile_page/profile_page.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_page.dart';
@@ -16,15 +17,19 @@ import 'package:flutter/material.dart';
 
 class ValidatedField {
   final Controller controller;
+  final TextEditingController textController;
   String value;
   String error;
   String errorMessage;
 
   bool Function(String text) validator;
 
-  ValidatedField({this.controller, this.errorMessage, this.validator});
-  void setValue(String newValue) {
+  ValidatedField({this.textController, this.controller, this.errorMessage, this.validator});
+  void setValue(String newValue, [bool forced = false]) {
     value = newValue;
+    if(textController != null && forced) {
+      textController.text = value;
+    }
   }
 
   void validate() {

@@ -1,9 +1,11 @@
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
+import 'package:five_stars/views/cargo_page/cargo_alter_page.dart';
 import 'package:five_stars/views/cargo_page/cargo_widget.dart';
 import 'package:five_stars/views/profile_page/profile_page.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
@@ -51,6 +53,14 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
         },
       ),
     );
+  }
+
+  void editCargo(BuildContext context) {
+    Navigator.of(context).push(TransparentRoute(
+      builder: (_) {
+        return CargoAlterPage(mainContext: context, mode: AlterMode.edit, defaultData: widget.data);
+      },
+    ));
   }
 
   @override
@@ -200,7 +210,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
                   Text("Изменить", style: ModernTextTheme.primaryAccented),
                 ],
               ),
-              () => openProfile(context),
+              () => editCargo(context),
             ),
         ],
       ),

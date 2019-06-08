@@ -7,11 +7,13 @@ import 'package:five_stars/design/page_header_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/mvc/view.dart';
-import 'package:five_stars/views/cargo_page/cargo_add_sheet.dart';
+import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/cargo_page/cargo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+
+import 'cargo_alter_page.dart';
 
 class CargoPage extends StatefulWidget {
   const CargoPage({Key key}) : super(key: key);
@@ -34,7 +36,7 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
   void addCargo(BuildContext context) {
     Navigator.of(context).push(TransparentRoute(
       builder: (_) {
-        return CargoAlterPage(mainContext: context);
+        return CargoAlterPage(mainContext: context, mode: AlterMode.add);
       },
     ));
   }

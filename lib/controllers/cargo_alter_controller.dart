@@ -1,50 +1,76 @@
 import 'package:five_stars/api/api.dart';
 import 'package:five_stars/controllers/registration_page_controller.dart';
+import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
-import 'package:five_stars/views/cargo_page/cargo_add_sheet.dart';
+import 'package:five_stars/views/cargo_page/cargo_alter_page.dart';
 import 'package:flutter/material.dart';
 
 class CargoAlterController extends Controller<CargoAlterPage> {
-  CargoAlterController({Presenter<CargoAlterPage, CargoAlterController> presenter}) {
+  CargoAlterController(
+      {Presenter<CargoAlterPage, CargoAlterController> presenter}) {
     this.presenter = presenter;
     weight = ValidatedField(
       controller: this,
+      textController: weightEditingController,
       errorMessage: 'Некорректные данные',
       validator: (field) =>
           double.tryParse(field) != null && double.tryParse(field) > 0,
     );
     volume = ValidatedField(
       controller: this,
+      textController: volumeEditingController,
       errorMessage: 'Некорректные данные',
       validator: (field) =>
           double.tryParse(field) != null && double.tryParse(field) > 0,
     );
     price = ValidatedField(
       controller: this,
+      textController: priceEditingController,
       errorMessage: 'Некорректные данные',
       validator: (field) =>
           double.tryParse(field) != null && double.tryParse(field) > 0,
     );
     info = ValidatedField(
       controller: this,
+      textController: infoEditingController,
       errorMessage: 'Некорректные данные',
       validator: (field) => field.length > 0,
     );
   }
 
+  TextEditingController weightEditingController = TextEditingController();
+  TextEditingController volumeEditingController = TextEditingController();
+  TextEditingController priceEditingController = TextEditingController();
+  TextEditingController infoEditingController = TextEditingController();
+
   City selectedDepartureCity;
   City selectedArrivalCity;
   DateTime departureTime = DateTime.now();
-  DateTime arrivalTime = DateTime.now();
+  DateTime arrivalTime = DateTime.now().add(Duration(days: 1));
   VehicleType selectedVehicleType = VehicleType.closed;
 
   ValidatedField weight;
   ValidatedField volume;
   ValidatedField price;
   ValidatedField info;
+
+  void setFields(Cargo cargo) {
+    selectedDepartureCity = cargo?.departure;
+    selectedArrivalCity = cargo?.arrival;
+    departureTime = cargo?.departureTime ?? DateTime.now();
+    arrivalTime = cargo?.arrivalTime ?? DateTime.now().add(Duration(days: 1));
+    selectedVehicleType = cargo?.vehicleType ?? VehicleType.closed;
+
+    weight.setValue(cargo?.weight?.kilogram?.toString(), true);
+    volume.setValue(cargo?.volume?.cubicMeter?.toString(), true);
+    price.setValue(cargo?.price?.toString(), true);
+    info.setValue(cargo?.description, true);
+
+    refresh();
+  }
 
   void addCargo(BuildContext context) async {
     try {
@@ -66,7 +92,10 @@ class CargoAlterController extends Controller<CargoAlterPage> {
     } catch (e) {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
-      showErrorSnackbar(context: context, errorMessage: "Произошла ошибка при добавлении груза", exception: e);
+      showErrorSnackbar(
+          context: context,
+          errorMessage: "Произошла ошибка при добавлении груза",
+          exception: e);
     }
   }
 

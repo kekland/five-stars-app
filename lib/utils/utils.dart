@@ -137,3 +137,8 @@ class SharedPreferencesManager {
     }
   }
 }
+
+enum AlterMode {
+  add,
+  edit
+}

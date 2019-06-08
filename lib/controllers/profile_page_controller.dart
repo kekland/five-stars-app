@@ -10,6 +10,8 @@ class ProfilePageController extends Controller<ProfilePage> {
   bool firstLoad = true;
   User data;
 
+  bool isCargoSelected = true;
+
   ProfilePageController({Presenter<ProfilePage, ProfilePageController> presenter}) {
     this.presenter = presenter;
   }
@@ -28,6 +30,11 @@ class ProfilePageController extends Controller<ProfilePage> {
 
     isLoading = false;
     firstLoad = false;
+    refresh();
+  }
+
+  void setIsCargoSelected(bool value) {
+    isCargoSelected = value;
     refresh();
   }
 }

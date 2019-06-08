@@ -84,6 +84,7 @@ class _CargoWidgetState extends State<CargoWidget> {
                   SizedBox(
                     width: double.infinity,
                     child: Wrap(
+                      spacing: 8.0,
                       runSpacing: 16.0,
                       alignment: WrapAlignment.spaceBetween,
                       children: <Widget>[

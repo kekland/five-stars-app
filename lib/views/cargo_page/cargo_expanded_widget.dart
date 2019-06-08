@@ -1,3 +1,4 @@
+import 'package:five_stars/controllers/main_page_controller.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
@@ -56,11 +57,44 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
   }
 
   void editCargo(BuildContext context) {
+    Navigator.of(context).pop();
     Navigator.of(context).push(TransparentRoute(
       builder: (_) {
-        return CargoAlterPage(mainContext: context, mode: AlterMode.edit, defaultData: widget.data);
+        return CargoAlterPage(
+            mainContext: context,
+            mode: AlterMode.edit,
+            defaultData: widget.data);
       },
     ));
+  }
+
+  void deleteCargo(BuildContext context) async {
+    bool shouldDelete = await showModernDialog(
+      context: context,
+      title: 'Вы уверены, что хотите удалить свой груз?',
+      text: 'Этот процесс необратим.',
+      actions: [
+        FlatButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text("Отмена"),
+        ),
+        FlatButton(
+          onPressed: () => Navigator.of(context).pop(true),
+          textColor: Colors.pink,
+          child: Text("Удалить"),
+        ),
+      ],
+    );
+
+    if(shouldDelete) {
+      //API.delete()
+      showLoadingDialog(context: context, color: Colors.pink);
+      await Future.delayed(Duration(seconds: 2));
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      showInfoSnackbarMain(message: 'Груз успешно удалён');
+
+    }
   }
 
   @override
@@ -201,7 +235,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
             () => openProfile(context),
           ),
           SizedBox(height: 16.0),
-          if (AppData.username == widget.data.ownerId)
+          if (AppData.username == widget.data.ownerId) ...[
             buildInfoCardWidget(
               Row(
                 children: [
@@ -212,6 +246,18 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
               ),
               () => editCargo(context),
             ),
+            SizedBox(height: 16.0),
+            buildInfoCardWidget(
+              Row(
+                children: [
+                  Icon(Icons.delete, color: ModernTextTheme.captionIconColor),
+                  SizedBox(width: 24.0),
+                  Text("Удалить", style: ModernTextTheme.primaryAccented),
+                ],
+              ),
+              () => deleteCargo(context),
+            ),
+          ],
         ],
       ),
     );

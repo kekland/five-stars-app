@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:five_stars/controllers/main_page_controller.dart';
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/design/future_dialog.dart';
 import 'package:five_stars/design/future_page.dart';
@@ -24,13 +25,13 @@ void setStatusBar(Brightness iconBrightness) {
   );
 }
 
-void showModernDialog(
+Future<T> showModernDialog<T>(
     {BuildContext context,
     String title,
     String text,
     Widget body,
-    List<Widget> actions}) {
-  showDialog(
+    List<Widget> actions}) async {
+  T value = await showDialog<T>(
     context: context,
     builder: (_) {
       /*return AlertDialog(
@@ -50,6 +51,7 @@ void showModernDialog(
       );
     },
   );
+  return value;
 }
 
 void showLoadingDialog({BuildContext context, Color color}) {
@@ -126,6 +128,24 @@ void showInfoSnackbar({
   );
 }
 
+void showInfoSnackbarMain({
+  @required String message,
+}) {
+  MainPageController.scaffoldKey.currentState.showSnackBar(
+    SnackBar(
+      content: Text(message),
+      duration: Duration(seconds: 3),
+      action: SnackBarAction(
+        label: "Хорошо",
+        onPressed: () {},
+      ),
+      behavior: SnackBarBehavior.floating,
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+    ),
+  );
+}
+
 class SharedPreferencesManager {
   static SharedPreferences instance;
 
@@ -138,7 +158,4 @@ class SharedPreferencesManager {
   }
 }
 
-enum AlterMode {
-  add,
-  edit
-}
+enum AlterMode { add, edit }

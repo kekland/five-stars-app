@@ -22,7 +22,7 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
   @override
   Widget present(BuildContext context) {
     return Scaffold(
-      key: controller.scaffoldKey,
+      key: MainPageController.scaffoldKey,
       //body: Container(),
       bottomNavigationBar: FancyBottomNavigation(
         tabs: [

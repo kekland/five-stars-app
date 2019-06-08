@@ -13,7 +13,7 @@ class MainPageController extends Controller<MainPage> {
     this.presenter = presenter;
   }
 
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   int currentPage = 0;
 
   final List<Widget> bodyWidget = [

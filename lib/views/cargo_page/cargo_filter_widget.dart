@@ -36,13 +36,13 @@ class _CargoFilterWidgetState extends State<CargoFilterWidget> {
       body: ExpandablePanel(
         iconPlacement: ExpandablePanelIconPlacement.right,
         initialExpanded: false,
-
+        
         header: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
           child: Text('Фильтр', style: ModernTextTheme.primaryAccented),
         ),
-        hasIcon: false,
+        hasIcon: true,
         collapsed: SizedBox(width: double.infinity),
         expanded: buildExpanded(),
         tapBodyToCollapse: false,
@@ -58,33 +58,48 @@ class _CargoFilterWidgetState extends State<CargoFilterWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 8.0),
+          DividerWidget(),
+          SizedBox(height: 24.0),
           BoundedRangeWidget(
-            title: 'Объём (м³)',
+            title: 'Объём',
             unit: 'м³',
             bounds: options.volume,
             onChange: (Bounded newBounds) =>
                 setState(() => options.volume = newBounds),
             maximumBound: 1000.0,
             divisions: 20,
-            color: Colors.purple,
-            colorLight: Colors.purple.shade300,
-            colorDark: Colors.purple.shade600,
+            color: Colors.pink,
+            colorLight: Colors.pink.shade300,
+            colorDark: Colors.pink.shade600,
             icon: FontAwesomeIcons.cube,
           ),
           SizedBox(height: 24.0),
           BoundedRangeWidget(
-            title: 'Вес (кг.)',
+            title: 'Вес',
             unit: 'кг.',
             bounds: options.weight,
             onChange: (Bounded newBounds) =>
                 setState(() => options.weight = newBounds),
             maximumBound: 10000.0,
             divisions: 25,
-            color: Colors.purple,
-            colorLight: Colors.purple.shade300,
-            colorDark: Colors.purple.shade600,
+            color: Colors.pink,
+            colorLight: Colors.pink.shade300,
+            colorDark: Colors.pink.shade600,
             icon: FontAwesomeIcons.weightHanging,
+          ),
+          SizedBox(height: 24.0),
+          BoundedRangeWidget(
+            title: 'Цена',
+            unit: 'тг.',
+            bounds: options.price,
+            onChange: (Bounded newBounds) =>
+                setState(() => options.price = newBounds),
+            maximumBound: 1000000.0,
+            divisions: 25,
+            color: Colors.pink,
+            colorLight: Colors.pink.shade300,
+            colorDark: Colors.pink.shade600,
+            icon: FontAwesomeIcons.dollarSign,
           ),
           DividerWidget(),
           Text('Тип кузова', style: ModernTextTheme.primaryAccented),
@@ -96,8 +111,8 @@ class _CargoFilterWidgetState extends State<CargoFilterWidget> {
             children: VehicleTypeUtils.vehicleTypeNames.keys
                 .map((type) => StadiumSwitchWidget(
                       checked: (options.vehicleTypes.contains(type)),
-                      color: Colors.purple,
-                      backgroundColor: Colors.purple.shade50,
+                      color: Colors.pink,
+                      backgroundColor: Colors.pink.shade50,
                       title: VehicleTypeUtils.vehicleTypeNames[type],
                       onToggle: () {
                         print(type.toString());

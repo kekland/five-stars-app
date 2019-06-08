@@ -20,7 +20,8 @@ class CargoExpandedWidget extends StatefulWidget {
   final Cargo data;
   final String heroPrefix;
 
-  const CargoExpandedWidget({Key key, this.data, this.heroPrefix}) : super(key: key);
+  const CargoExpandedWidget({Key key, this.data, this.heroPrefix})
+      : super(key: key);
 
   @override
   _CargoExpandedWidgetState createState() => _CargoExpandedWidgetState();
@@ -70,23 +71,28 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
     ));
   }
 
+  void openMap(BuildContext context) {
+    
+  }
+
   void deleteCargo(BuildContext context) async {
     bool shouldDelete = (await showModernDialog(
-      context: context,
-      title: 'Вы уверены, что хотите удалить свой груз?',
-      text: 'Этот процесс необратим.',
-      actions: [
-        FlatButton(
-          onPressed: () => Navigator.of(context).pop(false),
-          child: Text("Отмена"),
-        ),
-        FlatButton(
-          onPressed: () => Navigator.of(context).pop(true),
-          textColor: Colors.pink,
-          child: Text("Удалить"),
-        ),
-      ],
-    )) ?? false;
+          context: context,
+          title: 'Вы уверены, что хотите удалить свой груз?',
+          text: 'Этот процесс необратим.',
+          actions: [
+            FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text("Отмена"),
+            ),
+            FlatButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              textColor: Colors.pink,
+              child: Text("Удалить"),
+            ),
+          ],
+        )) ??
+        false;
 
     if (shouldDelete) {
       try {
@@ -100,7 +106,8 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
       } catch (e) {
         Navigator.of(context).pop();
         Navigator.of(context).pop();
-        showErrorSnackbarMain(errorMessage: 'Произошла ошибка при удалении груза', exception: e);
+        showErrorSnackbarMain(
+            errorMessage: 'Произошла ошибка при удалении груза', exception: e);
       }
     }
   }
@@ -232,16 +239,27 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
               unit: "тг.",
             ),
           ),
-          SizedBox(height: 16.0),
+          SizedBox(height: 32.0),
           buildInfoCardWidget(
             TwoLineInformationWidgetExpanded(
               iconColor: ModernTextTheme.captionIconColor,
               icon: FontAwesomeIcons.userAlt,
-              title: 'Перейти к профилю владельца',
+              title: 'Профиль владельца',
               value: widget.data.ownerId,
               unit: "",
             ),
             () => openProfile(context),
+          ),
+          SizedBox(height: 16.0),
+          buildInfoCardWidget(
+            Row(
+                children: [
+                  Icon(Icons.map, color: ModernTextTheme.captionIconColor),
+                  SizedBox(width: 24.0),
+                  Text("Посмотреть на карте", style: ModernTextTheme.primaryAccented),
+                ],
+              ),
+              () => openMap(context),
           ),
           SizedBox(height: 16.0),
           if (AppData.username == widget.data.ownerId) ...[

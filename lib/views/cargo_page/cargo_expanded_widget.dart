@@ -1,6 +1,7 @@
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/cargo_model.dart';
+import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/views/cargo_page/cargo_widget.dart';
@@ -44,7 +45,8 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
       MaterialPageRoute(
         builder: (context) {
           return Scaffold(
-            body: ProfilePage(username: widget.data.ownerId),
+            body: ProfilePage(
+                username: widget.data.ownerId, includeBackButton: true),
           );
         },
       ),
@@ -186,8 +188,20 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
               value: widget.data.ownerId,
               unit: "",
             ),
-            () {},
+            () => openProfile(context),
           ),
+          SizedBox(height: 16.0),
+          if (AppData.username == widget.data.ownerId)
+            buildInfoCardWidget(
+              Row(
+                children: [
+                  Icon(Icons.edit, color: ModernTextTheme.captionIconColor),
+                  SizedBox(width: 24.0),
+                  Text("Изменить", style: ModernTextTheme.primaryAccented),
+                ],
+              ),
+              () => openProfile(context),
+            ),
         ],
       ),
     );

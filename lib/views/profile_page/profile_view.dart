@@ -10,28 +10,31 @@ class ProfileViewWidget extends StatelessWidget {
   final User profile;
 
   const ProfileViewWidget({Key key, this.profile}) : super(key: key);
-  
+
   static ListView buildAsListView({BuildContext context, User profile}) {
     return ListView(
       padding: const EdgeInsets.all(24.0),
       children: [
         buildCard(
-          child: TwoLineInformationWidget(
-            title: "Имя пользователя",
-            value: profile.username,
-            icon: FontAwesomeIcons.userAlt,
-            unit: "",
-            iconColor: ModernTextTheme.captionIconColor,
-          ),
-        ),
-        SizedBox(height: 16.0),
-        buildCard(
-          child: TwoLineInformationWidget(
-            title: "Почта",
-            value: profile.email,
-            icon: FontAwesomeIcons.solidEnvelope,
-            unit: "",
-            iconColor: ModernTextTheme.captionIconColor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TwoLineInformationWidget(
+                title: "Имя пользователя",
+                value: profile.username,
+                icon: FontAwesomeIcons.userAlt,
+                unit: "",
+                iconColor: ModernTextTheme.captionIconColor,
+              ),
+              SizedBox(height: 24.0),
+              TwoLineInformationWidget(
+                title: "Почта",
+                value: profile.email,
+                icon: FontAwesomeIcons.solidEnvelope,
+                unit: "",
+                iconColor: ModernTextTheme.captionIconColor,
+              ),
+            ],
           ),
         ),
         SizedBox(height: 16.0),
@@ -47,9 +50,9 @@ class ProfileViewWidget extends StatelessWidget {
         SizedBox(height: 16.0),
         buildCard(
           child: TwoLineInformationWidget(
-            title: "Номер телефона",
-            value: profile.phoneNumber,
-            icon: FontAwesomeIcons.phone,
+            title: "Организация",
+            value: profile.organization,
+            icon: FontAwesomeIcons.solidBuilding,
             unit: "",
             iconColor: ModernTextTheme.captionIconColor,
           ),
@@ -57,9 +60,9 @@ class ProfileViewWidget extends StatelessWidget {
         SizedBox(height: 16.0),
         buildCard(
           child: TwoLineInformationWidget(
-            title: "Организация",
-            value: profile.organization,
-            icon: FontAwesomeIcons.solidBuilding,
+            title: "Номер телефона",
+            value: profile.phoneNumber,
+            icon: FontAwesomeIcons.phone,
             unit: "",
             iconColor: ModernTextTheme.captionIconColor,
           ),
@@ -78,6 +81,7 @@ class ProfileViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProfileViewWidget.buildAsListView(profile: profile, context: context);
+    return ProfileViewWidget.buildAsListView(
+        profile: profile, context: context);
   }
 }

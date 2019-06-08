@@ -16,33 +16,35 @@ class SelectVehicleType extends StatelessWidget {
     showModernDialog(
       context: context,
       title: 'Выберите тип кузова',
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: VehicleTypeUtils.vehicleTypeNames.keys.map((type) {
-            return Row(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Radio(
-                  value: type,
-                  groupValue: selectedVehicleType,
-                  onChanged: (selected) {
-                    onSelect(selected);
-                    Navigator.of(context).pop();
-                  },
-                  materialTapTargetSize: MaterialTapTargetSize.padded,
-                  activeColor: Colors.blue,
-                ),
-                Expanded(
-                  child: Text(
-                    VehicleTypeUtils.vehicleTypeNames[type] ?? "xd",
-                    style: ModernTextTheme.primary,
+      body: Expanded(
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: VehicleTypeUtils.vehicleTypeNames.keys.map((type) {
+              return Row(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Radio(
+                    value: type,
+                    groupValue: selectedVehicleType,
+                    onChanged: (selected) {
+                      onSelect(selected);
+                      Navigator.of(context).pop();
+                    },
+                    materialTapTargetSize: MaterialTapTargetSize.padded,
+                    activeColor: Colors.blue,
                   ),
-                ),
-              ],
-            );
-          }).toList(),
+                  Expanded(
+                    child: Text(
+                      VehicleTypeUtils.vehicleTypeNames[type] ?? "xd",
+                      style: ModernTextTheme.primary,
+                    ),
+                  ),
+                ],
+              );
+            }).toList(),
+          ),
         ),
       ),
     );

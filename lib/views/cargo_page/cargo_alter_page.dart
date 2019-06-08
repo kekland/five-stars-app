@@ -13,15 +13,15 @@ import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CargoAddPage extends StatefulWidget {
+class CargoAlterPage extends StatefulWidget {
   final BuildContext mainContext;
 
-  const CargoAddPage({Key key, this.mainContext}) : super(key: key);
+  const CargoAlterPage({Key key, this.mainContext}) : super(key: key);
   @override
-  _CargoAddPageState createState() => _CargoAddPageState();
+  _CargoAlterPageState createState() => _CargoAlterPageState();
 }
 
-class _CargoAddPageState extends Presenter<CargoAddPage, CargoAddController> {
+class _CargoAlterPageState extends Presenter<CargoAlterPage, CargoAlterController> {
   Widget buildDepartureWidget(BuildContext context) {
     return CardWidget(
       padding: const EdgeInsets.all(8.0),
@@ -195,6 +195,6 @@ class _CargoAddPageState extends Presenter<CargoAddPage, CargoAddController> {
 
   @override
   void initController() {
-    controller = new CargoAddController(presenter: this);
+    controller = new CargoAlterController(presenter: this);
   }
 }

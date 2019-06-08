@@ -34,7 +34,7 @@ class _CargoPageState extends Presenter<CargoPage, CargoPageController> {
   void addCargo(BuildContext context) {
     Navigator.of(context).push(TransparentRoute(
       builder: (_) {
-        return CargoAddPage(mainContext: context);
+        return CargoAlterPage(mainContext: context);
       },
     ));
   }

@@ -29,7 +29,8 @@ class TransparentRoute extends PageRoute<void> {
   Duration get transitionDuration => Duration(milliseconds: 300);
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
     final result = builder(context);
     return FadeTransition(
       opacity: Tween<double>(begin: 0, end: 1).animate(animation),
@@ -40,7 +41,9 @@ class TransparentRoute extends PageRoute<void> {
           onSwipeRight: () => Navigator.of(context).pop(),
           child: Container(
             color: Colors.black45,
-            child: result,
+            child: SafeArea(
+              child: result,
+            ),
           ),
         ),
       ),

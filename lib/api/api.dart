@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
@@ -65,6 +66,7 @@ class Api {
 
       SharedPreferencesManager.instance.setString("username", username);
       SharedPreferencesManager.instance.setString("password", password);
+      AppData.username = username;
       SharedPreferencesManager.instance
           .setString("token", response.data['token']);
 

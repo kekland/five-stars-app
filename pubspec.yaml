@@ -36,7 +36,6 @@ dependencies:
   firebase_core: ^0.4.0
   http:
   dio:
-  permission_handler:
   liquid_pull_to_refresh: 
     path: ../Liquid-Pull-To-Refresh/
   google_maps_flutter:

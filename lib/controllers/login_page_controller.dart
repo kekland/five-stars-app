@@ -24,7 +24,7 @@ class LoginPageController extends Controller<LoginPage> {
       Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {
       Navigator.of(context).pop();
-      if (e is DioError) {
+      if (e is DioError && e.response != null) {
         if (e.response.data['message'] == 'Invalid username or password') {
           showErrorSnackbar(
               context: context, errorMessage: 'Неправильный логин или пароль', exception: e, showDialog: true);

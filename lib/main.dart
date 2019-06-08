@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'dart:io' show Platform;
 
+import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/authorization_page/authorization_page.dart';
 import 'package:five_stars/views/intro_page/intro_page.dart';
@@ -12,7 +13,7 @@ import 'package:flutter/material.dart';
 
 void main() async {
   _setTargetPlatformForDesktop();
-  SharedPreferencesManager.initialize();
+  await SharedPreferencesManager.initialize();
   runApp(MyApp());
 }
 
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
     if (debugDefaultTargetPlatformOverride != TargetPlatform.fuchsia) {
       setStatusBar(Brightness.dark);
     }
+    AppData.username = SharedPreferencesManager.instance.getString("username");
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

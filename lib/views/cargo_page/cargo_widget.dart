@@ -3,6 +3,7 @@ import 'package:five_stars/design/divider_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/cargo_model.dart';
+import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/views/arrival_destination_widget.dart';
@@ -96,7 +97,7 @@ class _CargoWidgetState extends State<CargoWidget> {
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.weightHanging,
                           title: 'Вес (тонн)',
-                          value: widget.data.weight.ton.round().toString(),
+                          value: widget.data.weight.ton.toStringAsFixed(1),
                           unit: "т.",
                         ),
                         TwoLineInformationWidget(
@@ -123,7 +124,7 @@ class _CargoWidgetState extends State<CargoWidget> {
                   child: FlatButton(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
                     padding: const EdgeInsets.all(16.0),
-                    child: Text('Подробнее'),
+                    child: Text('Подробнее' + ((widget.data.ownerId == AppData.username)? " (Ваш груз)" : "")),
                     textColor: ModernTextTheme.secondaryColor,
                     disabledTextColor: ModernTextTheme.disabledColor,
                     onPressed: (widget.addButtons) ? () => expand(context) : null,

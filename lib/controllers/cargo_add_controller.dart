@@ -7,8 +7,8 @@ import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/views/cargo_page/cargo_add_sheet.dart';
 import 'package:flutter/material.dart';
 
-class CargoAddController extends Controller<CargoAddPage> {
-  CargoAddController({Presenter<CargoAddPage, CargoAddController> presenter}) {
+class CargoAlterController extends Controller<CargoAlterPage> {
+  CargoAlterController({Presenter<CargoAlterPage, CargoAlterController> presenter}) {
     this.presenter = presenter;
     weight = ValidatedField(
       controller: this,

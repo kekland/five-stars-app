@@ -34,6 +34,7 @@ dependencies:
   firebase_auth:
   google_sign_in: ^4.0.0
   firebase_core: ^0.4.0
+  flutter_svg:
   http:
   dio:
   liquid_pull_to_refresh: 
@@ -58,6 +59,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/identity/logo-svg.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

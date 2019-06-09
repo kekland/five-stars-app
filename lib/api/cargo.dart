@@ -3,9 +3,10 @@ import 'package:five_stars/api/api.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
+import 'package:flutter/material.dart';
 
 class CargoApi {
-  static Future<List<Cargo>> getCargo() async {
+  static Future<List<Cargo>> getCargo({@required BuildContext context}) async {
     try {
       final response =
           await Dio().get('${baseUrl}/cargo', options: Api.options);
@@ -14,27 +15,28 @@ class CargoApi {
           .toList();
       return cargo;
     } catch (e) {
-      bool handled = await Api.handleError(e);
+      bool handled = await Api.handleError(context: context, exception: e);
       if (handled) {
-        return await getCargo();
+        return await getCargo(context: context);
       } else {
         rethrow;
       }
     }
   }
-  
-  static Future<List<Cargo>> getCargoBatched(List<String> identifiers) async {
+
+  static Future<List<Cargo>> getCargoBatched(
+      BuildContext context, List<String> identifiers) async {
     try {
-      final response =
-          await Dio().post('${baseUrl}/cargo/getBatched', data: {"values": identifiers}, options: Api.options);
+      final response = await Dio().post('${baseUrl}/cargo/getBatched',
+          data: {"values": identifiers}, options: Api.options);
       List<Cargo> cargo = (response.data as List<dynamic>)
           .map((cargo) => Cargo.fromJson(cargo))
           .toList();
       return cargo;
     } catch (e) {
-      bool handled = await Api.handleError(e);
+      bool handled = await Api.handleError(context: context, exception: e);
       if (handled) {
-        return await getCargoBatched(identifiers);
+        return await getCargoBatched(context, identifiers);
       } else {
         rethrow;
       }
@@ -42,6 +44,7 @@ class CargoApi {
   }
 
   static Future<Cargo> addCargo({
+    @required BuildContext context,
     City arrival,
     City departure,
     DateTime arrivalTime,
@@ -74,9 +77,10 @@ class CargoApi {
           .post('${baseUrl}/cargo', data: data, options: Api.options);
       return Cargo.fromJson(response.data);
     } catch (e) {
-      bool handled = await Api.handleError(e);
+      bool handled = await Api.handleError(context: context, exception: e);
       if (handled) {
         return await addCargo(
+          context: context,
           arrival: arrival,
           departure: departure,
           arrivalTime: arrivalTime,
@@ -94,6 +98,7 @@ class CargoApi {
   }
 
   static Future<Cargo> editCargo({
+    @required BuildContext context,
     String id,
     City arrival,
     City departure,
@@ -127,9 +132,10 @@ class CargoApi {
           .put('${baseUrl}/cargo/${id}', data: data, options: Api.options);
       return Cargo.fromJson(response.data);
     } catch (e) {
-      bool handled = await Api.handleError(e);
+      bool handled = await Api.handleError(context: context, exception: e);
       if (handled) {
         return await editCargo(
+          context: context,
           id: id,
           arrival: arrival,
           departure: departure,
@@ -148,6 +154,7 @@ class CargoApi {
   }
 
   static Future<bool> deleteCargo({
+    @required BuildContext context,
     String id,
   }) async {
     try {
@@ -155,9 +162,9 @@ class CargoApi {
           await Dio().delete('${baseUrl}/cargo/${id}', options: Api.options);
       return true;
     } catch (e) {
-      bool handled = await Api.handleError(e);
+      bool handled = await Api.handleError(context: context, exception: e);
       if (handled) {
-        return await deleteCargo(id: id);
+        return await deleteCargo(context: context, id: id);
       } else {
         rethrow;
       }

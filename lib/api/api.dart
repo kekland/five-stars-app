@@ -46,6 +46,7 @@ class Api {
   }
 
   static Future<String> getToken({
+    @required BuildContext context,
     String username,
     String password,
   }) async {
@@ -73,16 +74,23 @@ class Api {
 
       return response.data["token"];
     } catch (e) {
+      if (e is DioError) {
+        if (e.response != null &&
+            e.response.data != null &&
+            e.response.data['message'] == 'Invalid JWT token') {
+          logOut(context);
+        }
+      }
       print(e);
       rethrow;
     }
   }
 
-  static Future<bool> handleError(dynamic e) async {
+  static Future<bool> handleError({@required BuildContext context, dynamic exception}) async {
     try {
-      if (e is DioError) {
-        if (e.response.statusCode == 401) {
-          await getToken();
+      if (exception is DioError) {
+        if (exception.response.statusCode == 401) {
+          await getToken(context: context);
           return true;
         }
         return false;
@@ -98,7 +106,7 @@ class Api {
     SharedPreferencesManager.instance.setString("password", null);
     AppData.username = null;
     SharedPreferencesManager.instance.setString("token", null);
- 
+
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.of(context).pushReplacementNamed('/auth');
   }

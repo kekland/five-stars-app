@@ -34,7 +34,7 @@ class CargoApi {
     } catch (e) {
       bool handled = await Api.handleError(e);
       if (handled) {
-        return await getCargo();
+        return await getCargoBatched(identifiers);
       } else {
         rethrow;
       }

@@ -1,20 +1,30 @@
 import 'package:expandable/expandable.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/divider_widget.dart';
+import 'package:five_stars/design/select_city_widget.dart';
 import 'package:five_stars/design/stadium_switch_widget.dart';
 import 'package:five_stars/design/typography/typography.dart';
+import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/filter/bounded.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CargoFilterOptions {
+  City departure;
+  City arrival;
   Bounded volume;
   Bounded weight;
   Bounded price;
   List<VehicleType> vehicleTypes;
 
-  CargoFilterOptions({this.volume, this.weight, this.price, this.vehicleTypes});
+  CargoFilterOptions(
+      {this.departure,
+      this.arrival,
+      this.volume,
+      this.weight,
+      this.price,
+      this.vehicleTypes});
 }
 
 class CargoFilterWidget extends StatefulWidget {
@@ -24,6 +34,8 @@ class CargoFilterWidget extends StatefulWidget {
 
 class _CargoFilterWidgetState extends State<CargoFilterWidget> {
   CargoFilterOptions options = CargoFilterOptions(
+    departure: null,
+    arrival: null,
     volume: Bounded(lower: 0.0, upper: 1000.0),
     price: Bounded(lower: 0.0, upper: 1000000.0),
     weight: Bounded(lower: 0.0, upper: 10000.0),
@@ -36,7 +48,6 @@ class _CargoFilterWidgetState extends State<CargoFilterWidget> {
       body: ExpandablePanel(
         iconPlacement: ExpandablePanelIconPlacement.right,
         initialExpanded: false,
-        
         header: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
@@ -58,6 +69,45 @@ class _CargoFilterWidgetState extends State<CargoFilterWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: SelectCityWidget(
+                  icon: FontAwesomeIcons.dolly,
+                  showGlobeIcon: false,
+                  selectedCity: options.departure,
+                  onSelected: (city) =>
+                      setState(() => options.departure = city),
+                  subtitle: 'Место погрузки',
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: (options.departure != null)
+                    ? () => setState(() => options.departure = null)
+                    : null,
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: SelectCityWidget(
+                  icon: FontAwesomeIcons.truckLoading,
+                  selectedCity: options.arrival,
+                  showGlobeIcon: false,
+                  onSelected: (city) => setState(() => options.arrival = city),
+                  subtitle: 'Место выгрузки',
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: (options.arrival != null)
+                    ? () => setState(() => options.arrival = null)
+                    : null,
+              ),
+            ],
+          ),
           DividerWidget(),
           SizedBox(height: 24.0),
           BoundedRangeWidget(

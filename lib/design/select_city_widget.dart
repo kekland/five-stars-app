@@ -11,15 +11,22 @@ class SelectCityWidget extends StatelessWidget {
   final City selectedCity;
   final String subtitle;
   final IconData icon;
+  final bool showGlobeIcon;
 
   const SelectCityWidget(
-      {Key key, this.onSelected, this.selectedCity, this.subtitle, this.icon})
+      {Key key,
+      this.onSelected,
+      this.selectedCity,
+      this.subtitle,
+      this.icon,
+      this.showGlobeIcon = true})
       : super(key: key);
 
-  void onClick(BuildContext context) async{
+  void onClick(BuildContext context) async {
     await checkForLocationPermission();
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => SelectLocationPage(selectedCity: selectedCity, onSelected: onSelected)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => SelectLocationPage(
+            selectedCity: selectedCity, onSelected: onSelected)));
   }
 
   @override
@@ -41,10 +48,11 @@ class SelectCityWidget extends StatelessWidget {
                   unit: "",
                 ),
               ),
-              Icon(
-                FontAwesomeIcons.globeEurope,
-                color: ModernTextTheme.captionIconColor,
-              ),
+              if (showGlobeIcon)
+                Icon(
+                  FontAwesomeIcons.globeEurope,
+                  color: ModernTextTheme.captionIconColor,
+                ),
             ],
           ),
         ),

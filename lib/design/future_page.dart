@@ -66,15 +66,15 @@ ListView buildDataPage<T>({
     return ListView.builder(
       padding: const EdgeInsets.all(16.0),
       physics: BouncingScrollPhysics(),
-      itemCount: data.length + 1,
+      itemCount: data.length,
       itemBuilder: (context, index) {
-        if(index == 0) return Padding(
+        /*if(index == 0) return Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
           child: CargoFilterWidget(),
-        );
+        );*/
         return Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
-          child: builder(context, data[index - 1]),
+          child: builder(context, data[index]),
         );
       },
     );

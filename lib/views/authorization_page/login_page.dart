@@ -51,7 +51,7 @@ class _LoginPageState extends Presenter<LoginPage, LoginPageController> {
                 shape: StadiumBorder(),
                 icon: Icon(Icons.chevron_right),
                 label: Text('Вход в систему'),
-                color: Colors.blue,
+                color: Colors.red,
                 textColor: Colors.white,
               ),
             ),

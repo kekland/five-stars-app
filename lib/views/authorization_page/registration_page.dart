@@ -111,7 +111,7 @@ class _RegistrationPageState extends Presenter<RegistrationPage, RegistrationPag
                 shape: StadiumBorder(), 
                 icon: Icon(Icons.chevron_right),
                 label: Text('Зарегистрироваться'),
-                color: Colors.blue,
+                color: Colors.red,
                 disabledColor: Colors.black12,
                 textColor: Colors.white,
               ),

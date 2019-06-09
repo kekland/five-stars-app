@@ -108,7 +108,7 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget>
         //API.delete()
         showLoadingDialog(context: context, color: Colors.pink);
         //await Future.delayed(Duration(seconds: 2));
-        await VehicleApi.deleteVehicle(id: widget.data.id);
+        await VehicleApi.deleteVehicle(context: context, id: widget.data.id);
         Navigator.of(context).pop();
         Navigator.of(context).pop();
         showInfoSnackbarMain(message: 'Транспорт успешно удалён');
@@ -116,7 +116,8 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget>
         Navigator.of(context).pop();
         Navigator.of(context).pop();
         showErrorSnackbarMain(
-            errorMessage: 'Произошла ошибка при удалении транспорта', exception: e);
+            errorMessage: 'Произошла ошибка при удалении транспорта',
+            exception: e);
       }
     }
   }

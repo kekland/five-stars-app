@@ -111,7 +111,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
         //API.delete()
         showLoadingDialog(context: context, color: Colors.pink);
         //await Future.delayed(Duration(seconds: 2));
-        await CargoApi.deleteCargo(id: widget.data.id);
+        await CargoApi.deleteCargo(context: context, id: widget.data.id);
         Navigator.of(context).pop();
         Navigator.of(context).pop();
         showInfoSnackbarMain(message: 'Груз успешно удалён');
@@ -235,10 +235,12 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.route,
                   title: 'Дистанция',
-                  value: widget.data.route != null? (widget.data.route.distance / 1000.0)
-                      .toStringAsFixed(1)
-                      .toString() : 'Неизвестно',
-                          unit: widget.data.route != null? "км." : '',
+                  value: widget.data.route != null
+                      ? (widget.data.route.distance / 1000.0)
+                          .toStringAsFixed(1)
+                          .toString()
+                      : 'Неизвестно',
+                  unit: widget.data.route != null ? "км." : '',
                 ),
                 SizedBox(height: 16.0),
                 TwoLineInformationWidgetExpanded(

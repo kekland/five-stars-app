@@ -67,6 +67,7 @@ class VehicleAlterController extends Controller<VehicleAlterPage> {
     try {
       showLoadingDialog(context: context, color: Colors.pink);
       await VehicleApi.addVehicle(
+        context: context,
         arrival: selectedArrivalCity,
         departure: selectedDepartureCity,
         description: info.value,
@@ -91,6 +92,7 @@ class VehicleAlterController extends Controller<VehicleAlterPage> {
     try {
       showLoadingDialog(context: context, color: Colors.pink);
       await VehicleApi.editVehicle(
+        context: context,
         id: editingId,
         arrival: selectedArrivalCity,
         departure: selectedDepartureCity,

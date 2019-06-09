@@ -27,7 +27,7 @@ class CargoPageController extends Controller<CargoPage> {
     presenter.refresh();
     try {
       //await Future.delayed(Duration(seconds: 5));
-      data = await CargoApi.getCargo();
+      data = await CargoApi.getCargo(context: context);
     } catch (e) {
       error = e.toString();
       await Future.delayed(Duration.zero, () {

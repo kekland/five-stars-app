@@ -194,7 +194,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
         organization: organization.value,
       );
 
-      String token = await Api.getToken(username: username.value, password: password.value);
+      String token = await Api.getToken(context: context, username: username.value, password: password.value);
       Navigator.pop(context);
       Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {

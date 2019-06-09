@@ -93,6 +93,7 @@ class ProfileEditController extends Controller<ProfileEditPage> {
     try {
       showLoadingDialog(context: context, color: Colors.indigo);
       await UserApi.editProfile(
+        context: context,
         username: username,
         email: email.value,
         firstAndLastName: name.value,

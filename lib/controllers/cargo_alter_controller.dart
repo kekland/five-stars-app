@@ -79,6 +79,7 @@ class CargoAlterController extends Controller<CargoAlterPage> {
     try {
       showLoadingDialog(context: context, color: Colors.pink);
       await CargoApi.addCargo(
+        context: context,
         arrival: selectedArrivalCity,
         departure: selectedDepartureCity,
         arrivalTime: arrivalTime,
@@ -106,6 +107,7 @@ class CargoAlterController extends Controller<CargoAlterPage> {
     try {
       showLoadingDialog(context: context, color: Colors.pink);
       await CargoApi.editCargo(
+        context: context,
         id: editingId,
         arrival: selectedArrivalCity,
         departure: selectedDepartureCity,

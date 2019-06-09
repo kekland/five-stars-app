@@ -8,7 +8,8 @@ import 'package:five_stars/views/vehicle_page/vehicle_page.dart';
 import 'package:flutter/material.dart';
 
 class VehiclePageController extends Controller<VehiclePage> {
-  VehiclePageController({Presenter<VehiclePage, VehiclePageController> presenter}) {
+  VehiclePageController(
+      {Presenter<VehiclePage, VehiclePageController> presenter}) {
     this.presenter = presenter;
     data = null;
   }
@@ -24,11 +25,15 @@ class VehiclePageController extends Controller<VehiclePage> {
     presenter.refresh();
     try {
       //await Future.delayed(Duration(seconds: 5));
-      data = await VehicleApi.getVehicles();
+      data = await VehicleApi.getVehicles(context: context);
     } catch (e) {
       error = e.toString();
       await Future.delayed(Duration.zero, () {
-        showErrorSnackbar(context: context, errorMessage: 'Что-то пошло не так', exception: e, showDialog: true);
+        showErrorSnackbar(
+            context: context,
+            errorMessage: 'Что-то пошло не так',
+            exception: e,
+            showDialog: true);
       });
     }
     loading = false;

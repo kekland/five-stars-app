@@ -48,6 +48,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons:
 
 
 # For information on the generic Dart part of this file, see the
@@ -62,6 +63,12 @@ flutter:
   uses-material-design: true
   assets:
     - assets/identity/logo-svg.svg
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/images/launcher.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/images/launcher_adaptive.png"
 
   # To add assets to your application, add an assets section, like this:
   # assets:

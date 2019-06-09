@@ -15,6 +15,7 @@ import 'package:five_stars/views/cargo_page/cargo_widget.dart';
 import 'package:five_stars/views/profile_page/profile_data.dart';
 import 'package:five_stars/views/profile_page/profile_edit.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
+import 'package:five_stars/views/vehicle_page/vehicle_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -192,9 +193,9 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
         else
           ...buildProfileDataSection(
             data: controller.vehicle,
-            builder: (item) {},
+            builder: (item) => VehicleWidget(heroPrefix: "profile", data: item),
             isLoading: controller.isVehicleLoading,
-            onRefresh: () => {},
+            onRefresh: () => controller.loadVehicle(context: context),
           ),
       ],
     );

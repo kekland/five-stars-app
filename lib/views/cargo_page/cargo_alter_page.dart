@@ -176,7 +176,7 @@ class _CargoAlterPageState
             (widget.mode == AlterMode.add) ? 'Добавить' : 'Изменить',
             style: ModernTextTheme.primaryAccented.copyWith(
               color: (controller.isValid())
-                  ? Colors.black
+                  ? Colors.pink
                   : ModernTextTheme.captionColor,
             ),
           ),

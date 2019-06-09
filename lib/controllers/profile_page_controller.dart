@@ -1,5 +1,6 @@
 import 'package:five_stars/api/cargo.dart';
 import 'package:five_stars/api/user.dart';
+import 'package:five_stars/api/vehicle.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/models/vehicle_model.dart';
@@ -43,6 +44,24 @@ class ProfilePageController extends Controller<ProfilePage> {
     isCargoLoading = false;
     refresh();
   }
+  
+  Future loadVehicle({BuildContext context}) async {
+    vehicle = null;
+    isVehicleLoading = true;
+    
+    refresh();
+    try {
+      vehicle = await VehicleApi.getVehicleBatched(data.vehicles);
+    } catch (e) {
+      showErrorSnackbar(
+        context: context,
+        errorMessage: "Произошла ошибка при получении транспорта у пользователя",
+        exception: e,
+      );
+    }
+    isVehicleLoading = false;
+    refresh();
+  }
 
   Future load({BuildContext context, String username}) async {
     data = null;
@@ -55,6 +74,7 @@ class ProfilePageController extends Controller<ProfilePage> {
     try {
       data = await UserApi.getProfile(username);
       loadCargo(context: context);
+      loadVehicle(context: context);
     } catch (e) {
       data = null;
       showErrorSnackbar(

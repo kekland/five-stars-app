@@ -72,8 +72,8 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   DepartureArrivalWidget(
-                    arrivalCity: widget.data.arrivalCity,
-                    departureCity: widget.data.departureCity,
+                    arrivalCity: widget.data.arrival,
+                    departureCity: widget.data.departure,
                     isCargo: false,
                   ),
                   DividerWidget(),

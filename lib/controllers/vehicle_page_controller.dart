@@ -22,36 +22,7 @@ class VehiclePageController extends Controller<VehiclePage> {
   Future load() async {
     loading = true;
     error = "";
-    Future.delayed(Duration(seconds: 2), () {
-      data = [
-        Vehicle(
-          id: '1001',
-          departureCity: City(name: 'Челябинск, Челябинская область'),
-          arrivalCity: City(name: 'Костанай'),
-          vehicleType: VehicleType.jumbo,
-          volume: Volume(cubicMeter: 90),
-          weight: Weight(ton: 20),
-        ),
-        Vehicle(
-          id: '1002',
-          departureCity: City(name: 'Усть-Каменогорск'),
-          arrivalCity: City(name: 'Алматы'),
-          vehicleType: VehicleType.dumpTruck,
-          volume: Volume(cubicMeter: 20),
-          weight: Weight(ton: 86),
-        ),
-        Vehicle(
-          id: '1003',
-          departureCity: City(name: 'Алматы'),
-          arrivalCity: City(name: 'Астана'),
-          vehicleType: VehicleType.allMetal,
-          volume: Volume(cubicMeter: 86),
-          weight: Weight(ton: 20),
-        ),
-      ];
-      loading = false;
-      presenter.refresh();
-    });
+    
   }
 
   FutureState getFutureState() {

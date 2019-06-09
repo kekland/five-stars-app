@@ -74,19 +74,13 @@ class Api {
 
       return response.data["token"];
     } catch (e) {
-      if (e is DioError) {
-        if (e.response != null &&
-            e.response.data != null &&
-            e.response.data['message'] == 'Invalid JWT token') {
-          logOut(context);
-        }
-      }
       print(e);
       rethrow;
     }
   }
 
-  static Future<bool> handleError({@required BuildContext context, dynamic exception}) async {
+  static Future<bool> handleError(
+      {@required BuildContext context, dynamic exception}) async {
     try {
       if (exception is DioError) {
         if (exception.response.statusCode == 401) {
@@ -96,6 +90,15 @@ class Api {
         return false;
       }
     } catch (error) {
+      if (error is DioError) {
+        if (error.response != null &&
+            error.response.data != null &&
+            (error.response.data['message'] == 'Invalid JWT token' ||
+                error.response.data['message'] ==
+                    'Invalid username or password')) {
+          logOut(context);
+        }
+      }
       return false;
     }
     return false;

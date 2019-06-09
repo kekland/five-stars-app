@@ -15,14 +15,13 @@ class AuthorizationPage extends StatefulWidget {
 
 class _AuthorizationPageState extends State<AuthorizationPage> with SingleTickerProviderStateMixin {
   FocusNode focusNode;
-  int currentPage = 1;
   AnimationController controller;
   Animation<double> animation;
 
   @override
   void initState() {
     focusNode = null;
-    controller = AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    controller = AnimationController(vsync: this, value: 1.0, duration: Duration(milliseconds: 300));
     animation = CurvedAnimation(curve: Curves.easeInOut, parent: controller);
     controller.addListener(() => setState(() => {}));
     super.initState();

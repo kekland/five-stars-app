@@ -40,7 +40,7 @@ dependencies:
   location_permissions:
   liquid_pull_to_refresh: 
     path: ../Liquid-Pull-To-Refresh/
-  google_maps_flutter:
+  google_maps_flutter: ^0.5.16
   flutter_verification_code_input:
       git:
         url: git://github.com/tinylife-io/flutter_verification_code_input.git

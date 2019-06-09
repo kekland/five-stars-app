@@ -109,7 +109,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                     vertical: 32.0, horizontal: 24.0),
                 child: CardWidget(
                   padding: const EdgeInsets.all(16.0),
-                  body: TwoLineInformationWidget(
+                  body: TwoLineInformationWidgetExpanded(
                     icon: Icons.pin_drop,
                     title: 'Выбранное место',
                     value: location ?? "Не выбрано",

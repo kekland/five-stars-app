@@ -52,8 +52,8 @@ class Vehicle {
   Vehicle.fromJson(Map json) {
     id = json['meta']['id'] as String;
 
-    departure = City.fromJson(json['departure']['position']);
-    arrival = City.fromJson(json['arrival']['position']);
+    departure = City.fromJson(json['departure']);
+    arrival = City.fromJson(json['arrival']);
 
     weight = Weight(kilogram: (json['weight'] as num).toDouble());
     volume = Volume(cubicMeter: (json['volume'] as num).toDouble());

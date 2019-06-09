@@ -51,8 +51,8 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
     } catch (e) {
       location = null;
       selectedPoint = null;
-      showErrorSnackbar(
-          context: context,
+      showErrorSnackbarKeyed(
+          key: scaffoldKey,
           errorMessage: 'Произошла ошибка при выборе города.',
           exception: e);
     }
@@ -70,9 +70,12 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
     Navigator.of(context).pop();
   }
 
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: SafeArea(
         child: Stack(
           children: <Widget>[

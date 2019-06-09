@@ -62,7 +62,7 @@ class _VehicleAlterPageState
         children: [
           ModernTextField(
             icon: FontAwesomeIcons.weightHanging,
-            hintText: "Вес",
+            hintText: "Макс. вес",
             controller: controller.weightEditingController,
             error: controller.weight.error,
             onSubmitted: controller.weight.validate,
@@ -73,7 +73,7 @@ class _VehicleAlterPageState
           SizedBox(height: 16.0),
           ModernTextField(
             icon: FontAwesomeIcons.box,
-            hintText: "Объём",
+            hintText: "Макс. объём",
             controller: controller.volumeEditingController,
             error: controller.volume.error,
             onSubmitted: controller.volume.validate,
@@ -106,7 +106,7 @@ class _VehicleAlterPageState
         children: [
           ModernTextField(
             icon: FontAwesomeIcons.infoCircle,
-            hintText: "Тип груза",
+            hintText: "Доп. информация",
             lines: 1,
             controller: controller.infoEditingController,
             error: controller.info.error,
@@ -137,7 +137,7 @@ class _VehicleAlterPageState
             (widget.mode == AlterMode.add) ? 'Добавить' : 'Изменить',
             style: ModernTextTheme.primaryAccented.copyWith(
               color: (controller.isValid())
-                  ? Colors.black
+                  ? Colors.purple
                   : ModernTextTheme.captionColor,
             ),
           ),
@@ -168,8 +168,8 @@ class _VehicleAlterPageState
                 padding: const EdgeInsets.all(24.0),
                 body: Text(
                     (widget.mode == AlterMode.add)
-                        ? 'Добавить груз'
-                        : 'Изменить груз',
+                        ? 'Добавить транспорт'
+                        : 'Изменить транспорт',
                     style: ModernTextTheme.boldTitle),
               ),
               SizedBox(height: 16.0),

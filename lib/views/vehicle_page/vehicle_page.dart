@@ -6,6 +6,7 @@ import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/models/vehicle_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/views/vehicle_page/vehicle_alter_page.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -31,7 +32,7 @@ class _VehiclePageState extends Presenter<VehiclePage, VehiclePageController> {
   void addVehicle(BuildContext context) {
     Navigator.of(context).push(TransparentRoute(
       builder: (_) {
-        //return CargoAlterPage(mainContext: context, mode: AlterMode.add);
+        return VehicleAlterPage(mainContext: context, mode: AlterMode.add);
       },
     ));
   }

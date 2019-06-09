@@ -41,13 +41,11 @@ class DepartureArrivalWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Visibility(
-                  visible: departureDate != null,
-                  child: Text(
+                if (departureDate != null)
+                  Text(
                     dateTimeToString(departureDate.toLocal()),
                     style: ModernTextTheme.caption,
                   ),
-                ),
                 Text(
                   departureCity.name,
                   style: ModernTextTheme.primaryAccented
@@ -72,13 +70,11 @@ class DepartureArrivalWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Visibility(
-                  visible: arrivalDate != null,
-                  child: Text(
+                if (arrivalDate != null)
+                  Text(
                     dateTimeToString(arrivalDate.toLocal()),
                     style: ModernTextTheme.caption,
                   ),
-                ),
                 Text(
                   arrivalCity.name,
                   textAlign: TextAlign.right,

@@ -121,13 +121,13 @@ class VehicleApi {
     }
   }
 
-  static Future<Vehicle> deleteVehicle({
+  static Future<bool> deleteVehicle({
     String id,
   }) async {
     try {
       final response =
           await Dio().delete('${baseUrl}/vehicle/${id}', options: Api.options);
-      return Vehicle.fromJson(response.data);
+      return true;
     } catch (e) {
       bool handled = await Api.handleError(e);
       if (handled) {

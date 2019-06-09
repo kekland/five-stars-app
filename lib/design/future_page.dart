@@ -52,7 +52,7 @@ ListView buildDataPage<T>({
                     color: ModernTextTheme.captionIconColor),
                 SizedBox(height: 8.0),
                 Text(
-                  'Нет грузов. Потяните сверху, чтобы обновить.',
+                  'Нет данных. Потяните сверху, чтобы обновить.',
                   style: ModernTextTheme.caption,
                   textAlign: TextAlign.center,
                 ),

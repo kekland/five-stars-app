@@ -1,4 +1,4 @@
-import 'package:five_stars/controllers/cargo_alter_controller.dart';
+import 'package:five_stars/controllers/vehicle_alter_controller.dart';
 import 'package:five_stars/design/app_bar_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/divider_widget.dart';
@@ -7,7 +7,7 @@ import 'package:five_stars/design/select_time_widget.dart';
 import 'package:five_stars/design/select_vehicle_type.dart';
 import 'package:five_stars/design/text_field.dart';
 import 'package:five_stars/design/typography/typography.dart';
-import 'package:five_stars/models/cargo_model.dart';
+import 'package:five_stars/models/vehicle_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/utils.dart';
@@ -19,7 +19,7 @@ class VehicleAlterPage extends StatefulWidget {
   final AlterMode mode;
   final BuildContext mainContext;
 
-  final Cargo defaultData;
+  final Vehicle defaultData;
 
   const VehicleAlterPage(
       {Key key, this.mainContext, this.mode = AlterMode.add, this.defaultData})
@@ -29,8 +29,8 @@ class VehicleAlterPage extends StatefulWidget {
 }
 
 class _VehicleAlterPageState
-    extends Presenter<VehicleAlterPage, CargoAlterController> {
-  Widget buildDepartureWidget(BuildContext context) {
+    extends Presenter<VehicleAlterPage, VehicleAlterController> {
+  Widget buildCitySelectionWidget(BuildContext context) {
     return CardWidget(
       padding: const EdgeInsets.all(8.0),
       body: Column(
@@ -42,41 +42,13 @@ class _VehicleAlterPageState
             onSelected: (city) =>
                 setState(() => controller.selectedDepartureCity = city),
           ),
-          SizedBox(height: 8.0),
-          SelectTimeWidget(
-            icon: FontAwesomeIcons.calendarAlt,
-            subtitle: 'Дата погрузки',
-            predicate: (DateTime time) => time.isBefore(controller.arrivalTime),
-            onSelected: (DateTime time) =>
-                setState(() => controller.departureTime = time),
-            selectedTime: controller.departureTime,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildArrivalWidget(BuildContext context) {
-    return CardWidget(
-      padding: const EdgeInsets.all(8.0),
-      body: Column(
-        children: [
+          SizedBox(height: 16.0),
           SelectCityWidget(
             icon: FontAwesomeIcons.dolly,
             subtitle: 'Город выгрузки',
             selectedCity: controller.selectedArrivalCity,
             onSelected: (city) =>
                 setState(() => controller.selectedArrivalCity = city),
-          ),
-          SizedBox(height: 8.0),
-          SelectTimeWidget(
-            icon: FontAwesomeIcons.calendarAlt,
-            subtitle: 'Дата выгрузки',
-            predicate: (DateTime time) =>
-                time.isAfter(controller.departureTime),
-            onSelected: (DateTime time) =>
-                setState(() => controller.arrivalTime = time),
-            selectedTime: controller.arrivalTime,
           ),
         ],
       ),
@@ -108,17 +80,6 @@ class _VehicleAlterPageState
             onChanged: controller.volume.setValue,
             keyboardType: TextInputType.number,
             suffixText: "м3.",
-          ),
-          SizedBox(height: 16.0),
-          ModernTextField(
-            icon: FontAwesomeIcons.dollarSign,
-            hintText: "Цена",
-            controller: controller.priceEditingController,
-            error: controller.price.error,
-            onSubmitted: controller.price.validate,
-            onChanged: controller.price.setValue,
-            keyboardType: TextInputType.number,
-            suffixText: "тг.",
           ),
         ],
       ),
@@ -157,11 +118,11 @@ class _VehicleAlterPageState
     );
   }
 
-  void alterCargo(BuildContext context) {
+  void alterVehicle(BuildContext context) {
     if (widget.mode == AlterMode.add) {
-      controller.addCargo(widget.mainContext);
+      controller.addVehicle(widget.mainContext);
     } else {
-      controller.editCargo(context);
+      controller.editVehicle(context);
     }
   }
 
@@ -182,7 +143,7 @@ class _VehicleAlterPageState
           ),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-          onPressed: (controller.isValid()) ? () => alterCargo(context) : null,
+          onPressed: (controller.isValid()) ? () => alterVehicle(context) : null,
         ),
       ),
     );
@@ -212,9 +173,7 @@ class _VehicleAlterPageState
                     style: ModernTextTheme.boldTitle),
               ),
               SizedBox(height: 16.0),
-              buildDepartureWidget(context),
-              SizedBox(height: 16.0),
-              buildArrivalWidget(context),
+              buildCitySelectionWidget(context),
               SizedBox(height: 16.0),
               buildInfoWidget(context),
               SizedBox(height: 16.0),
@@ -232,7 +191,7 @@ class _VehicleAlterPageState
 
   @override
   void initController() {
-    controller = new CargoAlterController(presenter: this);
+    controller = new VehicleAlterController(presenter: this);
 
     if (widget.mode == AlterMode.edit) {
       controller.setFields(widget.defaultData);

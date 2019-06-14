@@ -224,7 +224,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
           email: email.value,
           name: Name.fromString(firstLastName.value),
           organization: organization.value,
-          phoneNumber: phoneNumber.value,
+          phoneNumber: '+7${phoneNumber.value}',
           username: username.value,
           verified: false,
         ),

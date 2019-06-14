@@ -63,7 +63,7 @@ class ProfilePageController extends Controller<ProfilePage> {
     refresh();
   }
 
-  Future load({BuildContext context, String username}) async {
+  Future load({BuildContext context, String uid}) async {
     data = null;
     vehicle = null;
     isLoading = true;
@@ -72,7 +72,7 @@ class ProfilePageController extends Controller<ProfilePage> {
     isCargoLoading = true;
     refresh();
     try {
-      //data = await UserApi.getProfile(context: context, username: username);
+      data = await UserApi.getProfile(context: context, uid: uid);
       loadCargo(context: context);
       loadVehicle(context: context);
     } catch (e) {

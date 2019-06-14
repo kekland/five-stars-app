@@ -8,9 +8,9 @@ class UserApi {
   static Future<User> getProfile(
       {@required BuildContext context, String uid}) async {
     try {
-      final snapshot = await Firestore.instance.collection('user').document(uid).get();
+      final snapshot = await Firestore.instance.collection('users').document(uid).get();
       if(snapshot == null) throw Exception('Пользователь не найден.');
-      return User.fromJson(snapshot.data);
+      return User.fromJson(snapshot.data)..uid = uid;
     } catch (e) {
       rethrow;
     }

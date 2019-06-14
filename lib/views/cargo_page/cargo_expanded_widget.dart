@@ -53,7 +53,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
         builder: (context) {
           return Scaffold(
             body: ProfilePage(
-                username: widget.data.ownerId, includeBackButton: true),
+                uid: widget.data.ownerId, includeBackButton: true),
           );
         },
       ),

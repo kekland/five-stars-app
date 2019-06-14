@@ -1,4 +1,5 @@
 import 'package:five_stars/mvc/view.dart';
+import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/cargo_page/cargo_page.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
@@ -17,7 +18,7 @@ class MainPageController extends Controller<MainPage> {
   final List<Widget> bodyWidget = [
     CargoPage(key: GlobalKey()),
     VehiclePage(key: GlobalKey()),
-    ProfilePage(key: GlobalKey(), username: SharedPreferencesManager.instance.getString("username")),
+    ProfilePage(key: GlobalKey(), uid: AppData.uid),
   ];
 
   void bottomNavigationItemSelected(BuildContext context, int index) {

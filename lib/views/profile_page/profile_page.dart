@@ -22,9 +22,9 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String username;
+  final String uid;
   final bool includeBackButton;
-  const ProfilePage({Key key, this.username, this.includeBackButton = false})
+  const ProfilePage({Key key, this.uid, this.includeBackButton = false})
       : super(key: key);
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -39,7 +39,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
   @override
   void initState() {
     super.initState();
-    controller.load(context: context, username: widget.username);
+    controller.load(context: context, uid: widget.uid);
   }
 
   void editProfile(BuildContext context) {
@@ -117,7 +117,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
             ],
           ),
         ),
-        if (AppData.username == profile.username) ...[
+        if (profile.isCurrentUser) ...[
           SizedBox(height: 24.0),
           buildCard(
             child: SingleLineInformationWidget(
@@ -207,10 +207,10 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
       child: Column(
         children: <Widget>[
           AppBarWidget(
-            title: Text('Профиль ${widget.username}'),
+            title: Text('Профиль ' + (controller?.data?.username ?? '')),
             includeBackButton: widget.includeBackButton,
             accentColor: Colors.indigo,
-            action: (widget.username == AppData.username)
+            action: (controller?.data?.isCurrentUser ?? false)
                 ? IconButton(
                     color: Colors.indigo,
                     icon: Icon(Icons.edit),
@@ -239,7 +239,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
                         buildProfile(profile: profile),
                   ),
                   onRefresh: () async => await controller.load(
-                      context: context, username: widget.username),
+                      context: context, uid: widget.uid),
                 ),
               ],
             ),

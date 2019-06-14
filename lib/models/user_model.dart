@@ -1,3 +1,5 @@
+import 'package:five_stars/utils/app_data.dart';
+
 class Name {
   String first;
   String last;
@@ -12,7 +14,7 @@ class Name {
     first = arr.first;
     last = arr.last;
   }
-  Name.fromJson(Map<String, dynamic> json) {
+  Name.fromJson(Map json) {
     first = json['first'] as String;
     last = json['last'] as String;
   }
@@ -29,6 +31,7 @@ class Name {
 }
 
 class User {
+  String uid;
   String username;
   String email;
   String phoneNumber;
@@ -37,6 +40,7 @@ class User {
   Name name;
 
   User({
+    this.uid,
     this.organization,
     this.verified,
     this.email,
@@ -45,7 +49,7 @@ class User {
     this.name,
   });
 
-  User.fromJson(Map<String, dynamic> json) {
+  User.fromJson(Map json) {
     email = json['email'] as String;
     username = json['username'] as String;
     phoneNumber = json['phoneNumber'] as String;
@@ -62,4 +66,6 @@ class User {
         "organization": organization,
         "name": name.toJson(),
       };
+
+  bool get isCurrentUser => AppData.uid == this.uid;
 }

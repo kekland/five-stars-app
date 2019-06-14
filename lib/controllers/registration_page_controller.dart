@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/api/api.dart';
@@ -17,10 +18,14 @@ class ValidatedField {
 
   bool Function(String text) validator;
 
-  ValidatedField({this.textController, this.controller, this.errorMessage, this.validator});
+  ValidatedField(
+      {this.textController,
+      this.controller,
+      this.errorMessage,
+      this.validator});
   void setValue(String newValue, [bool forced = false]) {
     value = newValue;
-    if(textController != null && forced) {
+    if (textController != null && forced) {
       textController.text = value;
     }
   }
@@ -50,10 +55,12 @@ class RegistrationPageController extends Controller<RegistrationPage> {
   ValidatedField organization;
   ValidatedField firstLastName;
 
-  RegExp emailRegex = RegExp(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)");
+  RegExp emailRegex =
+      RegExp(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)");
   RegExp phoneRegex = RegExp('^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\.\/0-9]*\$');
 
-  RegistrationPageController({Presenter<RegistrationPage, RegistrationPageController> presenter}) {
+  RegistrationPageController(
+      {Presenter<RegistrationPage, RegistrationPageController> presenter}) {
     this.presenter = presenter;
 
     username = ValidatedField(
@@ -116,59 +123,78 @@ class RegistrationPageController extends Controller<RegistrationPage> {
         firstLastName.isValid());
   }
 
+  void verifyCode(
+      {BuildContext context,
+      String verificationCode,
+      String verificationId}) async {
+    final AuthCredential credential = PhoneAuthProvider.getCredential(
+      verificationId: verificationId,
+      smsCode: verificationCode,
+    );
+
+    try {
+      Navigator.pop(context);
+      showLoadingDialog(context: context, color: Colors.blue);
+      final user = await auth.signInWithCredential(credential);
+      await user.delete();
+
+    } catch (e) {
+      print(e);
+      registrationFailed(
+          'Произошла ошибка при проверке номера телефона, скорее всего неправильный код с СМС.',
+          e,
+          context);
+    }
+  }
+
   final FirebaseAuth auth = FirebaseAuth.instance;
   void register(BuildContext context) async {
     showLoadingDialog(context: context, color: Colors.blue);
     final availability = await ValidityApi.checkUserForAvailability(
-        username: username.value, email: email.value, phoneNumber: "+7${phoneNumber.value}");
-    
-    username.error = (!availability.usernameAvailable)? "Это имя пользователя уже занято" : null;
-    email.error = (!availability.emailAvailable)? "Эта почта уже занята" : null;
-    phoneNumber.error = (!availability.phoneNumberAvailable)? "Этот номер телефона уже занят" : null;
+        username: username.value,
+        email: email.value,
+        phoneNumber: "+7${phoneNumber.value}");
+
+    username.error = (!availability.usernameAvailable)
+        ? "Это имя пользователя уже занято"
+        : null;
+    email.error =
+        (!availability.emailAvailable) ? "Эта почта уже занята" : null;
+    phoneNumber.error = (!availability.phoneNumberAvailable)
+        ? "Этот номер телефона уже занят"
+        : null;
 
     if (!availability.available) {
       registrationFailed(
-          'Произошла ошибка при регистрации.', Exception('Имя пользователя, почта, либо номер уже заняты.'), context);
+          'Произошла ошибка при регистрации.',
+          Exception('Имя пользователя, почта, либо номер уже заняты.'),
+          context);
       refresh();
       return;
     }
 
-    print("+7${phoneNumber.value}");
-
     await ValidityApi.verifyPhoneNumber(
       phoneNumber: "+7${phoneNumber.value}",
       onFinished: () => phoneValidationFinished(context),
-      onFailed: (e) => registrationFailed('Произошла ошибка при проверке номера телефона.', e, context),
+      onFailed: (e) => registrationFailed(
+          'Произошла ошибка при проверке номера телефона.', e, context),
       onCodeSent: (verificationId) {
         Navigator.pop(context);
         showModernDialog(
           context: context,
           title: 'Вам отправлено СМС-сообщение',
-          text: 'Когда вам придёт СМС-сообщение с кодом, напишите 6 цифр кода здесь:',
+          text:
+              'Когда вам придёт СМС-сообщение с кодом, напишите 6 цифр кода здесь:',
           body: LayoutBuilder(
             builder: (_, constraints) {
               return VerificationCodeInput(
                 length: 6,
                 itemSize: constraints.maxWidth / 7.0,
-                onCompleted: (verificationCode) async {
-                  final AuthCredential credential = PhoneAuthProvider.getCredential(
-                    verificationId: verificationId,
-                    smsCode: verificationCode,
-                  );
-
-                  try {
-                    Navigator.pop(context);
-                    showLoadingDialog(context: context, color: Colors.blue);
-                    await auth.signInWithCredential(credential);
-                    phoneValidationFinished(context);
-                  } catch (e) {
-                    print(e);
-                    registrationFailed(
-                        'Произошла ошибка при проверке номера телефона, скорее всего неправильный код с СМС.',
-                        e,
-                        context);
-                  }
-                },
+                onCompleted: (verificationCode) => verifyCode(
+                      context: context,
+                      verificationCode: verificationCode,
+                      verificationId: verificationId,
+                    ),
               );
             },
           ),
@@ -187,15 +213,16 @@ class RegistrationPageController extends Controller<RegistrationPage> {
   void phoneValidationFinished(BuildContext context) async {
     try {
       await Api.register(
-        username: username.value,
-        password: password.value,
-        email: email.value,
-        validatedPhoneNumber: "+7${phoneNumber.value}",
-        firstAndLastName: firstLastName.value,
-        organization: organization.value,
+        userData: User(
+          email: email.value,
+          name: Name.fromString(firstLastName.value),
+          organization: organization.value,
+          phoneNumber: phoneNumber.value,
+          username: username.value,
+          verified: false,
+        ),
       );
 
-      String token = await Api.getToken(context: context, username: username.value, password: password.value);
       Navigator.pop(context);
       Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {

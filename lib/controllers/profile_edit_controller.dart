@@ -76,7 +76,7 @@ class ProfileEditController extends Controller<ProfileEditPage> {
     organization.setValue(user?.organization, true);
     phoneNumber.setValue(user?.phoneNumber?.substring(2), true);
 
-    editingId = user.id;
+    editingId = user.username;
     username = user.username;
 
     refresh();

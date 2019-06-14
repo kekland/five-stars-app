@@ -33,7 +33,7 @@ class ProfilePageController extends Controller<ProfilePage> {
     
     refresh();
     try {
-      cargo = await CargoApi.getCargoBatched(context, data.cargo);
+      cargo = await CargoApi.getCargoBatched(context, []);
     } catch (e) {
       showErrorSnackbar(
         context: context,
@@ -51,7 +51,7 @@ class ProfilePageController extends Controller<ProfilePage> {
     
     refresh();
     try {
-      vehicle = await VehicleApi.getVehicleBatched(context, data.vehicles);
+      vehicle = await VehicleApi.getVehicleBatched(context, []);
     } catch (e) {
       showErrorSnackbar(
         context: context,

@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -12,34 +15,24 @@ export 'package:five_stars/api/cargo.dart';
 String baseUrl = 'https://api.5zvezd.kz';
 
 class Api {
-  static Future<bool> register({
-    String username,
-    String password,
-    String email,
-    String validatedPhoneNumber,
-    String organization,
-    String firstAndLastName,
-  }) async {
+  static Future<FirebaseUser> register({User userData, String password}) async {
     try {
-      List<String> names = firstAndLastName.split(" ");
-      final response = await Dio().post(
-        '$baseUrl/auth/register',
-        data: {
-          "username": username,
-          "password": password,
-          "email": email,
-          "phoneNumber": validatedPhoneNumber,
-          "name": {
-            "first": names.last,
-            "last": names.first,
-          },
-          "organization": organization,
+      final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: userData.email, password: password);
+      
+      final ref = await Firestore.instance.collection('users').add(
+        {
+          ...userData.toJson(),
+          "cargo": [],
+          "vehicles": [],
+          "savedCargoData": [],
+          "savedVehicleData": [],
+          "favoriteCargoData": [],
+          "favoriteVehicleData": [],
         },
       );
-
-      print(response.data);
-      print(response.statusCode);
-      return true;
+      
+      return user;
     } catch (e) {
       rethrow;
     }

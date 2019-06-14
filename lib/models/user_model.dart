@@ -6,11 +6,21 @@ class Name {
     this.first,
     this.last,
   });
+  Name.fromString(String name) {
+    List<String> arr = name.split(" ");
 
+    first = arr.first;
+    last = arr.last;
+  }
   Name.fromJson(Map<String, dynamic> json) {
     first = json['first'] as String;
     last = json['last'] as String;
   }
+
+  Map<String, dynamic> toJson() => {
+        "first": first,
+        "last": last,
+      };
 
   @override
   String toString() {
@@ -19,36 +29,37 @@ class Name {
 }
 
 class User {
-  String id;
-  String email;
   String username;
+  String email;
   String phoneNumber;
-
+  bool verified;
+  String organization;
   Name name;
 
-  String organization;
-
-  List<String> cargo;
-  List<String> vehicles;
-
-  User(
-      {this.id,
-      this.email,
-      this.username,
-      this.phoneNumber,
-      this.name});
+  User({
+    this.organization,
+    this.verified,
+    this.email,
+    this.username,
+    this.phoneNumber,
+    this.name,
+  });
 
   User.fromJson(Map<String, dynamic> json) {
-    id = json['id'] as String;
     email = json['email'] as String;
     username = json['username'] as String;
     phoneNumber = json['phoneNumber'] as String;
-
     name = Name.fromJson(json['name']);
-
     organization = json['organization'] as String;
-
-    cargo = (json['cargo'] as List<dynamic>).cast<String>();
-    vehicles = (json['vehicles'] as List<dynamic>).cast<String>();
+    verified = json['verified'] as bool;
   }
+
+  Map<String, dynamic> toJson() => {
+        "username": username,
+        "email": email,
+        "phoneNumber": phoneNumber,
+        "verified": verified,
+        "organization": organization,
+        "name": name.toJson(),
+      };
 }

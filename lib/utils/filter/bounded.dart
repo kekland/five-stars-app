@@ -71,17 +71,6 @@ class BoundedRangeWidget extends StatelessWidget {
             primaryColorLight: colorLight,
             valueIndicatorTextStyle: TextStyle(),
           ),
-          child: RangeSlider(
-            min: minimumBound,
-            max: maximumBound,
-            lowerValue: bounds.lower,
-            upperValue: bounds.upper,
-            divisions: 20,
-            showValueIndicator: false,
-            valueIndicatorMaxDecimals: 0,
-            onChanged: (double newLowerBound, double newUpperBound) =>
-                onChange(Bounded(lower: newLowerBound, upper: newUpperBound)),
-          ),
         )
       ],
     );

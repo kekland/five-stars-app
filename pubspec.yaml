@@ -36,6 +36,7 @@ dependencies:
   firebase_core: ^0.4.0
   flutter_svg:
   http:
+  cloud_firestore:
   dio:
   location_permissions:
   liquid_pull_to_refresh: 

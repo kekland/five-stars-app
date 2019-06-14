@@ -39,6 +39,8 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        multiDexKeepFile file('multidex-flutter.txt')
     }
 
     buildTypes {
@@ -55,6 +57,8 @@ flutter {
 }
 
 dependencies {
+    compileOnly files("$flutterRoot/bin/cache/artifacts/engine/android-x64/flutter.jar")
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'

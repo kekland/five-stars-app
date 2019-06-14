@@ -1,0 +1,3 @@
+io/flutter/app/FlutterApplication.class
+io/flutter/view/FlutterMain.class
+io/flutter/util/PathUtils.class

@@ -32,9 +32,9 @@ class _LoginPageState extends Presenter<LoginPage, LoginPageController> {
             Text('Вход в систему', style: ModernTextTheme.caption),
             SizedBox(height: 32.0),
             ModernTextField(
-              hintText: 'Имя пользователя',
+              hintText: 'Почта',
               icon: Icons.person,
-              onChanged: controller.setUsername,
+              onChanged: controller.setEmail,
             ),
             SizedBox(height: 16.0),
             ModernTextField(

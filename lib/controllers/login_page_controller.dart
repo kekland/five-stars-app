@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/authorization_page/login_page.dart';
@@ -11,21 +12,21 @@ class LoginPageController extends Controller<LoginPage> {
     this.presenter = presenter;
   }
 
-  String username;
+  String email;
   String password;
 
-  void setUsername(String text) => username = text;
+  void setEmail(String text) => email = text;
   void setPassword(String text) => password = text;
 
   void login(BuildContext context) async {
     showLoadingDialog(color: Colors.blue, context: context);
     try {
-      String token = await Api.getToken(username: username, password: password);
+      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
       Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {
       Navigator.of(context).pop();
       if (e is DioError && e.response != null) {
-        if (e.response.data['message'] == 'Invalid username or password') {
+        if (e.response.data['message'] == 'Invalid email or password') {
           showErrorSnackbar(
               context: context, errorMessage: 'Неправильный логин или пароль', exception: e, showDialog: true);
           return;

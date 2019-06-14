@@ -15,12 +15,12 @@ export 'package:five_stars/api/cargo.dart';
 String baseUrl = 'https://api.5zvezd.kz';
 
 class Api {
-  static Future<FirebaseUser> register({User userData, String password}) async {
+  static Future<FirebaseUser> register({User userData, FirebaseUser user, String password}) async {
     try {
       final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: userData.email, password: password);
       
-      final ref = await Firestore.instance.collection('users').add(
+      final ref = await Firestore.instance.collection('users').document(user.uid).setData(
         {
           ...userData.toJson(),
           "cargo": [],
@@ -32,49 +32,18 @@ class Api {
         },
       );
       
+      AppData.username = userData.username;
+      AppData.uid = user.uid;
+      
       return user;
     } catch (e) {
       rethrow;
     }
   }
 
-  static Future<String> getToken({
-    @required BuildContext context,
-    String username,
-    String password,
-  }) async {
-    try {
-      if (username == null) {
-        username = SharedPreferencesManager.instance.getString("username");
-      }
-      if (password == null) {
-        password = SharedPreferencesManager.instance.getString("password");
-      }
-
-      final response = await Dio().post(
-        "$baseUrl/auth/login",
-        data: {
-          "username": username,
-          "password": password,
-        },
-      );
-
-      SharedPreferencesManager.instance.setString("username", username);
-      SharedPreferencesManager.instance.setString("password", password);
-      AppData.username = username;
-      SharedPreferencesManager.instance
-          .setString("token", response.data['token']);
-
-      return response.data["token"];
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
-  }
-
   static Future<bool> handleError(
       {@required BuildContext context, dynamic exception}) async {
-    try {
+    /*try {
       if (exception is DioError) {
         if (exception.response.statusCode == 401) {
           await getToken(context: context);
@@ -93,16 +62,12 @@ class Api {
         }
       }
       return false;
-    }
+    }*/
     return false;
   }
 
-  static void logOut(BuildContext context) {
-    SharedPreferencesManager.instance.setString("username", null);
-    SharedPreferencesManager.instance.setString("password", null);
-    AppData.username = null;
-    SharedPreferencesManager.instance.setString("token", null);
-
+  static void logOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.of(context).pushReplacementNamed('/auth');
   }

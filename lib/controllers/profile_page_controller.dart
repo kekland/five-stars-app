@@ -72,7 +72,7 @@ class ProfilePageController extends Controller<ProfilePage> {
     isCargoLoading = true;
     refresh();
     try {
-      data = await UserApi.getProfile(context: context, username: username);
+      //data = await UserApi.getProfile(context: context, username: username);
       loadCargo(context: context);
       loadVehicle(context: context);
     } catch (e) {

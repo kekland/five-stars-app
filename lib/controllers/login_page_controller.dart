@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:five_stars/api/user.dart';
 import 'package:five_stars/mvc/view.dart';
+import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/authorization_page/login_page.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
@@ -22,6 +24,11 @@ class LoginPageController extends Controller<LoginPage> {
     showLoadingDialog(color: Colors.blue, context: context);
     try {
       final user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+      final userData = await UserApi.getProfile(context: context, uid: user.uid);
+      
+      AppData.username = userData.username;
+      AppData.uid = user.uid;
+
       Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {
       Navigator.of(context).pop();

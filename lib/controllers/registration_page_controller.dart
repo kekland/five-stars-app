@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/mvc/view.dart';
+import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/api/api.dart';
 import 'package:five_stars/views/authorization_page/registration_page.dart';
@@ -137,7 +138,6 @@ class RegistrationPageController extends Controller<RegistrationPage> {
       showLoadingDialog(context: context, color: Colors.blue);
       final user = await auth.signInWithCredential(credential);
       await user.delete();
-
     } catch (e) {
       print(e);
       registrationFailed(
@@ -150,27 +150,34 @@ class RegistrationPageController extends Controller<RegistrationPage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   void register(BuildContext context) async {
     showLoadingDialog(context: context, color: Colors.blue);
-    final availability = await ValidityApi.checkUserForAvailability(
-        username: username.value,
-        email: email.value,
-        phoneNumber: "+7${phoneNumber.value}");
+    try {
+      final availability = await ValidityApi.checkUserForAvailability(
+          username: username.value,
+          email: email.value,
+          phoneNumber: "+7${phoneNumber.value}");
 
-    username.error = (!availability.usernameAvailable)
-        ? "Это имя пользователя уже занято"
-        : null;
-    email.error =
-        (!availability.emailAvailable) ? "Эта почта уже занята" : null;
-    phoneNumber.error = (!availability.phoneNumberAvailable)
-        ? "Этот номер телефона уже занят"
-        : null;
+      username.error = (!availability.usernameAvailable)
+          ? "Это имя пользователя уже занято"
+          : null;
+      email.error =
+          (!availability.emailAvailable) ? "Эта почта уже занята" : null;
+      phoneNumber.error = (!availability.phoneNumberAvailable)
+          ? "Этот номер телефона уже занят"
+          : null;
 
-    if (!availability.available) {
+      if (!availability.available) {
+        registrationFailed(
+            'Имя пользователя, почта, либо номер уже заняты.',
+            Exception('Имя пользователя, почта, либо номер уже заняты.'),
+            context);
+        refresh();
+        return;
+      }
+    } catch (e) {
       registrationFailed(
-          'Произошла ошибка при регистрации.',
-          Exception('Имя пользователя, почта, либо номер уже заняты.'),
+          'Произошла ошибка при валидации пользователя.',
+          e,
           context);
-      refresh();
-      return;
     }
 
     await ValidityApi.verifyPhoneNumber(
@@ -221,6 +228,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
           username: username.value,
           verified: false,
         ),
+        password: password.value,
       );
 
       Navigator.pop(context);
@@ -230,7 +238,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
     }
   }
 
-  void registrationFailed(String text, Exception e, BuildContext context) {
+  void registrationFailed(String text, dynamic e, BuildContext context) {
     Navigator.pop(context);
 
     showErrorSnackbar(

@@ -8,18 +8,20 @@ class TwoLineInformationWidget extends StatelessWidget {
   final String title;
   final String value;
   final String unit;
+  final bool emptySpaceOnHideIcon;
   final VoidCallback onTap;
 
-  const TwoLineInformationWidget(
-      {Key key,
-      this.title,
-      this.value,
-      this.unit,
-      this.icon,
-      this.iconColor,
-      this.showIcon = true,
-      this.onTap})
-      : super(key: key);
+  const TwoLineInformationWidget({
+    Key key,
+    this.title,
+    this.value,
+    this.unit = '',
+    this.icon,
+    this.iconColor,
+    this.showIcon = true,
+    this.onTap,
+    this.emptySpaceOnHideIcon = false,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -36,7 +38,7 @@ class TwoLineInformationWidget extends StatelessWidget {
                     color: iconColor,
                   )
                 : SizedBox(
-                    width: 24.0,
+                    width: (emptySpaceOnHideIcon)? 0.0 : 24.0,
                     height: 24.0,
                   ),
             SizedBox(width: 12.0),
@@ -157,7 +159,10 @@ class SingleLineInformationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, color: (color == Colors.black)? color.withOpacity(0.125) : color.withOpacity(0.65)),
+        Icon(icon,
+            color: (color == Colors.black)
+                ? color.withOpacity(0.125)
+                : color.withOpacity(0.65)),
         SizedBox(width: 24.0),
         Text(label,
             style: ModernTextTheme.primaryAccented.copyWith(color: color)),

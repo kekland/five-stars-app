@@ -1,9 +1,12 @@
 import 'package:five_stars/controllers/main_page_controller.dart';
 import 'package:five_stars/design/bottom_navigation_bar.dart';
+import 'package:five_stars/design/divider_widget.dart';
+import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/app_data.dart';
 //import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:five_stars/utils/pages.dart';
+import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -23,30 +26,103 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
   Widget present(BuildContext context) {
     return Scaffold(
       key: MainPageController.scaffoldKey,
-      //body: Container(),
-      bottomNavigationBar: FancyBottomNavigation(
-        tabs: [
-          TabData(
-            iconData: FontAwesomeIcons.boxes,
-            title: 'Груз',
-            color: Colors.pink,
-          ),
-          TabData(
-            iconData: FontAwesomeIcons.truck,
-            title: 'Транспорт',
-            color: Colors.purple,
-          ),
-          TabData(
-            iconData: FontAwesomeIcons.solidUserCircle,
-            title: 'Личный кабинет',
-            color: Colors.indigo,
-          ),
-        ],
-        //fixedColor: Colors.white,
-        initialSelection: controller.currentPage,
-        onTabChangedListener: (index) => controller.bottomNavigationItemSelected(context, index),
-        textColor: Colors.blue,
-        inactiveIconColor: Colors.black26,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text('Пять звёзд', style: TextStyle(color: Colors.black)),
+        elevation: 4.0,
+        brightness: Brightness.light,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          children: [
+            DrawerHeader(
+              child: Row(
+                children: [
+                  Container(
+                      width: 64.0,
+                      height: 64.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red,
+                      ),
+                      alignment: Alignment.center,
+                      child: Text('КЕ',
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 16.0))),
+                  TwoLineInformationWidget(
+                    showIcon: false,
+                    title: 'Личный кабинет',
+                    value: 'Кабдыкайыров Ержан',
+                    emptySpaceOnHideIcon: true,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              child: Text('Грузы', style: ModernTextTheme.caption),
+              padding: const EdgeInsets.all(16.0),
+            ),
+            ListTile(
+              title: Text('Поиск грузов'),
+              leading: Icon(FontAwesomeIcons.dolly, size: 20.0),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text('Добавить груз'),
+              leading: Icon(FontAwesomeIcons.plus, size: 20.0),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text('Избранные грузы'),
+              leading: Icon(FontAwesomeIcons.solidStar, size: 20.0),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text('Мои грузы'),
+              leading: Icon(FontAwesomeIcons.boxes, size: 20.0),
+              onTap: () {},
+            ),
+            DividerWidget(),
+            Padding(
+              child: Text('Транспорт', style: ModernTextTheme.caption),
+              padding: const EdgeInsets.all(16.0),
+            ),
+            ListTile(
+              title: Text('Поиск транспорта'),
+              leading: Icon(FontAwesomeIcons.truck, size: 20.0),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text('Добавить транспорт'),
+              leading: Icon(FontAwesomeIcons.plus, size: 20.0),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text('Избранный транспорт'),
+              leading: Icon(FontAwesomeIcons.solidStar, size: 20.0),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text('Мой транспорт'),
+              leading: Icon(FontAwesomeIcons.truckLoading, size: 20.0),
+              onTap: () {},
+            ),
+            DividerWidget(),
+            ListTile(
+              title: Text('Справка'),
+              leading: Icon(FontAwesomeIcons.info, size: 20.0),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text('Настройки'),
+              leading: Icon(Icons.settings),
+              onTap: () {},
+            ),
+          ],
+        ),
       ),
       body: controller.getBody(),
     );

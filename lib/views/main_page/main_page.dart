@@ -35,102 +35,107 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
         iconTheme: IconThemeData(color: Colors.black),
       ),
       drawer: Drawer(
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          children: [
-            DrawerHeader(
-              child: Row(
-                children: [
-                  Container(
-                      width: 64.0,
-                      height: 64.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(AppData.username != null? AppData.username[0] : '',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.0))),
-                  TwoLineInformationWidget(
-                    showIcon: false,
-                    title: 'Личный кабинет',
-                    value: AppData.username,
-                    emptySpaceOnHideIcon: true,
-                  ),
-                ],
+        child: Theme(
+          data: ThemeData(primaryColor: Colors.red),
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+            children: [
+              DrawerHeader(
+                child: Row(
+                  children: [
+                    Container(
+                        width: 64.0,
+                        height: 64.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.red,
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                            AppData.username != null ? AppData.username[0] : '',
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 16.0))),
+                    TwoLineInformationWidget(
+                      showIcon: false,
+                      title: 'Личный кабинет',
+                      value: AppData.username,
+                      emptySpaceOnHideIcon: true,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              child: Text('Грузы', style: ModernTextTheme.caption),
-              padding: const EdgeInsets.all(16.0),
-            ),
-            ListTile(
-              title: Text('Поиск грузов'),
-              leading: Icon(FontAwesomeIcons.dolly, size: 20.0),
-              onTap: () => controller.selectItem(context, 0),
-              selected: controller.isItemSelected(0),
-            ),
-            ListTile(
-              title: Text('Добавить груз'),
-              leading: Icon(FontAwesomeIcons.plus, size: 20.0),
-              onTap: () => controller.selectItem(context, 1),
-              selected: controller.isItemSelected(1),
-            ),
-            ListTile(
-              title: Text('Избранные грузы'),
-              leading: Icon(FontAwesomeIcons.solidStar, size: 20.0),
-              onTap: () => controller.selectItem(context, 2),
-              selected: controller.isItemSelected(2),
-            ),
-            ListTile(
-              title: Text('Мои грузы'),
-              leading: Icon(FontAwesomeIcons.boxes, size: 20.0),
-              onTap: () {},
-            ),
-            DividerWidget(),
-            Padding(
-              child: Text('Транспорт', style: ModernTextTheme.caption),
-              padding: const EdgeInsets.all(16.0),
-            ),
-            ListTile(
-              title: Text('Поиск транспорта'),
-              leading: Icon(FontAwesomeIcons.truck, size: 20.0),
-              onTap: () => controller.selectItem(context, 3),
-              selected: controller.isItemSelected(3),
-            ),
-            ListTile(
-              title: Text('Добавить транспорт'),
-              leading: Icon(FontAwesomeIcons.plus, size: 20.0),
-              onTap: () => controller.selectItem(context, 4),
-              selected: controller.isItemSelected(4),
-            ),
-            ListTile(
-              title: Text('Избранный транспорт'),
-              leading: Icon(FontAwesomeIcons.solidStar, size: 20.0),
-              onTap: () => controller.selectItem(context, 5),
-              selected: controller.isItemSelected(5),
-            ),
-            ListTile(
-              title: Text('Мой транспорт'),
-              leading: Icon(FontAwesomeIcons.truckLoading, size: 20.0),
-              onTap: () => controller.selectItem(context, 6),
-              selected: controller.isItemSelected(6),
-            ),
-            DividerWidget(),
-            ListTile(
-              title: Text('Справка'),
-              leading: Icon(FontAwesomeIcons.info, size: 20.0),
-              onTap: () => controller.selectItem(context, 7),
-              selected: controller.isItemSelected(7),
-            ),
-            ListTile(
-              title: Text('Настройки'),
-              leading: Icon(Icons.settings),
-              onTap: () => controller.selectItem(context, 8),
-              selected: controller.isItemSelected(8),
-            ),
-          ],
+              Padding(
+                child: Text('Грузы', style: ModernTextTheme.caption),
+                padding: const EdgeInsets.all(16.0),
+              ),
+              ListTile(
+                title: Text('Поиск грузов'),
+                leading: Icon(FontAwesomeIcons.dolly, size: 20.0),
+                onTap: () => controller.selectItem(context, 0),
+                selected: controller.isItemSelected(0),
+              ),
+              ListTile(
+                title: Text('Добавить груз'),
+                leading: Icon(FontAwesomeIcons.plus, size: 20.0),
+                onTap: () => controller.selectItem(context, 1),
+                selected: controller.isItemSelected(1),
+              ),
+              ListTile(
+                title: Text('Избранные грузы'),
+                leading: Icon(FontAwesomeIcons.solidStar, size: 20.0),
+                onTap: () => controller.selectItem(context, 2),
+                selected: controller.isItemSelected(2),
+              ),
+              ListTile(
+                title: Text('Мои грузы'),
+                leading: Icon(FontAwesomeIcons.boxes, size: 20.0),
+                onTap: () => controller.selectItem(context, 3),
+                selected: controller.isItemSelected(3),
+              ),
+              DividerWidget(),
+              Padding(
+                child: Text('Транспорт', style: ModernTextTheme.caption),
+                padding: const EdgeInsets.all(16.0),
+              ),
+              ListTile(
+                title: Text('Поиск транспорта'),
+                leading: Icon(FontAwesomeIcons.truck, size: 20.0),
+                onTap: () => controller.selectItem(context, 4),
+                selected: controller.isItemSelected(4),
+              ),
+              ListTile(
+                title: Text('Добавить транспорт'),
+                leading: Icon(FontAwesomeIcons.plus, size: 20.0),
+                onTap: () => controller.selectItem(context, 5),
+                selected: controller.isItemSelected(5),
+              ),
+              ListTile(
+                title: Text('Избранный транспорт'),
+                leading: Icon(FontAwesomeIcons.solidStar, size: 20.0),
+                onTap: () => controller.selectItem(context, 6),
+                selected: controller.isItemSelected(6),
+              ),
+              ListTile(
+                title: Text('Мой транспорт'),
+                leading: Icon(FontAwesomeIcons.truckLoading, size: 20.0),
+                onTap: () => controller.selectItem(context, 7),
+                selected: controller.isItemSelected(7),
+              ),
+              DividerWidget(),
+              ListTile(
+                title: Text('Справка'),
+                leading: Icon(FontAwesomeIcons.info, size: 20.0),
+                onTap: () => controller.selectItem(context, 8),
+                selected: controller.isItemSelected(8),
+              ),
+              ListTile(
+                title: Text('Настройки'),
+                leading: Icon(Icons.settings),
+                onTap: () => controller.selectItem(context, 9),
+                selected: controller.isItemSelected(9),
+              ),
+            ],
+          ),
         ),
       ),
       body: controller.getBody(),

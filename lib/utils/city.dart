@@ -4,7 +4,7 @@ class City {
   double longitude;
 
   City({this.name, this.latitude, this.longitude});
-  City.fromJson(Map<String, dynamic> json) {
+  City.fromJson(Map json) {
     name = json['name'] as String;
     latitude = (json['latitude'] as num).toDouble();
     longitude = (json['longitude'] as num).toDouble();

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:five_stars/models/dimensions.dart';
 import 'package:five_stars/models/route_model.dart';
 import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/utils/city.dart';
@@ -12,24 +14,25 @@ class Cargo {
 
   DateTime departureTime;
   City departure;
-
-  DateTime arrivalTime;
   City arrival;
+  DirectionRoute route;
 
-  Weight weight;
-  Volume volume;
+  double weight;
+  double volume;
   double price;
-  
-  String description;
+  Dimensions dimensions;
 
+  List<dynamic> images;
+  
+  bool dangerous;
+  String description;
   VehicleType vehicleType;
 
-  String ownerId;
-
+  DocumentReference owner;
   DateTime createdAt;
-  DateTime updatedAt;
 
-  DirectionRoute route;
+  bool verified;
+
 
   bool get starred {
     if (SharedPreferencesManager.instance == null) {
@@ -49,42 +52,46 @@ class Cargo {
     this.id,
     this.departureTime,
     this.departure,
-    this.arrivalTime,
     this.arrival,
     this.weight,
     this.volume,
     this.price,
     this.vehicleType,
-    this.ownerId,
+    this.owner,
     this.description,
-    this.updatedAt,
+    this.dangerous,
+    this.dimensions,
+    this.images,
+    this.route,
+    this.verified,
     this.createdAt,
   });
 
-  Cargo.fromJson(Map<String, dynamic> json) {
-    id = json['meta']['id'] as String;
+  Cargo.fromJson(String id, Map json) {
+    id = id;
+    arrival = City.fromJson(json['arrival']);
+    createdAt = (json['createdAt'] as Timestamp).toDate();
 
-    departureTime = DateTime.parse(json['departure']['time']);
-    departure = City.fromJson(json['departure']['position']);
+    departure = City.fromJson(json['departure']);
 
-    arrivalTime = DateTime.parse(json['arrival']['time']);
-    arrival = City.fromJson(json['arrival']['position']);
-
-    weight = Weight(kilogram: (json['weight'] as num).toDouble());
-    volume = Volume(cubicMeter: (json['volume'] as num).toDouble());
-    price = (json['price'] as num).toDouble();
-
-    vehicleType = VehicleTypeUtils.fromJson(json['vehicleType'] as String);
-
-    ownerId = json['ownerId'] as String;
-    description = json['description'] as String;
-
-    createdAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['created']);
-    updatedAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['updated']);
-
+    departureTime = (json['departure']['date'] as Timestamp).toDate();
     departureTime = departureTime.toLocal();
-    arrivalTime = arrivalTime.toLocal();
 
+    dimensions = Dimensions.fromJson(json['dimensions']);
+    
+    images = json['images'];
+
+    description = json['information']['description'] as String;
+    dangerous = json['information']['dangerous'] as bool;
+    vehicleType = VehicleTypeUtils.fromJson(json['information']['vehicleType'] as String);
+
+    owner = json['owner'];
+
+    weight = (json['weight'] as num).toDouble();
+    volume = (json['volume'] as num).toDouble();
+    price = (json['price'] as num).toDouble();
     route = json['route'] != null? DirectionRoute.fromJson(json['route']) : null;
+
+    verified = json['verified'] as bool;
   }
 }

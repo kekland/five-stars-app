@@ -79,7 +79,6 @@ class _CargoWidgetState extends State<CargoWidget> {
                 children: [
                   DepartureArrivalWidget(
                     arrivalCity: widget.data.arrival,
-                    arrivalDate: widget.data.arrivalTime,
                     departureCity: widget.data.departure,
                     departureDate: widget.data.departureTime,
                     isCargo: true,
@@ -97,14 +96,14 @@ class _CargoWidgetState extends State<CargoWidget> {
                           icon: FontAwesomeIcons.cube,
                           title: 'Объем (м³)',
                           value:
-                              widget.data.volume.cubicMeter.round().toString(),
+                              widget.data.volume.round().toString(),
                           unit: "м³",
                         ),
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.weightHanging,
                           title: 'Вес (тонн)',
-                          value: widget.data.weight.ton.toStringAsFixed(1),
+                          value: widget.data.weight.toStringAsFixed(1),
                           unit: "т.",
                         ),
                         TwoLineInformationWidget(
@@ -145,7 +144,7 @@ class _CargoWidgetState extends State<CargoWidget> {
                         borderRadius: BorderRadius.circular(12.0)),
                     padding: const EdgeInsets.all(16.0),
                     child: Text('Подробнее' +
-                        ((widget.data.ownerId == AppData.username)
+                        ((widget.data.owner == AppData.username)
                             ? " (Ваш груз)"
                             : "")),
                     textColor: ModernTextTheme.secondaryColor,

@@ -51,6 +51,7 @@ class ModernTextField extends StatelessWidget {
       autocorrect: autocorrect,
       decoration: InputDecoration(
         errorText: error,
+        fillColor: ModernTextTheme.captionIconColor,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
           borderSide: BorderSide(color: Colors.blue, width: 2.0),
@@ -61,7 +62,7 @@ class ModernTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
-          borderSide: BorderSide(color: Colors.black12, width: 2.0),
+          borderSide: BorderSide(color: Colors.black.withOpacity(0.05), width: 2.0),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),

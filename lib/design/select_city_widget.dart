@@ -34,7 +34,7 @@ class SelectCityWidget extends StatelessWidget {
     return Container(
       child: InkWell(
         onTap: () => onClick(context),
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(12.0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(

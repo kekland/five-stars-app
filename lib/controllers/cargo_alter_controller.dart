@@ -62,11 +62,10 @@ class CargoAlterController extends Controller<CargoAlterPage> {
     selectedDepartureCity = cargo?.departure;
     selectedArrivalCity = cargo?.arrival;
     departureTime = cargo?.departureTime ?? DateTime.now();
-    arrivalTime = cargo?.arrivalTime ?? DateTime.now().add(Duration(days: 1));
     selectedVehicleType = cargo?.vehicleType ?? VehicleType.closed;
 
-    weight.setValue(cargo?.weight?.kilogram?.toString(), true);
-    volume.setValue(cargo?.volume?.cubicMeter?.toString(), true);
+    weight.setValue(cargo?.weight?.toString(), true);
+    volume.setValue(cargo?.volume?.toString(), true);
     price.setValue(cargo?.price?.toString(), true);
     info.setValue(cargo?.description, true);
 

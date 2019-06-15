@@ -7,7 +7,7 @@ class CardWidget extends StatelessWidget {
   final List<Widget> actions;
   final VoidCallback onTap;
 
-  const CardWidget({Key key, this.body, this.padding, this.actions = const [], this.onTap}) : super(key: key);
+  const CardWidget({Key key, this.body, this.padding = EdgeInsets.zero, this.actions = const [], this.onTap}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

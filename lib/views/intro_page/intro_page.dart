@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/intro_page/logo_widget.dart';
@@ -130,9 +131,10 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                     width: double.infinity,
                     height: 48.0,
                     child: RaisedButton.icon(
-                      onPressed: () {
+                      onPressed: () async {
+                        final user = await FirebaseAuth.instance.currentUser();
                         Navigator.of(context).pushReplacementNamed(
-                          (SharedPreferencesManager.instance.getString("token") != null ? "/main" : "/auth"),
+                          (user != null ? "/main" : "/auth"),
                         );
                       },
                       shape: StadiumBorder(),

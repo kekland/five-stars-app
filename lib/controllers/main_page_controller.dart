@@ -16,19 +16,24 @@ class MainPageController extends Controller<MainPage> {
   int currentPage = 0;
 
   final List<Widget> bodyWidget = [
-    CargoPage(key: GlobalKey()),
-    VehiclePage(key: GlobalKey()),
-    ProfilePage(key: GlobalKey(), uid: AppData.uid),
+    Container(color: Colors.red),
+    Container(color: Colors.orange),
+    Container(color: Colors.yellow),
+    Container(color: Colors.green),
+    Container(color: Colors.teal),
+    Container(color: Colors.blue),
+    Container(color: Colors.purple),
+    Container(color: Colors.black),
   ];
 
-  void bottomNavigationItemSelected(BuildContext context, int index) {
+  void selectItem(BuildContext context, int index) {
     presenter.update(() {
       currentPage = index;
     });
   }
 
-  void openDrawer() {
-    scaffoldKey.currentState.openDrawer();
+  bool isItemSelected(int index) {
+    return currentPage == index;
   }
 
   Widget getBody() {

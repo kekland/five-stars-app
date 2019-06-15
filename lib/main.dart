@@ -36,12 +36,14 @@ class MyApp extends StatelessWidget {
       setStatusBar(Brightness.dark);
     }
     AppData.username = SharedPreferencesManager.instance.getString("username");
+    AppData.uid = SharedPreferencesManager.instance.getString("uid");
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Пять звёзд',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.blue,
+        accentColor: Colors.redAccent,
         fontFamily: 'Inter',
       ),
       routes: {

@@ -1,12 +1,7 @@
-import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:five_stars/api/user.dart';
 import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/utils/app_data.dart';
-import 'package:five_stars/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 export 'package:five_stars/api/validity.dart';
 export 'package:five_stars/api/cargo.dart';

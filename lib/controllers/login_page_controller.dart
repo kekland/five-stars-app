@@ -1,34 +1,27 @@
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:five_stars/api/user.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/authorization_page/login_page.dart';
-import 'package:five_stars/views/main_page/main_page.dart';
 import 'package:flutter/material.dart';
-import 'package:five_stars/Api/Api.dart';
+import 'package:five_stars/api/api.dart';
 
 class LoginPageController extends Controller<LoginPage> {
   LoginPageController({Presenter<LoginPage, LoginPageController> presenter}) {
     this.presenter = presenter;
   }
 
-  String email;
+  String username;
   String password;
 
-  void setEmail(String text) => email = text;
+  void setUsername(String text) => username = text;
   void setPassword(String text) => password = text;
 
   void login(BuildContext context) async {
     showLoadingDialog(color: Colors.blue, context: context);
     try {
-      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      final userData = await UserApi.getProfile(context: context, uid: user.uid);
-      
-      AppData.username = userData.username;
-      AppData.userData = userData;
-
+      final token = await Api.getToken(username: username, password: password);
       Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {
       Navigator.of(context).pop();

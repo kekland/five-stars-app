@@ -94,16 +94,16 @@ class _CargoWidgetState extends State<CargoWidget> {
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.cube,
-                          title: 'Объем (м³)',
+                          title: 'Объем (см³)',
                           value:
-                              widget.data.volume.round().toString(),
-                          unit: "м³",
+                              (widget.data.properties.volume * 1000000.0).round().toString(),
+                          unit: "см³",
                         ),
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.weightHanging,
                           title: 'Вес (тонн)',
-                          value: widget.data.weight.toStringAsFixed(1),
+                          value: widget.data.properties.weight.toStringAsFixed(1),
                           unit: "т.",
                         ),
                         TwoLineInformationWidget(
@@ -111,7 +111,7 @@ class _CargoWidgetState extends State<CargoWidget> {
                           icon: FontAwesomeIcons.boxOpen,
                           title: 'Тип кузова',
                           value: VehicleTypeUtils
-                              .vehicleTypeNames[widget.data.vehicleType],
+                              .vehicleTypeNames[widget.data.information.vehicleType],
                           unit: "",
                         ),
                         TwoLineInformationWidget(
@@ -124,13 +124,6 @@ class _CargoWidgetState extends State<CargoWidget> {
                                   .toString()
                               : 'Неизвестно',
                           unit: widget.data.route != null? "км." : '',
-                        ),
-                        TwoLineInformationWidget(
-                          iconColor: Colors.green,
-                          icon: FontAwesomeIcons.tenge,
-                          title: 'Цена',
-                          value: widget.data.price.truncate().toString(),
-                          unit: "тг.",
                         ),
                       ],
                     ),

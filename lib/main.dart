@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
       setStatusBar(Brightness.dark);
     }
     AppData.username = SharedPreferencesManager.instance.getString("username");
-    AppData.uid = SharedPreferencesManager.instance.getString("uid");
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

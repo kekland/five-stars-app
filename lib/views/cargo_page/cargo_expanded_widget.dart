@@ -53,7 +53,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
         builder: (context) {
           return Scaffold(
             body: ProfilePage(
-                uid: widget.data.owner.documentID, includeBackButton: true),
+                uid: widget.data.owner, includeBackButton: true),
           );
         },
       ),
@@ -202,24 +202,24 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
                   icon: FontAwesomeIcons.truckMoving,
                   title: 'Тип кузова',
                   value: VehicleTypeUtils
-                      .vehicleTypeNames[widget.data.vehicleType],
+                      .vehicleTypeNames[widget.data.information.vehicleType],
                   unit: "",
                 ),
                 SizedBox(height: 16.0),
                 TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.cube,
-                  title: 'Объём (м³)',
-                  value: widget.data.volume.round().toString(),
-                  unit: "м³",
+                  title: 'Объём (см³)',
+                  value: (widget.data.properties.volume * 1000000.0).round().toString(),
+                  unit: "см³",
                 ),
                 SizedBox(height: 16.0),
                 TwoLineInformationWidgetExpanded(
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.weightHanging,
-                  title: 'Вес (тонн)',
-                  value: widget.data.weight.round().toString(),
-                  unit: "т.",
+                  title: 'Вес (кг)',
+                  value: widget.data.properties.weight.round().toString(),
+                  unit: "кг.",
                 ),
                 SizedBox(height: 16.0),
                 TwoLineInformationWidgetExpanded(
@@ -238,20 +238,10 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
                   iconColor: ModernTextTheme.captionIconColor,
                   icon: FontAwesomeIcons.boxOpen,
                   title: 'Описание',
-                  value: widget.data.description,
+                  value: widget.data.information.description,
                   unit: "",
                 ),
               ],
-            ),
-          ),
-          SizedBox(height: 16.0),
-          buildInfoCardWidget(
-            TwoLineInformationWidgetExpanded(
-              iconColor: Colors.green,
-              icon: FontAwesomeIcons.tenge,
-              title: 'Цена',
-              value: widget.data.price.truncate().toString(),
-              unit: "тг.",
             ),
           ),
           SizedBox(height: 32.0),
@@ -260,7 +250,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
               iconColor: ModernTextTheme.captionIconColor,
               icon: FontAwesomeIcons.userAlt,
               title: 'Профиль владельца',
-              value: widget.data.owner.documentID,
+              value: widget.data.owner,
               unit: "",
             ),
             () => openProfile(context),

@@ -34,7 +34,7 @@ class _LoginPageState extends Presenter<LoginPage, LoginPageController> {
             ModernTextField(
               hintText: 'Почта',
               icon: Icons.person,
-              onChanged: controller.setEmail,
+              onChanged: controller.setUsername,
             ),
             SizedBox(height: 16.0),
             ModernTextField(

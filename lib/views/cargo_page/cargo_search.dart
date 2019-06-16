@@ -26,7 +26,6 @@ class _CargoSearchState extends State<CargoSearch> {
   DateTime now;
   Bounded weight;
   Bounded volume;
-  Bounded price;
   Bounded distance;
 
   Bounded width;
@@ -57,8 +56,7 @@ class _CargoSearchState extends State<CargoSearch> {
       distance: distance,
       height: height,
       length: length,
-      price: price,
-      volume: volume,
+      volume: Bounded(upper: volume.upper / 1000000.0, lower: volume.lower / 1000000.0),
       weight: weight,
       width: width,
     );
@@ -143,16 +141,9 @@ class _CargoSearchState extends State<CargoSearch> {
               BoundedNumberSelectWidget(
                 icon: FontAwesomeIcons.cube,
                 title: 'Объём',
-                unit: 'м³',
+                unit: 'см³',
                 value: volume,
                 onSelected: (value) => setState(() => volume = value),
-              ),
-              BoundedNumberSelectWidget(
-                icon: FontAwesomeIcons.dollarSign,
-                title: 'Цена',
-                unit: 'тг.',
-                value: price,
-                onSelected: (value) => setState(() => price = value),
               ),
               BoundedNumberSelectWidget(
                 icon: FontAwesomeIcons.route,

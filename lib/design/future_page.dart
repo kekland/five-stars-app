@@ -1,6 +1,4 @@
-import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/design/typography/typography.dart';
-import 'package:five_stars/views/cargo_page/cargo_filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

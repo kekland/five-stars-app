@@ -1,7 +1,10 @@
 import 'package:five_stars/Api/Api.dart';
 import 'package:five_stars/controllers/main_page_controller.dart';
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/cargo_information_widget.dart';
+import 'package:five_stars/design/dimensions_widget.dart';
 import 'package:five_stars/design/map_route.dart';
+import 'package:five_stars/design/properties_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/cargo_model.dart';
@@ -151,98 +154,15 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TwoLineInformationWidgetExpanded(
-                  iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.truckLoading,
-                  title: 'Место погрузки',
-                  value: widget.data.departure.name,
-                  unit: "",
-                ),
-                SizedBox(height: 16.0),
-                TwoLineInformationWidgetExpanded(
-                  iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.truckLoading,
-                  showIcon: false,
-                  title: 'Дата погрузки',
-                  value: dateTimeToString(widget.data.departureTime),
-                  unit: "",
-                ),
-              ],
-            ),
+            PropertiesWidget(data: widget.data.properties, route: widget.data.route),
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TwoLineInformationWidgetExpanded(
-                  iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.dolly,
-                  title: 'Место выгрузки',
-                  value: widget.data.arrival.name,
-                  unit: "",
-                ),
-                SizedBox(height: 16.0),
-              ],
-            ),
+            DimensionsWidget(data: widget.data.dimensions),
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TwoLineInformationWidgetExpanded(
-                  iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.truckMoving,
-                  title: 'Тип кузова',
-                  value: VehicleTypeUtils
-                      .vehicleTypeNames[widget.data.information.vehicleType],
-                  unit: "",
-                ),
-                SizedBox(height: 16.0),
-                TwoLineInformationWidgetExpanded(
-                  iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.cube,
-                  title: 'Объём (см³)',
-                  value: (widget.data.properties.volume * 1000000.0).round().toString(),
-                  unit: "см³",
-                ),
-                SizedBox(height: 16.0),
-                TwoLineInformationWidgetExpanded(
-                  iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.weightHanging,
-                  title: 'Вес (кг)',
-                  value: widget.data.properties.weight.round().toString(),
-                  unit: "кг.",
-                ),
-                SizedBox(height: 16.0),
-                TwoLineInformationWidgetExpanded(
-                  iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.route,
-                  title: 'Дистанция',
-                  value: widget.data.route != null
-                      ? (widget.data.route.distance / 1000.0)
-                          .toStringAsFixed(1)
-                          .toString()
-                      : 'Неизвестно',
-                  unit: widget.data.route != null ? "км." : '',
-                ),
-                SizedBox(height: 16.0),
-                TwoLineInformationWidgetExpanded(
-                  iconColor: ModernTextTheme.captionIconColor,
-                  icon: FontAwesomeIcons.boxOpen,
-                  title: 'Описание',
-                  value: widget.data.information.description,
-                  unit: "",
-                ),
-              ],
-            ),
+            CargoInformationWidget(data: widget.data.information),
           ),
           SizedBox(height: 32.0),
           buildInfoCardWidget(

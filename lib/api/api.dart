@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:five_stars/api/user.dart';
 import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
@@ -15,27 +16,39 @@ export 'package:five_stars/api/cargo.dart';
 String baseUrl = 'https://api.5zvezd.kz';
 
 class Api {
-  static Future<FirebaseUser> register({User userData, FirebaseUser user, String password}) async {
+  static Future<String> register({BuildContext context, User userData, String password}) async {
     try {
-      final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: userData.email, password: password);
-      
-      final ref = await Firestore.instance.collection('users').document(user.uid).setData(
-        {
-          ...userData.toJson(),
-          "cargo": [],
-          "vehicles": [],
-          "savedCargoData": [],
-          "savedVehicleData": [],
-          "favoriteCargoData": [],
-          "favoriteVehicleData": [],
-        },
-      );
-      
+      final response = await Dio().post('$baseUrl/auth/register', data: {
+        "username": userData.username,
+        "password": password,
+        "email": userData.email,
+        "phoneNumber": userData.phoneNumber,
+        "organization": userData.organization,
+        "name": userData.name.toJson(),
+      });
+
       AppData.username = userData.username;
-      AppData.uid = user.uid;
-      
-      return user;
+
+      return await getToken(context: context, username: userData.username, password: password);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<String> getToken(
+      {BuildContext context, String username, String password}) async {
+    try {
+      final response = await Dio().post('$baseUrl/auth/login', data: {
+        "username": username,
+        "password": password,
+      });
+
+      final token = response.data['token'];
+
+      AppData.username = username;
+      AppData.token = token;
+
+      return token;
     } catch (e) {
       rethrow;
     }
@@ -72,8 +85,6 @@ class Api {
     Navigator.of(context).pushReplacementNamed('/auth');
   }
 
-  static Options get options => Options(headers: {
-        "Authorization":
-            "Bearer ${SharedPreferencesManager.instance.getString("token")}",
-      });
+  static Options get options =>
+      Options(headers: {"Authorization": "Bearer ${AppData.token}"});
 }

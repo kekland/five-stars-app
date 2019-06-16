@@ -1,16 +1,14 @@
+import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/utils/utils.dart';
 
 class AppData {
   static String _username;
-  static String _uid;
+  static User userData;
+  static String _token;
 
-  static void set username(String username) {
+  static set username(String username) {
     _username = username;
     SharedPreferencesManager.instance.setString('username', username);
-  }
-  static void set uid(String uid) {
-    _uid = uid;
-    SharedPreferencesManager.instance.setString('uid', uid);
   }
 
   static String get username {
@@ -20,10 +18,15 @@ class AppData {
     return _username;
   }
   
-  static String get uid {
-    if(_uid == null) {
-      _uid = SharedPreferencesManager.instance.getString('username');
+  static set token(String token) {
+    _token = token;
+    SharedPreferencesManager.instance.setString('token', token);
+  }
+
+  static String get token {
+    if(_token == null) {
+      _token = SharedPreferencesManager.instance.getString('username');
     }
-    return _uid;
+    return _token;
   }
 }

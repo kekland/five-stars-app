@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:five_stars/models/dimensions.dart';
+import 'package:five_stars/models/information.dart';
+import 'package:five_stars/models/properties.dart';
 import 'package:five_stars/models/route_model.dart';
 import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/utils/city.dart';
@@ -12,27 +14,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Cargo {
   String id;
 
-  DateTime departureTime;
   City departure;
+  DateTime departureTime;
+
   City arrival;
   DirectionRoute route;
 
-  double weight;
-  double volume;
-  double price;
+  Properties properties;
   Dimensions dimensions;
+  CargoInformation information;
 
   List<dynamic> images;
   
-  bool dangerous;
-  String description;
-  VehicleType vehicleType;
-
-  DocumentReference owner;
+  String owner;
   DateTime createdAt;
 
+  bool archived;
   bool verified;
-
 
   bool get starred {
     if (SharedPreferencesManager.instance == null) {
@@ -53,45 +51,36 @@ class Cargo {
     this.departureTime,
     this.departure,
     this.arrival,
-    this.weight,
-    this.volume,
-    this.price,
-    this.vehicleType,
+    this.archived,
+    this.createdAt,
     this.owner,
-    this.description,
-    this.dangerous,
     this.dimensions,
     this.images,
     this.route,
     this.verified,
-    this.createdAt,
+    this.information,
+    this.properties,
   });
 
-  Cargo.fromJson(String id, Map json) {
-    id = id;
-    arrival = City.fromJson(json['arrival']);
-    createdAt = (json['createdAt'] as Timestamp).toDate();
+  Cargo.fromJson(Map json) {
+    id = json['meta']['id'];
 
     departure = City.fromJson(json['departure']);
+    departureTime = DateTime.parse(json['departureTime']);
 
-    departureTime = (json['departure']['date'] as Timestamp).toDate();
-    departureTime = departureTime.toLocal();
-
-    dimensions = Dimensions.fromJson(json['dimensions']);
-    
-    images = json['images'];
-
-    description = json['information']['description'] as String;
-    dangerous = json['information']['dangerous'] as bool;
-    vehicleType = VehicleTypeUtils.fromJson(json['information']['vehicleType'] as String);
-
-    owner = json['owner'];
-
-    weight = (json['weight'] as num).toDouble();
-    volume = (json['volume'] as num).toDouble();
-    price = (json['price'] as num).toDouble();
+    arrival = City.fromJson(json['arrival']);
     route = json['route'] != null? DirectionRoute.fromJson(json['route']) : null;
 
+    properties = Properties.fromJson(json['properties']);
+    dimensions = Dimensions.fromJson(json['dimensions']);
+    information = CargoInformation.fromJson(json['information']);
+
+    images = json['images'];
+
+    archived = json['archived'] as bool;
     verified = json['verified'] as bool;
+
+    createdAt = DateTime.parse(json['meta']['created']);
+    owner = json['owner'];
   }
 }

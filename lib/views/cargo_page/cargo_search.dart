@@ -8,6 +8,8 @@ import 'package:five_stars/design/text_field.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/filter/bounded.dart';
+import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/views/cargo_page/cargo_page.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -46,11 +48,12 @@ class _CargoSearchState extends State<CargoSearch> {
   }
 
   void getCargo(BuildContext context) async {
+    showLoadingDialog(context: context, color: Colors.red);
     final data = await CargoApi.getCargo(
       context: context,
       arrival: arrival,
       departure: departure,
-      departureDate: departureTime,
+      departureTime: departureTime,
       distance: distance,
       height: height,
       length: length,
@@ -58,6 +61,12 @@ class _CargoSearchState extends State<CargoSearch> {
       volume: volume,
       weight: weight,
       width: width,
+    );
+    Navigator.of(context).pop();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => CargoPage(cargo: data),
+      ),
     );
   }
 

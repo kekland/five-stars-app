@@ -27,7 +27,7 @@ class LoginPageController extends Controller<LoginPage> {
       final userData = await UserApi.getProfile(context: context, uid: user.uid);
       
       AppData.username = userData.username;
-      AppData.uid = user.uid;
+      AppData.userData = userData;
 
       Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {

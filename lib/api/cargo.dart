@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:five_stars/api/api.dart';
-import 'package:five_stars/api/querying.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/filter/bounded.dart';
@@ -13,42 +11,36 @@ class CargoApi {
     @required BuildContext context,
     City departure,
     City arrival,
-    DateTime departureDate,
+    DateTime departureTime,
     Bounded weight,
     Bounded volume,
-    Bounded price,
     Bounded distance,
     Bounded width,
     Bounded height,
     Bounded length,
+    bool showArchived,
+    bool removeOld,
+    VehicleType vehicleType,
   }) async {
     try {
-      final query = Firestore.instance.collection('cargo').orderBy('createdAt');
+      final response = await Dio().post('$baseUrl/cargo/get', data: {
+        "departure": departure.name,
+        "arrival": arrival.name,
+        "departureTime": departureTime,
+        "weight": weight.toJson(),
+        "volume": volume.toJson(),
+        "distance": distance.toJson(),
+        "width": width.toJson(),
+        "height": height.toJson(),
+        "length": length.toJson(),
+        "archived": showArchived,
+        "removeOld": removeOld,
+        "oldThreshold": 7 * 24 * 60 * 60 * 1000,
+        "vehicleType": VehicleTypeUtils.toJson(vehicleType),
+      });
 
-      Querying.queryWithCity(
-          field: 'departure', value: departure, query: query);
-      Querying.queryWithCity(field: 'arrival', value: arrival, query: query);
-      Querying.queryWithDateTime(
-          field: 'departure.date', value: departureDate, query: query);
-      Querying.queryWithBounded(field: 'weight', value: weight, query: query);
-      Querying.queryWithBounded(field: 'volume', value: volume, query: query);
-      Querying.queryWithBounded(field: 'price', value: price, query: query);
-      Querying.queryWithBounded(
-          field: 'route.distance', value: distance, query: query);
-      Querying.queryWithBounded(
-          field: 'dimensions.width', value: width, query: query);
-      Querying.queryWithBounded(
-          field: 'dimensions.height', value: height, query: query);
-      Querying.queryWithBounded(
-          field: 'dimensions.length', value: length, query: query);
-
-      final data = await query.getDocuments();
-      return data.documents
-          .map((documentSnapshot) => Cargo.fromJson(
-                documentSnapshot.documentID,
-                documentSnapshot.data,
-              ))
-          .toList();
+      List<Cargo> cargo = response.data.map((data) => Cargo.fromJson(data)).toList();
+      return cargo;
     } catch (e) {
       print(e);
       rethrow;
@@ -61,7 +53,7 @@ class CargoApi {
       final response = await Dio().post('${baseUrl}/cargo/getBatched',
           data: {"values": identifiers}, options: Api.options);
       List<Cargo> cargo = (response.data as List<dynamic>)
-          .map((cargo) => Cargo.fromJson('a', cargo))
+          .map((cargo) => Cargo.fromJson(cargo))
           .toList();
       return cargo;
     } catch (e) {
@@ -106,7 +98,7 @@ class CargoApi {
 
       final response = await Dio()
           .post('${baseUrl}/cargo', data: data, options: Api.options);
-      return Cargo.fromJson('a', response.data);
+      return Cargo.fromJson(response.data);
     } catch (e) {
       bool handled = await Api.handleError(context: context, exception: e);
       if (handled) {
@@ -161,7 +153,7 @@ class CargoApi {
 
       final response = await Dio()
           .put('${baseUrl}/cargo/${id}', data: data, options: Api.options);
-      return Cargo.fromJson('a', response.data);
+      return Cargo.fromJson(response.data);
     } catch (e) {
       bool handled = await Api.handleError(context: context, exception: e);
       if (handled) {

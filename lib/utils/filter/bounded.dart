@@ -15,10 +15,19 @@ class Bounded {
     upper = newUpperBound;
   }
 
+  bool isInRange(double number) {
+    if(lower <= number && number <= upper) return true;
+    return false;
+  }
   @override
   String toString() {
     return "${lower.round().toString()} - ${upper.round().toString()}";
   }
+
+  Map toJson() => {
+    "lower": lower,
+    "upper": upper,
+  };
 }
 
 class BoundedRangeWidget extends StatelessWidget {

@@ -6,11 +6,10 @@ import 'package:flutter/material.dart';
 
 class UserApi {
   static Future<User> getProfile(
-      {@required BuildContext context, String uid}) async {
+      {@required BuildContext context, String username}) async {
     try {
-      final snapshot = await Firestore.instance.collection('users').document(uid).get();
-      if(snapshot == null) throw Exception('Пользователь не найден.');
-      return User.fromJson(snapshot.data)..uid = uid;
+      final response = await Dio().get('$baseUrl/user/$username');
+      return User.fromJson(response.data);
     } catch (e) {
       rethrow;
     }

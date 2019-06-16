@@ -31,16 +31,14 @@ class Name {
 }
 
 class User {
-  String uid;
   String username;
   String email;
   String phoneNumber;
-  bool verified;
   String organization;
   Name name;
+  bool verified;
 
   User({
-    this.uid,
     this.organization,
     this.verified,
     this.email,
@@ -67,5 +65,5 @@ class User {
         "name": name.toJson(),
       };
 
-  bool get isCurrentUser => AppData.uid == this.uid;
+  bool get isCurrentUser => AppData.username == this.username;
 }

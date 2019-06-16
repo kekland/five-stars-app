@@ -1,39 +1,44 @@
-import 'package:five_stars/api/cargo.dart';
-import 'package:five_stars/design/bounded_number_select_widget.dart';
+import 'package:five_stars/design/boolean_select_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/number_select_widget.dart';
 import 'package:five_stars/design/select_city_widget.dart';
-import 'package:five_stars/design/select_location_page.dart';
 import 'package:five_stars/design/select_time_widget.dart';
-import 'package:five_stars/design/text_field.dart';
+import 'package:five_stars/design/select_vehicle_type.dart';
+import 'package:five_stars/design/string_select_widget.dart';
 import 'package:five_stars/design/typography/typography.dart';
+import 'package:five_stars/models/dimensions.dart';
+import 'package:five_stars/models/information.dart';
+import 'package:five_stars/models/properties.dart';
 import 'package:five_stars/utils/city.dart';
-import 'package:five_stars/utils/filter/bounded.dart';
-import 'package:five_stars/utils/utils.dart';
-import 'package:five_stars/views/cargo_page/cargo_page.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CargoSearch extends StatefulWidget {
+class CargoAddPage extends StatefulWidget {
   @override
-  _CargoSearchState createState() => _CargoSearchState();
+  _CargoAddPageState createState() => _CargoAddPageState();
 }
 
-class _CargoSearchState extends State<CargoSearch> {
+class _CargoAddPageState extends State<CargoAddPage> {
   City departure;
   City arrival;
   DateTime departureTime;
+  Properties properties;
+  Dimensions dimensions;
+  CargoInformation information;
+
   DateTime now;
-  Bounded weight;
-  Bounded volume;
-  Bounded distance;
 
-  Bounded width;
-  Bounded length;
-  Bounded height;
+  bool isValid() {
+    return departure != null &&
+        arrival != null &&
+        departureTime != null &&
+        properties.isValid() &&
+        dimensions.isValid() &&
+        information.isValid();
+  }
 
-  @override
-  void initState() {
+  void reset() {
     now = DateTime.now().toUtc();
     now = now.subtract(
       Duration(
@@ -43,43 +48,25 @@ class _CargoSearchState extends State<CargoSearch> {
       ),
     );
     departureTime = now.add(Duration(days: 1));
-    super.initState();
+
+    departure = null;
+    arrival = null;
+    properties = Properties(volume: null, weight: null);
+    dimensions = Dimensions(width: null, height: null, length: null);
+    information = CargoInformation(
+        dangerous: false, description: null, vehicleType: null);
+
+    setState(() {});
   }
 
-  void getCargo(BuildContext context) async {
-    try {
-      showLoadingDialog(context: context, color: Colors.red);
-      final data = await CargoApi.getCargo(
-        context: context,
-        arrival: arrival,
-        departure: departure,
-        departureTime: departureTime,
-        distance: distance,
-        height: height,
-        length: length,
-        volume: volume != null
-            ? Bounded(
-                upper: volume.upper / 1000000.0,
-                lower: volume.lower / 1000000.0)
-            : null,
-        weight: weight,
-        width: width,
-        showArchived: false,
-        removeOld: true,
-      );
-      Navigator.of(context).pop();
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => CargoPage(cargo: data),
-        ),
-      );
-    } catch (e) {
-      Navigator.of(context).pop();
-      showErrorSnackbar(
-          context: context,
-          errorMessage: 'Произошла ошибка при поиске грузов.',
-          exception: e);
-    }
+  void addCargo(BuildContext context) async {
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    reset();
   }
 
   @override
@@ -88,16 +75,6 @@ class _CargoSearchState extends State<CargoSearch> {
       padding: const EdgeInsets.all(16.0),
       physics: BouncingScrollPhysics(),
       children: [
-        CardWidget(
-          padding: const EdgeInsets.all(16.0),
-          onTap: () => getCargo(context),
-          body: SingleLineInformationWidget(
-            icon: Icons.search,
-            color: Colors.green,
-            label: 'Найти грузы',
-          ),
-        ),
-        SizedBox(height: 24.0),
         CardWidget(
           padding: const EdgeInsets.all(16.0),
           body: Text(
@@ -145,26 +122,21 @@ class _CargoSearchState extends State<CargoSearch> {
         CardWidget(
           body: Column(
             children: <Widget>[
-              BoundedNumberSelectWidget(
+              NumberSelectWidget(
                 icon: FontAwesomeIcons.weightHanging,
                 title: 'Вес',
                 unit: 'кг.',
-                value: weight,
-                onSelected: (value) => setState(() => weight = value),
+                value: properties.weight,
+                onSelected: (value) =>
+                    setState(() => properties.weight = value),
               ),
-              BoundedNumberSelectWidget(
+              NumberSelectWidget(
                 icon: FontAwesomeIcons.cube,
                 title: 'Объём',
                 unit: 'см³',
-                value: volume,
-                onSelected: (value) => setState(() => volume = value),
-              ),
-              BoundedNumberSelectWidget(
-                icon: FontAwesomeIcons.route,
-                title: 'Дистанция',
-                unit: 'км.',
-                value: distance,
-                onSelected: (value) => setState(() => distance = value),
+                value: properties.volume,
+                onSelected: (value) =>
+                    setState(() => properties.volume = value),
               ),
             ],
           ),
@@ -181,26 +153,61 @@ class _CargoSearchState extends State<CargoSearch> {
         CardWidget(
           body: Column(
             children: <Widget>[
-              BoundedNumberSelectWidget(
+              NumberSelectWidget(
                 icon: FontAwesomeIcons.rulerHorizontal,
                 title: 'Длина',
                 unit: 'см.',
-                value: length,
-                onSelected: (value) => setState(() => length = value),
+                value: dimensions.length,
+                onSelected: (value) =>
+                    setState(() => dimensions.length = value),
               ),
-              BoundedNumberSelectWidget(
+              NumberSelectWidget(
                 icon: FontAwesomeIcons.rulerCombined,
                 title: 'Ширина',
                 unit: 'см.',
-                value: width,
-                onSelected: (value) => setState(() => width = value),
+                value: dimensions.width,
+                onSelected: (value) => setState(() => dimensions.width = value),
               ),
-              BoundedNumberSelectWidget(
+              NumberSelectWidget(
                 icon: FontAwesomeIcons.rulerVertical,
                 title: 'Высота',
                 unit: 'см.',
-                value: height,
-                onSelected: (value) => setState(() => height = value),
+                value: dimensions.height,
+                onSelected: (value) =>
+                    setState(() => dimensions.height = value),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 24.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          body: Text(
+            'Информация',
+            style: ModernTextTheme.title,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        CardWidget(
+          body: Column(
+            children: <Widget>[
+              StringSelectWidget(
+                icon: FontAwesomeIcons.envelopeOpenText,
+                title: 'Описание',
+                value: information.description,
+                onSelected: (value) =>
+                    setState(() => information.description = value),
+              ),
+              SelectVehicleType(
+                selectedVehicleType: information.vehicleType,
+                onSelect: (value) =>
+                    setState(() => information.vehicleType = value),
+              ),
+              BoolSelectWidget(
+                title: 'Опасный груз',
+                value: information.dangerous,
+                onSelected: (value) =>
+                    setState(() => information.dangerous = value),
               ),
             ],
           ),
@@ -208,15 +215,17 @@ class _CargoSearchState extends State<CargoSearch> {
         SizedBox(height: 16.0),
         CardWidget(
           padding: const EdgeInsets.all(16.0),
+          onTap: (isValid())? () => addCargo(context) : null,
           body: SingleLineInformationWidget(
-            icon: Icons.save,
-            label: 'Сохранить фильтр',
-            color: Colors.indigo,
+            icon: Icons.check,
+            label: 'Добавить груз',
+            color: (isValid())? Colors.green : Colors.grey,
           ),
         ),
         SizedBox(height: 16.0),
         CardWidget(
           padding: const EdgeInsets.all(16.0),
+          onTap: reset,
           body: SingleLineInformationWidget(
             icon: Icons.delete,
             label: 'Очистить',

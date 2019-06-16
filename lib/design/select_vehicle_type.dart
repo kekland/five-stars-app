@@ -72,7 +72,7 @@ class SelectVehicleType extends StatelessWidget {
             iconColor: ModernTextTheme.captionIconColor,
             icon: FontAwesomeIcons.truckMoving,
             title: 'Тип кузова',
-            value: VehicleTypeUtils.vehicleTypeNames[selectedVehicleType],
+            value: selectedVehicleType != null? VehicleTypeUtils.vehicleTypeNames[selectedVehicleType] : "Не выбрано",
             unit: "",
           ),
         ),

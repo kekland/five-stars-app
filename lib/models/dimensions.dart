@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Dimensions {
   double width;
   double height;
@@ -16,4 +18,8 @@ class Dimensions {
     'height': height,
     'length': length,
   };
+  
+  bool isValid() {
+    return width != null && height != null && length != null;
+  }
 }

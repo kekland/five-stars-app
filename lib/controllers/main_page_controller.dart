@@ -1,6 +1,7 @@
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/views/cargo_page/cargo_add_page.dart';
 import 'package:five_stars/views/cargo_page/cargo_page.dart';
 import 'package:five_stars/views/cargo_page/cargo_search.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
@@ -18,7 +19,7 @@ class MainPageController extends Controller<MainPage> {
 
   final List<Widget> bodyWidget = [
     CargoSearch(),
-    Container(color: Colors.orange),
+    CargoAddPage(),
     Container(color: Colors.yellow),
     Container(color: Colors.green),
     Container(color: Colors.teal),

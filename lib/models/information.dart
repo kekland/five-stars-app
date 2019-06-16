@@ -36,4 +36,8 @@ class CargoInformation {
     "description": description,
     "vehicleType": VehicleTypeUtils.toJson(vehicleType),
   };
+  
+  bool isValid() {
+    return dangerous != null && description != null && vehicleType != null;
+  }
 }

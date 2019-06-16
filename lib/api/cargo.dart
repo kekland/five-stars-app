@@ -24,22 +24,27 @@ class CargoApi {
   }) async {
     try {
       final response = await Dio().post('$baseUrl/cargo/get', data: {
-        "departure": departure.name,
-        "arrival": arrival.name,
-        "departureTime": departureTime,
-        "weight": weight.toJson(),
-        "volume": volume.toJson(),
-        "distance": distance.toJson(),
-        "width": width.toJson(),
-        "height": height.toJson(),
-        "length": length.toJson(),
+        "departure": departure?.name,
+        "arrival": arrival?.name,
+        "departureTime":
+            departureTime != null ? departureTime.toIso8601String() : null,
+        "weight": weight != null ? weight.toJson() : null,
+        "volume": volume != null ? volume.toJson() : null,
+        "distance": distance != null ? distance.toJson() : null,
+        "width": width != null ? width.toJson() : null,
+        "height": height != null ? height.toJson() : null,
+        "length": length != null ? length.toJson() : null,
         "archived": showArchived,
         "removeOld": removeOld,
         "oldThreshold": 7 * 24 * 60 * 60 * 1000,
-        "vehicleType": VehicleTypeUtils.toJson(vehicleType),
+        "vehicleType":
+            vehicleType != null ? VehicleTypeUtils.toJson(vehicleType) : null,
       });
 
-      List<Cargo> cargo = response.data.map((data) => Cargo.fromJson(data)).toList();
+      List<Cargo> cargo = (response.data as List<dynamic>)
+          .map((data) => Cargo.fromJson(data))
+          .cast<Cargo>()
+          .toList();
       return cargo;
     } catch (e) {
       print(e);

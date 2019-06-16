@@ -12,4 +12,8 @@ class Properties {
     "weight": weight,
     "volume": volume
   };
+
+  bool isValid() {
+    return weight != null && volume != null;
+  }
 }

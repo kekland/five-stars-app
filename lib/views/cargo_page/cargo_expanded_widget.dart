@@ -64,10 +64,10 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
     Navigator.of(context).pop();
     Navigator.of(context).push(TransparentRoute(
       builder: (_) {
-        return CargoAlterPage(
+        /*return CargoAlterPage(
             mainContext: context,
             mode: AlterMode.edit,
-            defaultData: widget.data);
+            defaultData: widget.data);*/
       },
     ));
   }

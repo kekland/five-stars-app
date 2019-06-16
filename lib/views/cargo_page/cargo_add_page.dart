@@ -1,3 +1,4 @@
+import 'package:five_stars/api/cargo.dart';
 import 'package:five_stars/design/boolean_select_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/number_select_widget.dart';
@@ -5,11 +6,14 @@ import 'package:five_stars/design/select_city_widget.dart';
 import 'package:five_stars/design/select_time_widget.dart';
 import 'package:five_stars/design/select_vehicle_type.dart';
 import 'package:five_stars/design/string_select_widget.dart';
+import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/dimensions.dart';
 import 'package:five_stars/models/information.dart';
 import 'package:five_stars/models/properties.dart';
 import 'package:five_stars/utils/city.dart';
+import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/views/cargo_page/cargo_expanded_widget.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -60,7 +64,43 @@ class _CargoAddPageState extends State<CargoAddPage> {
   }
 
   void addCargo(BuildContext context) async {
+    try {
+      showLoadingDialog(context: context, color: Colors.red);
+      final data = await CargoApi.addCargo(
+        context: context,
+        arrival: arrival,
+        departure: departure,
+        departureTime: departureTime,
+        dimensions: Dimensions(
+          width: dimensions.width / 100.0,
+          height: dimensions.height / 100.0,
+          length: dimensions.length / 100.0,
+        ),
+        information: information,
+        properties: Properties(
+          volume: properties.volume / 1000000.0,
+          weight: properties.weight,
+        ),
+      );
+      Navigator.of(context).pop();
 
+      await Navigator.of(context).push(
+        TransparentRoute(
+          builder: (context) {
+            return CargoExpandedWidget(
+              data: data,
+              heroPrefix: '',
+            );
+          },
+        ),
+      );
+    } catch (e) {
+      Navigator.of(context).pop();
+      showErrorSnackbar(
+          context: context,
+          errorMessage: 'Произошла ошибка при добавлении груза.',
+          exception: e);
+    }
   }
 
   @override
@@ -215,11 +255,11 @@ class _CargoAddPageState extends State<CargoAddPage> {
         SizedBox(height: 16.0),
         CardWidget(
           padding: const EdgeInsets.all(16.0),
-          onTap: (isValid())? () => addCargo(context) : null,
+          onTap: (isValid()) ? () => addCargo(context) : null,
           body: SingleLineInformationWidget(
             icon: Icons.check,
             label: 'Добавить груз',
-            color: (isValid())? Colors.green : Colors.grey,
+            color: (isValid()) ? Colors.green : Colors.grey,
           ),
         ),
         SizedBox(height: 16.0),

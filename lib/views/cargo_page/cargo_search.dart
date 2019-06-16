@@ -64,7 +64,7 @@ class _CargoSearchState extends State<CargoSearch> {
             : null,
         weight: weight,
         width: width,
-        showArchived: false,
+        showArchived: true,
         removeOld: true,
       );
       Navigator.of(context).pop();
@@ -88,16 +88,6 @@ class _CargoSearchState extends State<CargoSearch> {
       padding: const EdgeInsets.all(16.0),
       physics: BouncingScrollPhysics(),
       children: [
-        CardWidget(
-          padding: const EdgeInsets.all(16.0),
-          onTap: () => getCargo(context),
-          body: SingleLineInformationWidget(
-            icon: Icons.search,
-            color: Colors.green,
-            label: 'Найти грузы',
-          ),
-        ),
-        SizedBox(height: 24.0),
         CardWidget(
           padding: const EdgeInsets.all(16.0),
           body: Text(
@@ -203,6 +193,16 @@ class _CargoSearchState extends State<CargoSearch> {
                 onSelected: (value) => setState(() => height = value),
               ),
             ],
+          ),
+        ),
+        SizedBox(height: 16.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          onTap: () => getCargo(context),
+          body: SingleLineInformationWidget(
+            icon: Icons.search,
+            color: Colors.green,
+            label: 'Найти грузы',
           ),
         ),
         SizedBox(height: 16.0),

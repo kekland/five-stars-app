@@ -80,7 +80,7 @@ class Cargo {
     archived = json['archived'] as bool;
     verified = json['verified'] as bool;
 
-    createdAt = DateTime.parse(json['meta']['created']);
+    createdAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['created']);
     owner = json['owner'];
   }
 }

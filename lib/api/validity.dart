@@ -28,23 +28,17 @@ class UserRegistrationAvailability {
 class ValidityApi {
   static Future<UserRegistrationAvailability> checkUserForAvailability(
       {String username, String email, String phoneNumber}) async {
-    final usernameSnapshot = await Firestore.instance
-        .collection('users')
-        .where('username', isEqualTo: username)
-        .getDocuments();
-    final emailSnapshot = await Firestore.instance
-        .collection('users')
-        .where('email', isEqualTo: email)
-        .getDocuments();
-    final phoneSnapshot = await Firestore.instance
-        .collection('users')
-        .where('phoneNumber', isEqualTo: phoneNumber)
-        .getDocuments();
-    return UserRegistrationAvailability(
-      emailAvailable: emailSnapshot.documents.length == 0,
-      phoneNumberAvailable: phoneSnapshot.documents.length == 0,
-      usernameAvailable: usernameSnapshot.documents.length == 0,
-    );
+    try {
+      final response = await Dio().post('$baseUrl/auth/availability', data: {
+        'username': username,
+        'email': email,
+        'phoneNumber': phoneNumber,
+      });
+
+      return UserRegistrationAvailability.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   static final FirebaseAuth auth = FirebaseAuth.instance;

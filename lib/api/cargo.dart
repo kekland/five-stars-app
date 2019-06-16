@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:five_stars/api/api.dart';
 import 'package:five_stars/models/cargo_model.dart';
+import 'package:five_stars/models/dimensions.dart';
+import 'package:five_stars/models/information.dart';
+import 'package:five_stars/models/properties.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/filter/bounded.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
@@ -73,32 +76,22 @@ class CargoApi {
 
   static Future<Cargo> addCargo({
     @required BuildContext context,
-    City arrival,
     City departure,
-    DateTime arrivalTime,
+    City arrival,
     DateTime departureTime,
-    double price,
-    double weight,
-    double volume,
-    VehicleType type,
-    String description,
+    Properties properties,
+    Dimensions dimensions,
+    CargoInformation information,
   }) async {
     try {
       final Map data = {
-        "arrival": {
-          "position": arrival.toJson(),
-          "time": arrivalTime.toIso8601String()
-        },
-        "departure": {
-          "position": departure.toJson(),
-          "time": departureTime.toIso8601String()
-        },
-        "price": price,
-        "weight": weight,
-        "volume": volume,
-        "vehicleType": VehicleTypeUtils.toJson(type),
-        "description": description,
-        "images": []
+        "arrival": arrival.toJson(),
+        "departure": departure.toJson(),
+        "departureTime": departureTime.toIso8601String(),
+        "properties": properties.toJson(),
+        "dimensions": dimensions.toJson(),
+        "information": information.toJson(),
+        "images": [],
       };
 
       final response = await Dio()
@@ -109,15 +102,12 @@ class CargoApi {
       if (handled) {
         return await addCargo(
           context: context,
-          arrival: arrival,
           departure: departure,
-          arrivalTime: arrivalTime,
+          arrival: arrival,
           departureTime: departureTime,
-          description: description,
-          price: price,
-          volume: volume,
-          weight: weight,
-          type: type,
+          properties: properties,
+          dimensions: dimensions,
+          information: information,
         );
       } else {
         rethrow;

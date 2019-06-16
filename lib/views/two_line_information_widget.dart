@@ -38,7 +38,7 @@ class TwoLineInformationWidget extends StatelessWidget {
                     color: iconColor,
                   )
                 : SizedBox(
-                    width: (emptySpaceOnHideIcon)? 0.0 : 24.0,
+                    width: (emptySpaceOnHideIcon) ? 0.0 : 24.0,
                     height: 24.0,
                   ),
             SizedBox(width: 12.0),
@@ -87,7 +87,7 @@ class TwoLineInformationWidgetExpanded extends StatelessWidget {
       {Key key,
       this.title,
       this.value,
-      this.unit,
+      this.unit = '',
       this.icon,
       this.iconColor,
       this.showIcon = true,
@@ -149,20 +149,28 @@ class TwoLineInformationWidgetExpanded extends StatelessWidget {
 
 class SingleLineInformationWidget extends StatelessWidget {
   final IconData icon;
+  final double iconSize;
   final String label;
   final Color color;
 
   const SingleLineInformationWidget(
-      {Key key, this.icon, this.label, this.color = Colors.black})
+      {Key key,
+      this.icon,
+      this.label,
+      this.color = Colors.black,
+      this.iconSize = 24.0})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon,
-            color: (color == Colors.black)
-                ? color.withOpacity(0.125)
-                : color.withOpacity(0.65)),
+        Icon(
+          icon,
+          color: (color == Colors.black)
+              ? color.withOpacity(0.125)
+              : color.withOpacity(0.65),
+          size: iconSize,
+        ),
         SizedBox(width: 24.0),
         Text(label,
             style: ModernTextTheme.primaryAccented.copyWith(color: color)),

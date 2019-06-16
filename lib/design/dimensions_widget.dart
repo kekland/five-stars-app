@@ -21,6 +21,7 @@ class DimensionsWidget extends StatelessWidget {
           value: (data.length * 100.0).toString(),
           unit: 'см.',
         ),
+        SizedBox(height: 16.0),
         TwoLineInformationWidgetExpanded(
           iconColor: ModernTextTheme.captionIconColor,
           icon: FontAwesomeIcons.rulerCombined,
@@ -28,6 +29,7 @@ class DimensionsWidget extends StatelessWidget {
           value: (data.width * 100.0).toString(),
           unit: 'см.',
         ),
+        SizedBox(height: 16.0),
         TwoLineInformationWidgetExpanded(
           iconColor: ModernTextTheme.captionIconColor,
           icon: FontAwesomeIcons.rulerVertical,

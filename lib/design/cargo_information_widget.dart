@@ -19,20 +19,24 @@ class CargoInformationWidget extends StatelessWidget {
           iconColor: ModernTextTheme.captionIconColor,
           icon: FontAwesomeIcons.envelopeOpenText,
           title: 'Информация',
-          value: data.description,
+          value: data.description ?? 'Нет информации',
         ),
+        SizedBox(height: 16.0),
         TwoLineInformationWidgetExpanded(
           iconColor: ModernTextTheme.captionIconColor,
           icon: FontAwesomeIcons.truckMoving,
           title: 'Тип кузова',
           value: VehicleTypeUtils.vehicleTypeNames[data.vehicleType],
         ),
-        if (data.dangerous)
+        if (data.dangerous) ...[
+          SizedBox(height: 16.0),
           SingleLineInformationWidget(
             icon: FontAwesomeIcons.exclamationTriangle,
             color: Colors.red,
             label: 'Опасный груз',
+            iconSize: 24.0,
           ),
+        ],
       ],
     );
   }

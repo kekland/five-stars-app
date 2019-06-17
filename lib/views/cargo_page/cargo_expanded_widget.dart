@@ -10,15 +10,12 @@ import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
-import 'package:five_stars/utils/vehicle_type.dart';
-import 'package:five_stars/views/cargo_page/cargo_alter_page.dart';
+import 'package:five_stars/views/cargo_page/cargo_edit_page.dart';
 import 'package:five_stars/views/cargo_page/cargo_widget.dart';
 import 'package:five_stars/views/profile_page/profile_page.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'cargo_page.dart';
 
 class CargoExpandedWidget extends StatefulWidget {
   final Cargo data;
@@ -67,10 +64,9 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
     Navigator.of(context).pop();
     Navigator.of(context).push(TransparentRoute(
       builder: (_) {
-        /*return CargoAlterPage(
-            mainContext: context,
-            mode: AlterMode.edit,
-            defaultData: widget.data);*/
+        return CargoEditPage(
+          data: widget.data,
+        );
       },
     ));
   }

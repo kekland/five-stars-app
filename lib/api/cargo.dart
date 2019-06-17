@@ -120,32 +120,22 @@ class CargoApi {
   static Future<Cargo> editCargo({
     @required BuildContext context,
     String id,
-    City arrival,
     City departure,
-    DateTime arrivalTime,
+    City arrival,
     DateTime departureTime,
-    double price,
-    double weight,
-    double volume,
-    VehicleType type,
-    String description,
+    Properties properties,
+    Dimensions dimensions,
+    CargoInformation information,
   }) async {
     try {
       final Map data = {
-        "arrival": {
-          "position": arrival.toJson(),
-          "time": arrivalTime.toIso8601String()
-        },
-        "departure": {
-          "position": departure.toJson(),
-          "time": departureTime.toIso8601String()
-        },
-        "price": price,
-        "weight": weight,
-        "volume": volume,
-        "vehicleType": VehicleTypeUtils.toJson(type),
-        "description": description,
-        "images": []
+        "arrival": arrival.toJson(),
+        "departure": departure.toJson(),
+        "departureTime": departureTime.toIso8601String(),
+        "properties": properties.toJson(),
+        "dimensions": dimensions.toJson(),
+        "information": information.toJson(),
+        "images": [],
       };
 
       final response = await Dio()
@@ -159,13 +149,10 @@ class CargoApi {
           id: id,
           arrival: arrival,
           departure: departure,
-          arrivalTime: arrivalTime,
           departureTime: departureTime,
-          description: description,
-          price: price,
-          volume: volume,
-          weight: weight,
-          type: type,
+          dimensions: dimensions,
+          information: information,
+          properties: properties,
         );
       } else {
         rethrow;

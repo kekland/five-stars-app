@@ -22,15 +22,15 @@ class CargoSearch extends StatefulWidget {
 class _CargoSearchState extends State<CargoSearch> {
   City departure;
   City arrival;
-  DateTime departureTime;
+  Bounded<DateTime> departureTimes;
   DateTime now;
-  Bounded weight;
-  Bounded volume;
-  Bounded distance;
+  Bounded<double> weight;
+  Bounded<double> volume;
+  Bounded<double> distance;
 
-  Bounded width;
-  Bounded length;
-  Bounded height;
+  Bounded<double> width;
+  Bounded<double> length;
+  Bounded<double> height;
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _CargoSearchState extends State<CargoSearch> {
         seconds: now.second,
       ),
     );
-    departureTime = now.add(Duration(days: 1));
+    departureTimes = Bounded(lower: now, upper: now.add(Duration(days: 30)));
     super.initState();
   }
 
@@ -53,7 +53,7 @@ class _CargoSearchState extends State<CargoSearch> {
         context: context,
         arrival: arrival,
         departure: departure,
-        departureTime: departureTime,
+        departureTimes: departureTimes,
         distance: distance,
         height: height,
         length: length,
@@ -113,12 +113,12 @@ class _CargoSearchState extends State<CargoSearch> {
                 selectedCity: arrival,
                 onSelected: (value) => setState(() => arrival = value),
               ),
-              SelectTimeWidget(
+              SelectTimeRangeWidget(
                 icon: FontAwesomeIcons.solidClock,
-                subtitle: 'Дата погрузки',
+                subtitle: 'Даты погрузки',
                 predicate: (value) => now.isBefore(value),
-                selectedTime: departureTime,
-                onSelected: (value) => setState(() => departureTime = value),
+                selectedTime: departureTimes,
+                onSelected: (value) => setState(() => departureTimes = value),
               ),
             ],
           ),

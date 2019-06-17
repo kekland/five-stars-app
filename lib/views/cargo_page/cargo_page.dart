@@ -21,7 +21,10 @@ class CargoPage extends StatelessWidget {
         itemCount: cargo.length,
         physics: BouncingScrollPhysics(),
         padding: const EdgeInsets.all(16.0),
-        itemBuilder: (context, index) => CargoWidget(data: cargo[index]),
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: CargoWidget(data: cargo[index]),
+        ),
       ),
     );
   }

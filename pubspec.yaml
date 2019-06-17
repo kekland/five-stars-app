@@ -37,6 +37,7 @@ dependencies:
   flutter_svg:
   http:
   cloud_firestore:
+  date_range_picker: 
   dio:
   location_permissions:
   liquid_pull_to_refresh: 

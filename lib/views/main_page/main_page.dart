@@ -41,11 +41,14 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
             physics: BouncingScrollPhysics(),
             children: [
               DrawerHeader(
+                padding: EdgeInsets.zero,
                 child: InkWell(
-                onTap: () => controller.selectItem(context, 10),
-                  child: Row(
-                    children: [
-                      Container(
+                  onTap: () => controller.selectItem(context, 10),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        Container(
                           width: 64.0,
                           height: 64.0,
                           decoration: BoxDecoration(
@@ -54,18 +57,19 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                              AppData.username != null
-                                  ? AppData.username[0]
-                                  : '',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 16.0))),
-                      TwoLineInformationWidget(
-                        showIcon: false,
-                        title: 'Личный кабинет',
-                        value: AppData.username,
-                        emptySpaceOnHideIcon: true,
-                      ),
-                    ],
+                            AppData.username != null ? AppData.username[0] : '',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.0),
+                          ),
+                        ),
+                        TwoLineInformationWidget(
+                          showIcon: false,
+                          title: 'Личный кабинет',
+                          value: AppData.username,
+                          emptySpaceOnHideIcon: true,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

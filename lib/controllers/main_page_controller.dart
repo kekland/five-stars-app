@@ -28,7 +28,7 @@ class MainPageController extends Controller<MainPage> {
     Container(color: Colors.black),
     Container(color: Colors.amber),
     Container(color: Colors.pink),
-    ProfilePage(),
+    ProfilePage(username: AppData.username),
   ];
 
   void selectItem(BuildContext context, int index) {

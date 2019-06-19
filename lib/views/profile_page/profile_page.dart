@@ -1,4 +1,5 @@
 import 'package:five_stars/api/api.dart';
+import 'package:five_stars/api/user.dart';
 import 'package:five_stars/controllers/profile_page_controller.dart';
 import 'package:five_stars/design/app_bar_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
@@ -11,6 +12,7 @@ import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/mvc/view.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/views/cargo_page/cargo_page.dart';
 import 'package:five_stars/views/cargo_page/cargo_widget.dart';
 import 'package:five_stars/views/profile_page/profile_data.dart';
 import 'package:five_stars/views/profile_page/profile_edit.dart';
@@ -63,6 +65,28 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
       onTap: onTap,
     );
   }
+
+  void showCargo(BuildContext context) async {
+    try {
+      showLoadingDialog(context: context, color: Colors.red);
+      final cargo = await UserApi.getUserCargo(
+          context: context, username: widget.username);
+      Navigator.of(context).maybePop();
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => CargoPage(cargo: cargo),
+        ),
+      );
+    } catch (e) {
+      Navigator.of(context).maybePop();
+      showErrorSnackbar(
+          context: context,
+          errorMessage: 'Произошла ошибка при получении грузов',
+          exception: e);
+    }
+  }
+
+  void showVehicles(BuildContext context) async {}
 
   ListView buildProfile({User profile}) {
     return ListView(
@@ -117,13 +141,31 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
             ],
           ),
         ),
+        SizedBox(height: 16.0),
+        buildCard(
+          onTap: () => showCargo(context),
+          child: SingleLineInformationWidget(
+            color: Colors.indigo,
+            icon: FontAwesomeIcons.box,
+            label: 'Посмотреть грузы',
+          ),
+        ),
+        SizedBox(height: 16.0),
+        buildCard(
+          onTap: () => showVehicles(context),
+          child: SingleLineInformationWidget(
+            color: Colors.indigo,
+            icon: FontAwesomeIcons.truck,
+            label: 'Посмотреть транспорт',
+          ),
+        ),
         if (profile.isCurrentUser) ...[
           SizedBox(height: 24.0),
           buildCard(
             child: SingleLineInformationWidget(
               icon: Icons.exit_to_app,
               label: 'Выйти из профиля',
-              color: Colors.indigo,
+              color: Colors.red,
             ),
             onTap: () => Api.logOut(context),
           ),
@@ -136,21 +178,30 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
   Widget present(BuildContext context) {
     return Stack(
       children: <Widget>[
-        if (controller.firstLoad && controller.data == null)
+        if (controller.isLoading)
           Center(
-            child: CircularProgressRevealWidget(color: Colors.indigo),
+            child: CircularProgressRevealWidget(color: Colors.red),
           ),
-        RefreshIndicator(
-          color: Colors.indigo,
-          child: buildSingularDataPage(
-            context: context,
-            accentColor: Colors.indigo,
-            data: controller.data,
-            isLoading: controller.isLoading,
-            builder: (context, profile) => buildProfile(profile: profile),
+        buildSingularDataPage(
+          context: context,
+          accentColor: Colors.indigo,
+          data: controller.data,
+          isLoading: controller.isLoading,
+          builder: (context, profile) => buildProfile(profile: profile),
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Visibility(
+              visible: (!controller.isLoading),
+              child: FloatingActionButton(
+                onPressed: () async => await controller.load(
+                    context: context, username: widget.username),
+                child: Icon(Icons.refresh),
+              ),
+            ),
           ),
-          onRefresh: () async => await controller.load(
-              context: context, username: widget.username),
         ),
       ],
     );

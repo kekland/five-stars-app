@@ -39,7 +39,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
   @override
   void initState() {
     super.initState();
-    controller.load(context: context, uid: widget.username);
+    controller.load(context: context, username: widget.username);
   }
 
   void editProfile(BuildContext context) {
@@ -128,75 +128,6 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
             onTap: () => Api.logOut(context),
           ),
         ],
-        SizedBox(height: 24.0),
-        buildCard(
-          padding: EdgeInsets.zero,
-          child: Row(
-            children: [
-              Expanded(
-                child: InkWell(
-                  borderRadius: BorderRadius.horizontal(
-                      right: Radius.zero, left: Radius.circular(12.0)),
-                  onTap: () => controller.setIsCargoSelected(true),
-                  child: Container(
-                    height: 64.0,
-                    child: Center(
-                      child: Text(
-                        "Грузы",
-                        style: ModernTextTheme.primaryAccented.copyWith(
-                          color: (controller.isCargoSelected)
-                              ? Colors.indigo
-                              : Colors.black,
-                          fontWeight: (controller.isCargoSelected)
-                              ? FontWeight.w600
-                              : FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: InkWell(
-                  borderRadius: BorderRadius.horizontal(
-                      right: Radius.circular(12.0), left: Radius.zero),
-                  onTap: () => controller.setIsCargoSelected(false),
-                  child: Container(
-                    height: 64.0,
-                    child: Center(
-                      child: Text(
-                        "Транспорт",
-                        style: ModernTextTheme.primaryAccented.copyWith(
-                          color: (!controller.isCargoSelected)
-                              ? Colors.indigo
-                              : Colors.black,
-                          fontWeight: (!controller.isCargoSelected)
-                              ? FontWeight.w600
-                              : FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 16.0),
-        if (controller.isCargoSelected)
-          ...buildProfileDataSection(
-            data: controller.cargo,
-            builder: (item) => CargoWidget(heroPrefix: "profile", data: item),
-            isLoading: controller.isCargoLoading,
-            onRefresh: () => controller.loadCargo(context: context),
-          )
-        else
-          ...buildProfileDataSection(
-            data: controller.vehicle,
-            builder: (item) => VehicleWidget(heroPrefix: "profile", data: item),
-            isLoading: controller.isVehicleLoading,
-            onRefresh: () => controller.loadVehicle(context: context),
-          ),
       ],
     );
   }
@@ -209,9 +140,8 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
           Center(
             child: CircularProgressRevealWidget(color: Colors.indigo),
           ),
-        LiquidPullToRefresh(
+        RefreshIndicator(
           color: Colors.indigo,
-          springAnimationDurationInMilliseconds: 500,
           child: buildSingularDataPage(
             context: context,
             accentColor: Colors.indigo,
@@ -219,8 +149,8 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
             isLoading: controller.isLoading,
             builder: (context, profile) => buildProfile(profile: profile),
           ),
-          onRefresh: () async =>
-              await controller.load(context: context, uid: widget.username),
+          onRefresh: () async => await controller.load(
+              context: context, username: widget.username),
         ),
       ],
     );

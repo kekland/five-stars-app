@@ -14,67 +14,17 @@ class ProfilePageController extends Controller<ProfilePage> {
   bool firstLoad = true;
   User data;
 
-  bool isCargoLoading;
-  List<Cargo> cargo;
-
-  bool isVehicleLoading;
-  List<Vehicle> vehicle;
-
-  bool isCargoSelected = true;
-
   ProfilePageController(
       {Presenter<ProfilePage, ProfilePageController> presenter}) {
     this.presenter = presenter;
   }
 
-  Future loadCargo({BuildContext context}) async {
-    cargo = null;
-    isCargoLoading = true;
-    
-    refresh();
-    try {
-      cargo = await CargoApi.getCargoBatched(context, []);
-    } catch (e) {
-      showErrorSnackbar(
-        context: context,
-        errorMessage: "Произошла ошибка при получении грузов у пользователя",
-        exception: e,
-      );
-    }
-    isCargoLoading = false;
-    refresh();
-  }
-  
-  Future loadVehicle({BuildContext context}) async {
-    vehicle = null;
-    isVehicleLoading = true;
-    
-    refresh();
-    try {
-      vehicle = await VehicleApi.getVehicleBatched(context, []);
-    } catch (e) {
-      showErrorSnackbar(
-        context: context,
-        errorMessage: "Произошла ошибка при получении транспорта у пользователя",
-        exception: e,
-      );
-    }
-    isVehicleLoading = false;
-    refresh();
-  }
-
-  Future load({BuildContext context, String uid}) async {
+  Future load({BuildContext context, String username}) async {
     data = null;
-    vehicle = null;
     isLoading = true;
-    isVehicleLoading = true;
-    cargo = null;
-    isCargoLoading = true;
     refresh();
     try {
-      data = await UserApi.getProfile(context: context, username: uid);
-      loadCargo(context: context);
-      loadVehicle(context: context);
+      data = await UserApi.getProfile(context: context, username: username);
     } catch (e) {
       data = null;
       showErrorSnackbar(
@@ -85,11 +35,6 @@ class ProfilePageController extends Controller<ProfilePage> {
 
     isLoading = false;
     firstLoad = false;
-    refresh();
-  }
-
-  void setIsCargoSelected(bool value) {
-    isCargoSelected = value;
     refresh();
   }
 }

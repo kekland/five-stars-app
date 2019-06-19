@@ -21,7 +21,17 @@ class CargoExpandedWidget extends StatefulWidget {
   final Cargo data;
   final String heroPrefix;
 
-  const CargoExpandedWidget({Key key, this.data, this.heroPrefix})
+  final Function(Cargo) onCargoEdited;
+  final VoidCallback onCargoDeleted;
+  final BuildContext context;
+
+  const CargoExpandedWidget(
+      {Key key,
+      this.data,
+      this.heroPrefix,
+      this.onCargoEdited,
+      this.onCargoDeleted,
+      this.context})
       : super(key: key);
 
   @override
@@ -52,8 +62,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
       MaterialPageRoute(
         builder: (context) {
           return Scaffold(
-            body: ProfilePage(
-                uid: widget.data.owner, includeBackButton: true),
+            body: ProfilePage(uid: widget.data.owner, includeBackButton: true),
           );
         },
       ),
@@ -66,6 +75,8 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
       builder: (_) {
         return CargoEditPage(
           data: widget.data,
+          onCargoEdited: widget.onCargoEdited,
+          context: widget.context,
         );
       },
     ));
@@ -110,14 +121,18 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
         showLoadingDialog(context: context, color: Colors.pink);
         //await Future.delayed(Duration(seconds: 2));
         await CargoApi.deleteCargo(context: context, id: widget.data.id);
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        showInfoSnackbarMain(message: 'Груз успешно удалён');
+        Navigator.of(context).maybePop();
+        Navigator.of(context).maybePop();
+        showInfoSnackbar(
+            context: widget.context, message: 'Груз успешно удалён');
+        widget.onCargoDeleted();
       } catch (e) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        showErrorSnackbarMain(
-            errorMessage: 'Произошла ошибка при удалении груза', exception: e);
+        Navigator.of(context).maybePop();
+        Navigator.of(context).maybePop();
+        showErrorSnackbar(
+            context: widget.context,
+            errorMessage: 'Произошла ошибка при удалении груза',
+            exception: e);
       }
     }
   }
@@ -150,7 +165,8 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
-            PropertiesWidget(data: widget.data.properties, route: widget.data.route),
+            PropertiesWidget(
+                data: widget.data.properties, route: widget.data.route),
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(

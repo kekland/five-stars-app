@@ -1,4 +1,5 @@
 import 'package:five_stars/api/cargo.dart';
+import 'package:five_stars/controllers/main_page_controller.dart';
 import 'package:five_stars/design/boolean_select_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/number_select_widget.dart';
@@ -22,7 +23,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class CargoEditPage extends StatefulWidget {
   final Cargo data;
 
-  const CargoEditPage({Key key, this.data}) : super(key: key);
+  final Function(Cargo) onCargoEdited;
+  final BuildContext context;
+
+  const CargoEditPage({Key key, this.data, this.onCargoEdited, this.context})
+      : super(key: key);
   @override
   _CargoEditPageState createState() => _CargoEditPageState();
 }
@@ -84,12 +89,16 @@ class _CargoEditPageState extends State<CargoEditPage> {
           weight: properties.weight,
         ),
       );
-      Navigator.of(context).pop();
+      Navigator.of(context).maybePop();
+      Navigator.of(context).maybePop();
+      showInfoSnackbar(
+          context: widget.context, message: 'Груз успешно изменён.');
+      widget.onCargoEdited(data);
     } catch (e) {
-      Navigator.of(context).pop();
+      Navigator.of(context).maybePop();
       showErrorSnackbar(
-          context: context,
-          errorMessage: 'Произошла ошибка при изменении груза.',
+          context: widget.context,
+          errorMessage: 'Произошла ошибка при изменении груза',
           exception: e);
     }
   }

@@ -67,14 +67,14 @@ class _CargoSearchState extends State<CargoSearch> {
         showArchived: true,
         removeOld: true,
       );
-      Navigator.of(context).pop();
+      Navigator.of(context).popUntil((r) => r.isFirst);
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => CargoPage(cargo: data),
         ),
       );
     } catch (e) {
-      Navigator.of(context).pop();
+      Navigator.of(context).popUntil((r) => r.isFirst);
       showErrorSnackbar(
           context: context,
           errorMessage: 'Произошла ошибка при поиске грузов.',

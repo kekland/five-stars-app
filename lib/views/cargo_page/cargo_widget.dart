@@ -17,8 +17,12 @@ class CargoWidget extends StatefulWidget {
   final String heroPrefix;
   final bool addButtons;
 
+  final Function(Cargo) onCargoEdited;
+  final VoidCallback onCargoDeleted;
+  final BuildContext context;
+
   const CargoWidget(
-      {Key key, this.data, this.addButtons = true, this.heroPrefix = ""})
+      {Key key, this.data, this.addButtons = true, this.heroPrefix = "", this.onCargoEdited, this.onCargoDeleted, this.context})
       : super(key: key);
 
   @override
@@ -45,6 +49,9 @@ class _CargoWidgetState extends State<CargoWidget> {
           return CargoExpandedWidget(
             data: widget.data,
             heroPrefix: widget.heroPrefix,
+            context: widget.context,
+            onCargoDeleted: widget.onCargoDeleted,
+            onCargoEdited: widget.onCargoEdited,
           );
         },
       ),

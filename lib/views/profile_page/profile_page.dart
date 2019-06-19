@@ -71,7 +71,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
       showLoadingDialog(context: context, color: Colors.red);
       final cargo = await UserApi.getUserCargo(
           context: context, username: widget.username);
-      Navigator.of(context).maybePop();
+      await Navigator.of(context).maybePop();
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => CargoPage(cargo: cargo),

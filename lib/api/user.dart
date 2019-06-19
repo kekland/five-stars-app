@@ -66,7 +66,7 @@ class UserApi {
       final response = await Dio().get(
         '$baseUrl/user/$username/cargo' + ((favorites)? '/favorite' : ''),
       );
-      return (response.data as List).map((o) => Cargo.fromJson(o)).cast<Cargo>();
+      return (response.data as List).map((o) => Cargo.fromJson(o)).cast<Cargo>().toList();
     } catch (e) {
       rethrow;
     }
@@ -81,7 +81,7 @@ class UserApi {
       final response = await Dio().get(
         '$baseUrl/user/$username/vehicle' + ((favorites)? '/favorite' : ''),
       );
-      return (response.data as List).map((o) => Vehicle.fromJson(o)).cast<Vehicle>();
+      return (response.data as List).map((o) => Vehicle.fromJson(o)).cast<Vehicle>().toList();
     } catch (e) {
       rethrow;
     }

@@ -196,6 +196,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
             child: Visibility(
               visible: (!controller.isLoading),
               child: FloatingActionButton(
+                heroTag: 'profile_page_fab',
                 onPressed: () async => await controller.load(
                     context: context, username: widget.username),
                 child: Icon(Icons.refresh),

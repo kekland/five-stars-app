@@ -16,7 +16,7 @@ class CargoUserPage extends StatefulWidget {
 }
 
 class _CargoUserPageState extends State<CargoUserPage> {
-  bool isLoading;
+  bool isLoading = true;
   List<Cargo> data;
 
   load({BuildContext context}) async {
@@ -36,6 +36,12 @@ class _CargoUserPageState extends State<CargoUserPage> {
 
     isLoading = false;
     setState(() => {});
+  }
+
+  @override
+  void initState() {
+    load(context: context);
+    super.initState();
   }
 
   @override
@@ -60,6 +66,7 @@ class _CargoUserPageState extends State<CargoUserPage> {
             child: Visibility(
               visible: (!isLoading),
               child: FloatingActionButton(
+                heroTag: 'cargo_user_page_fab',
                 onPressed: () async => await load(context: context),
                 child: Icon(Icons.refresh),
               ),

@@ -5,6 +5,7 @@ import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SelectLocationPage extends StatefulWidget {
@@ -70,6 +71,12 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
     Navigator.of(context).pop();
   }
 
+  void onCancel(BuildContext context) {
+    widget.onSelected(null);
+
+    Navigator.of(context).pop();
+  }
+
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override
@@ -107,15 +114,29 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: 32.0, horizontal: 24.0),
-                child: CardWidget(
-                  padding: const EdgeInsets.all(16.0),
-                  body: TwoLineInformationWidgetExpanded(
-                    icon: Icons.pin_drop,
-                    title: 'Выбранное место',
-                    value: location ?? "Не выбрано",
-                    unit: '',
-                    iconColor: Colors.pink,
-                  ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    CardWidget(
+                      padding: const EdgeInsets.all(16.0),
+                      body: TwoLineInformationWidgetExpanded(
+                        icon: Icons.pin_drop,
+                        title: 'Выбранное место',
+                        value: location ?? "Не выбрано",
+                        unit: '',
+                        iconColor: Colors.pink,
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    CardWidget(
+                      padding: const EdgeInsets.all(16.0),
+                      onTap: () => onCancel(context),
+                      body: SingleLineInformationWidget(
+                        icon: FontAwesomeIcons.times,
+                        label: 'Отмена выбора',
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

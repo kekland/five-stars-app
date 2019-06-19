@@ -22,9 +22,9 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String uid;
+  final String username;
   final bool includeBackButton;
-  const ProfilePage({Key key, this.uid, this.includeBackButton = false})
+  const ProfilePage({Key key, this.username, this.includeBackButton = false})
       : super(key: key);
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -39,7 +39,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
   @override
   void initState() {
     super.initState();
-    controller.load(context: context, uid: widget.uid);
+    controller.load(context: context, uid: widget.username);
   }
 
   void editProfile(BuildContext context) {
@@ -203,49 +203,26 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
 
   @override
   Widget present(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: <Widget>[
-          AppBarWidget(
-            title: Text('Профиль ' + (controller?.data?.username ?? '')),
-            includeBackButton: widget.includeBackButton,
+    return Stack(
+      children: <Widget>[
+        if (controller.firstLoad && controller.data == null)
+          Center(
+            child: CircularProgressRevealWidget(color: Colors.indigo),
+          ),
+        LiquidPullToRefresh(
+          color: Colors.indigo,
+          springAnimationDurationInMilliseconds: 500,
+          child: buildSingularDataPage(
+            context: context,
             accentColor: Colors.indigo,
-            action: (controller?.data?.isCurrentUser ?? false)
-                ? IconButton(
-                    color: Colors.indigo,
-                    icon: Icon(Icons.edit),
-                    onPressed: (controller.data != null)
-                        ? () => editProfile(context)
-                        : null,
-                  )
-                : null,
+            data: controller.data,
+            isLoading: controller.isLoading,
+            builder: (context, profile) => buildProfile(profile: profile),
           ),
-          Expanded(
-            child: Stack(
-              children: <Widget>[
-                if (controller.firstLoad && controller.data == null)
-                  Center(
-                    child: CircularProgressRevealWidget(color: Colors.indigo),
-                  ),
-                LiquidPullToRefresh(
-                  color: Colors.indigo,
-                  springAnimationDurationInMilliseconds: 500,
-                  child: buildSingularDataPage(
-                    context: context,
-                    accentColor: Colors.indigo,
-                    data: controller.data,
-                    isLoading: controller.isLoading,
-                    builder: (context, profile) =>
-                        buildProfile(profile: profile),
-                  ),
-                  onRefresh: () async => await controller.load(
-                      context: context, uid: widget.uid),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+          onRefresh: () async =>
+              await controller.load(context: context, uid: widget.username),
+        ),
+      ],
     );
   }
 }

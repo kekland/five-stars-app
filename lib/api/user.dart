@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:five_stars/api/api.dart';
+import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/models/user_model.dart';
+import 'package:five_stars/models/vehicle_model.dart';
 import 'package:flutter/material.dart';
 
 class UserApi {
@@ -15,7 +17,7 @@ class UserApi {
     }
   }
 
-  static Future editProfile({
+  static Future<User> editProfile({
     @required BuildContext context,
     String username,
     String email,
@@ -37,6 +39,7 @@ class UserApi {
           "organization": organization,
         },
       );
+      return User.fromJson(response.data);
     } catch (e) {
       bool handled = await Api.handleError(context: context, exception: e);
       if (handled) {
@@ -51,6 +54,36 @@ class UserApi {
       } else {
         rethrow;
       }
+    }
+  }
+
+  static Future<List<Cargo>> getUserCargo({
+    @required BuildContext context,
+    String username,
+    bool favorites = false,
+  }) async {
+    try {
+      final response = await Dio().get(
+        '$baseUrl/user/$username/cargo' + ((favorites)? '/favorite' : ''),
+      );
+      return (response.data as List).map((o) => Cargo.fromJson(o)).cast<Cargo>();
+    } catch (e) {
+      rethrow;
+    }
+  }
+  
+  static Future<List<Vehicle>> getUserVehicles({
+    @required BuildContext context,
+    String username,
+    bool favorites = false,
+  }) async {
+    try {
+      final response = await Dio().get(
+        '$baseUrl/user/$username/vehicle' + ((favorites)? '/favorite' : ''),
+      );
+      return (response.data as List).map((o) => Vehicle.fromJson(o)).cast<Vehicle>();
+    } catch (e) {
+      rethrow;
     }
   }
 }

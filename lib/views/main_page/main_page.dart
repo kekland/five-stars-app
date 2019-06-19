@@ -41,27 +41,32 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
             physics: BouncingScrollPhysics(),
             children: [
               DrawerHeader(
-                child: Row(
-                  children: [
-                    Container(
-                        width: 64.0,
-                        height: 64.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.red,
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                            AppData.username != null ? AppData.username[0] : '',
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 16.0))),
-                    TwoLineInformationWidget(
-                      showIcon: false,
-                      title: 'Личный кабинет',
-                      value: AppData.username,
-                      emptySpaceOnHideIcon: true,
-                    ),
-                  ],
+                child: InkWell(
+                onTap: () => controller.selectItem(context, 10),
+                  child: Row(
+                    children: [
+                      Container(
+                          width: 64.0,
+                          height: 64.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                              AppData.username != null
+                                  ? AppData.username[0]
+                                  : '',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.0))),
+                      TwoLineInformationWidget(
+                        showIcon: false,
+                        title: 'Личный кабинет',
+                        value: AppData.username,
+                        emptySpaceOnHideIcon: true,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Padding(

@@ -62,7 +62,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
       MaterialPageRoute(
         builder: (context) {
           return Scaffold(
-            body: ProfilePage(uid: widget.data.owner, includeBackButton: true),
+            body: ProfilePage(username: widget.data.owner, includeBackButton: true),
           );
         },
       ),

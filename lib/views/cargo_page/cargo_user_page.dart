@@ -2,15 +2,17 @@ import 'package:five_stars/api/user.dart';
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/design/future_page.dart';
 import 'package:five_stars/models/cargo_model.dart';
+import 'dart:math' as math;
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/cargo_page/cargo_list.dart';
 import 'package:flutter/material.dart';
 
 class CargoUserPage extends StatefulWidget {
   final String username;
+  final String fabHeroSuffix;
   final bool favorites;
 
-  const CargoUserPage({Key key, this.username, this.favorites = false}) : super(key: key);
+  const CargoUserPage({Key key, this.username, this.favorites = false, this.fabHeroSuffix}) : super(key: key);
   @override
   _CargoUserPageState createState() => _CargoUserPageState();
 }
@@ -66,7 +68,7 @@ class _CargoUserPageState extends State<CargoUserPage> {
             child: Visibility(
               visible: (!isLoading),
               child: FloatingActionButton(
-                heroTag: 'cargo_user_page_fab',
+                heroTag: 'cargo_user_page_fab_${math.Random().nextInt(325912321)}',
                 onPressed: () async => await load(context: context),
                 child: Icon(Icons.refresh),
               ),

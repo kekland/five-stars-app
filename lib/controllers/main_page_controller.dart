@@ -4,6 +4,7 @@ import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/cargo_page/cargo_add_page.dart';
 import 'package:five_stars/views/cargo_page/cargo_page.dart';
 import 'package:five_stars/views/cargo_page/cargo_search.dart';
+import 'package:five_stars/views/cargo_page/cargo_user_page.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
 import 'package:five_stars/views/profile_page/profile_page.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_page.dart';
@@ -20,8 +21,8 @@ class MainPageController extends Controller<MainPage> {
   final List<Widget> bodyWidget = [
     CargoSearch(),
     CargoAddPage(),
-    Container(color: Colors.yellow),
-    Container(color: Colors.green),
+    CargoUserPage(favorites: true, username: AppData.username),
+    CargoUserPage(favorites: false, username: AppData.username),
     Container(color: Colors.teal),
     Container(color: Colors.blue),
     Container(color: Colors.purple),

@@ -79,11 +79,11 @@ ListView buildDataPage<T>({
   }
 }
 
-ListView buildSingularDataPage<T>({
+Widget buildSingularDataPage<T>({
   final BuildContext context,
   final T data,
   final bool isLoading,
-  final ListView Function(BuildContext context, T data) builder,
+  final Widget Function(BuildContext context, T data) builder,
   final Color accentColor,
 }) {
   if (data == null && !isLoading) {

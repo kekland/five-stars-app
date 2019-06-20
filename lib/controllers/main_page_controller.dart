@@ -23,16 +23,16 @@ class MainPageController extends Controller<MainPage> {
 
   final List<Widget> bodyWidget = [
     CargoSearch(),
-    CargoAddPage(),
-    CargoUserPage(favorites: true, username: AppData.username),
-    CargoUserPage(favorites: false, username: AppData.username),
+    (AppData.username == null)? Container() : CargoAddPage(),
+    (AppData.username == null)? Container() : CargoUserPage(favorites: true, username: AppData.username),
+    (AppData.username == null)? Container() : CargoUserPage(favorites: false, username: AppData.username),
     VehicleSearch(),
-    VehicleAddPage(),
-    VehicleUserPage(favorites: true, username: AppData.username),
-    VehicleUserPage(favorites: false, username: AppData.username),
+    (AppData.username == null)? Container() : VehicleAddPage(),
+    (AppData.username == null)? Container() : VehicleUserPage(favorites: true, username: AppData.username),
+    (AppData.username == null)? Container() : VehicleUserPage(favorites: false, username: AppData.username),
     Container(color: Colors.amber),
     Container(color: Colors.pink),
-    ProfilePage(username: AppData.username),
+    (AppData.username == null)? Container() : ProfilePage(username: AppData.username),
   ];
   
   final List<String> titles = [
@@ -54,6 +54,10 @@ class MainPageController extends Controller<MainPage> {
       currentPage = index;
     });
     Navigator.pop(context);
+  }
+
+  void register(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed('/auth');
   }
 
   bool isItemSelected(int index) {

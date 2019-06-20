@@ -90,11 +90,12 @@ class Api {
   }
 
   static void logOut(BuildContext context) async {
-    await FirebaseAuth.instance.signOut();
+    AppData.username = null;
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.of(context).pushReplacementNamed('/auth');
   }
 
-  static Options get options =>
-      Options(headers: {"Authorization": "Bearer ${AppData.token}"}, connectTimeout: 15000);
+  static Options get options => Options(
+      headers: {"Authorization": "Bearer ${AppData.token}"},
+      connectTimeout: 15000);
 }

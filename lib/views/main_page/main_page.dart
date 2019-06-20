@@ -29,7 +29,8 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text(controller.titles[controller.currentPage], style: TextStyle(color: Colors.black)),
+        title: Text(controller.titles[controller.currentPage],
+            style: TextStyle(color: Colors.black)),
         elevation: 4.0,
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),
@@ -43,7 +44,9 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
               DrawerHeader(
                 padding: EdgeInsets.zero,
                 child: InkWell(
-                  onTap: () => controller.selectItem(context, 10),
+                  onTap: (AppData.username == null)
+                      ? () => controller.register(context)
+                      : () => controller.selectItem(context, 10),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
@@ -57,15 +60,19 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            AppData.username != null ? AppData.username[0] : '',
+                            AppData.username != null
+                                ? AppData.username[0]
+                                : 'Г',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 16.0),
                           ),
                         ),
                         TwoLineInformationWidget(
                           showIcon: false,
-                          title: 'Личный кабинет',
-                          value: AppData.username,
+                          title: (AppData.username == null)
+                              ? 'Зарегистрироваться'
+                              : 'Личный кабинет',
+                          value: AppData.username ?? 'Гость',
                           emptySpaceOnHideIcon: true,
                         ),
                       ],
@@ -86,20 +93,29 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
               ListTile(
                 title: Text('Добавить груз'),
                 leading: Icon(FontAwesomeIcons.plus, size: 20.0),
-                onTap: () => controller.selectItem(context, 1),
+                onTap: (AppData.username == null)
+                    ? null
+                    : () => controller.selectItem(context, 1),
                 selected: controller.isItemSelected(1),
+                enabled: (AppData.username != null),
               ),
               ListTile(
                 title: Text('Избранные грузы'),
                 leading: Icon(FontAwesomeIcons.solidStar, size: 20.0),
-                onTap: () => controller.selectItem(context, 2),
+                onTap: (AppData.username == null)
+                    ? null
+                    : () => controller.selectItem(context, 2),
                 selected: controller.isItemSelected(2),
+                enabled: (AppData.username != null),
               ),
               ListTile(
                 title: Text('Мои грузы'),
                 leading: Icon(FontAwesomeIcons.boxes, size: 20.0),
-                onTap: () => controller.selectItem(context, 3),
+                onTap: (AppData.username == null)
+                    ? null
+                    : () => controller.selectItem(context, 3),
                 selected: controller.isItemSelected(3),
+                enabled: (AppData.username != null),
               ),
               DividerWidget(),
               Padding(
@@ -115,20 +131,29 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
               ListTile(
                 title: Text('Добавить транспорт'),
                 leading: Icon(FontAwesomeIcons.plus, size: 20.0),
-                onTap: () => controller.selectItem(context, 5),
+                onTap: (AppData.username == null)
+                    ? null
+                    : () => controller.selectItem(context, 5),
                 selected: controller.isItemSelected(5),
+                enabled: (AppData.username != null),
               ),
               ListTile(
                 title: Text('Избранный транспорт'),
                 leading: Icon(FontAwesomeIcons.solidStar, size: 20.0),
-                onTap: () => controller.selectItem(context, 6),
+                onTap: (AppData.username == null)
+                    ? null
+                    : () => controller.selectItem(context, 6),
                 selected: controller.isItemSelected(6),
+                enabled: (AppData.username != null),
               ),
               ListTile(
                 title: Text('Мой транспорт'),
                 leading: Icon(FontAwesomeIcons.truckLoading, size: 20.0),
-                onTap: () => controller.selectItem(context, 7),
+                onTap: (AppData.username == null)
+                    ? null
+                    : () => controller.selectItem(context, 7),
                 selected: controller.isItemSelected(7),
+                enabled: (AppData.username != null),
               ),
               DividerWidget(),
               ListTile(

@@ -26,14 +26,26 @@ class LoginPageController extends Controller<LoginPage> {
     } catch (e) {
       Navigator.of(context).pop();
       if (e is DioError && e.response != null) {
-        if (e.response.data['message'] == 'Invalid email or password') {
+        if ((e.response.data is Map) &&
+            e.response.data['message'] == 'Invalid email or password') {
           showErrorSnackbar(
-              context: context, errorMessage: 'Неправильный логин или пароль', exception: e, showDialog: true);
+              context: context,
+              errorMessage: 'Неправильный логин или пароль',
+              exception: e,
+              showDialog: true);
           return;
         }
       }
       showErrorSnackbar(
-          context: context, errorMessage: 'Произошла ошибка при входе в систему', exception: e, showDialog: true);
+          context: context,
+          errorMessage: 'Произошла ошибка при входе в систему',
+          exception: e,
+          showDialog: true);
     }
+  }
+
+  void loginAsGuest(BuildContext context) async {
+    AppData.username = null;
+    Navigator.of(context).pushReplacementNamed("/main");
   }
 }

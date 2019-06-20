@@ -55,6 +55,17 @@ class _LoginPageState extends Presenter<LoginPage, LoginPageController> {
                 textColor: Colors.white,
               ),
             ),
+            SizedBox(
+              width: double.infinity,
+              child: RaisedButton.icon(
+                onPressed: () => controller.loginAsGuest(context),
+                shape: StadiumBorder(),
+                icon: Icon(Icons.chevron_right),
+                label: Text('Войти в качестве гостя'),
+                color: Colors.indigo,
+                textColor: Colors.white,
+              ),
+            ),
             FlatButton.icon(
               label: Text('Или может, зарегистрироваться?'),
               onPressed: widget.onRegister,

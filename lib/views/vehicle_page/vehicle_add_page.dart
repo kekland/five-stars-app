@@ -166,7 +166,7 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
             children: <Widget>[
               NumberSelectWidget(
                 icon: FontAwesomeIcons.weightHanging,
-                title: 'Вес',
+                title: 'Макс. вес',
                 unit: 'кг.',
                 value: properties.weight,
                 onSelected: (value) =>
@@ -174,7 +174,7 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
               ),
               NumberSelectWidget(
                 icon: FontAwesomeIcons.cube,
-                title: 'Объём',
+                title: 'Макс. объём',
                 unit: 'см³',
                 value: properties.volume,
                 onSelected: (value) =>

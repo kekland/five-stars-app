@@ -108,9 +108,9 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.weightHanging,
-                          title: 'Макс. вес (тонн)',
+                          title: 'Макс. вес (кг)',
                           value: widget.data.properties.weight.toStringAsFixed(1),
-                          unit: "т.",
+                          unit: "кг.",
                         ),
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,

@@ -109,9 +109,9 @@ class _CargoWidgetState extends State<CargoWidget> {
                       TwoLineInformationWidget(
                         iconColor: ModernTextTheme.captionIconColor,
                         icon: FontAwesomeIcons.weightHanging,
-                        title: 'Вес (тонн)',
+                        title: 'Вес (кг)',
                         value: widget.data.properties.weight.toStringAsFixed(1),
-                        unit: "т.",
+                        unit: "кг.",
                       ),
                       TwoLineInformationWidget(
                         iconColor: ModernTextTheme.captionIconColor,

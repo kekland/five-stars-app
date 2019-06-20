@@ -93,7 +93,7 @@ class _CargoEditPageState extends State<CargoEditPage> {
       Navigator.of(context).maybePop();
       showInfoSnackbar(
           context: widget.context, message: 'Груз успешно изменён.');
-      widget.onCargoEdited(data);
+      widget.onCargoEdited(Cargo());
     } catch (e) {
       Navigator.of(context).maybePop();
       showErrorSnackbar(

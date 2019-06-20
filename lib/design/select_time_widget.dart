@@ -19,7 +19,7 @@ class SelectTimeWidget extends StatelessWidget {
     DateTime date = await showDatePicker(
       selectableDayPredicate: predicate,
       context: context,
-      initialDate: selectedTime,
+      initialDate: selectedTime.toLocal(),
       firstDate: DateTime(2018),
       lastDate: DateTime(2030),
     );
@@ -27,7 +27,7 @@ class SelectTimeWidget extends StatelessWidget {
     if (date == null) {
       date = selectedTime;
     }
-    onSelected(date);
+    onSelected(date.toLocal());
   }
 
   const SelectTimeWidget(
@@ -48,7 +48,7 @@ class SelectTimeWidget extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: TwoLineInformationWidgetExpanded(
             title: subtitle,
-            value: dateTimeToString(selectedTime),
+            value: dateTimeToString(selectedTime.toLocal()),
             iconColor: ModernTextTheme.captionIconColor,
             icon: icon,
             unit: "",
@@ -100,7 +100,7 @@ class SelectTimeRangeWidget extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: TwoLineInformationWidgetExpanded(
             title: subtitle,
-            value: '${dateTimeToString(selectedTime.lower)} - ${dateTimeToString(selectedTime.upper)}',
+            value: '${dateTimeToString(selectedTime.lower.toLocal())} - ${dateTimeToString(selectedTime.upper.toLocal())}',
             iconColor: ModernTextTheme.captionIconColor,
             icon: icon,
             unit: "",

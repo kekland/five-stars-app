@@ -35,6 +35,7 @@ class _CargoListState extends State<CargoList> {
       itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: CargoWidget(
+              key: ValueKey(cargo[index].id),
               data: cargo[index],
               context: context,
               heroPrefix: '${widget.cargoHeroPrefix}_$cargoListIndex',

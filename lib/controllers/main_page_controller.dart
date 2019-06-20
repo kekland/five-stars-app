@@ -7,7 +7,10 @@ import 'package:five_stars/views/cargo_page/cargo_search.dart';
 import 'package:five_stars/views/cargo_page/cargo_user_page.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
 import 'package:five_stars/views/profile_page/profile_page.dart';
+import 'package:five_stars/views/vehicle_page/vehicle_add_page.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_page.dart';
+import 'package:five_stars/views/vehicle_page/vehicle_search.dart';
+import 'package:five_stars/views/vehicle_page/vehicle_user_page.dart';
 import 'package:flutter/material.dart';
 
 class MainPageController extends Controller<MainPage> {
@@ -23,10 +26,10 @@ class MainPageController extends Controller<MainPage> {
     CargoAddPage(),
     CargoUserPage(favorites: true, username: AppData.username),
     CargoUserPage(favorites: false, username: AppData.username),
-    Container(color: Colors.teal),
-    Container(color: Colors.blue),
-    Container(color: Colors.purple),
-    Container(color: Colors.black),
+    VehicleSearch(),
+    VehicleAddPage(),
+    VehicleUserPage(favorites: true, username: AppData.username),
+    VehicleUserPage(favorites: false, username: AppData.username),
     Container(color: Colors.amber),
     Container(color: Colors.pink),
     ProfilePage(username: AppData.username),

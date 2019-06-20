@@ -34,6 +34,20 @@ class MainPageController extends Controller<MainPage> {
     Container(color: Colors.pink),
     ProfilePage(username: AppData.username),
   ];
+  
+  final List<String> titles = [
+    'Поиск груза',
+    'Добавление груза',
+    'Избранные грузы',
+    'Мои грузы',
+    'Поиск транспорта',
+    'Добавление транспорта',
+    'Избранный транспорт',
+    'Мой транспорт',
+    'В разработке',
+    'В разработке',
+    'Мой профиль'
+  ];
 
   void selectItem(BuildContext context, int index) {
     presenter.update(() {

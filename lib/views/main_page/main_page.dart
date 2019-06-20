@@ -29,7 +29,7 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text('Пять звёзд', style: TextStyle(color: Colors.black)),
+        title: Text(controller.titles[controller.currentPage], style: TextStyle(color: Colors.black)),
         elevation: 4.0,
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),

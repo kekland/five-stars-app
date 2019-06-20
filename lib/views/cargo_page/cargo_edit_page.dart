@@ -106,6 +106,14 @@ class _CargoEditPageState extends State<CargoEditPage> {
   @override
   void initState() {
     super.initState();
+    now = DateTime.now().toUtc();
+    now = now.subtract(
+      Duration(
+        hours: now.hour,
+        minutes: now.minute,
+        seconds: now.second,
+      ),
+    );
     reset();
   }
 

@@ -102,6 +102,14 @@ class _VehicleEditPageState extends State<VehicleEditPage> {
   @override
   void initState() {
     super.initState();
+    now = DateTime.now().toUtc();
+    now = now.subtract(
+      Duration(
+        hours: now.hour,
+        minutes: now.minute,
+        seconds: now.second,
+      ),
+    );
     reset();
   }
 

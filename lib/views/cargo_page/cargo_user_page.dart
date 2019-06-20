@@ -24,7 +24,7 @@ class _CargoUserPageState extends State<CargoUserPage> {
   load({BuildContext context}) async {
     data = null;
     isLoading = true;
-    setState(() => {});
+    setState(() {});
     try {
       data = await UserApi.getUserCargo(
           context: context, username: widget.username, favorites: widget.favorites);
@@ -37,7 +37,7 @@ class _CargoUserPageState extends State<CargoUserPage> {
     }
 
     isLoading = false;
-    setState(() => {});
+    setState(() {});
   }
 
   @override
@@ -59,7 +59,7 @@ class _CargoUserPageState extends State<CargoUserPage> {
           accentColor: Colors.red,
           data: data,
           isLoading: isLoading,
-          builder: (context, data) => CargoList(cargo: data),
+          builder: (context, data) => CargoList(cargo: data, cargoHeroPrefix: 'cargo_user_page',),
         ),
         Align(
           alignment: Alignment.bottomRight,

@@ -18,7 +18,7 @@ class CargoPage extends StatelessWidget {
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),
       ),
-      body: CargoList(cargo: cargo),
+      body: CargoList(cargo: cargo, cargoHeroPrefix: 'cargo_page'),
     );
   }
 }

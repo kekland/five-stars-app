@@ -51,7 +51,7 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget>
         builder: (context) {
           return Scaffold(
             body: ProfilePage(
-                username: widget.data.ownerId, includeBackButton: true),
+                username: widget.data.ownerId, includeScaffold: true),
           );
         },
       ),

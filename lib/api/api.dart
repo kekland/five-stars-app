@@ -96,5 +96,5 @@ class Api {
   }
 
   static Options get options =>
-      Options(headers: {"Authorization": "Bearer ${AppData.token}"});
+      Options(headers: {"Authorization": "Bearer ${AppData.token}"}, connectTimeout: 15000);
 }

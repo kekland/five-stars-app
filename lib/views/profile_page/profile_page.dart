@@ -25,9 +25,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
   final String username;
-  final bool includeBackButton;
-  const ProfilePage({Key key, this.username, this.includeBackButton = false})
-      : super(key: key);
+  final bool includeScaffold;
+  const ProfilePage({
+    Key key,
+    this.username,
+    this.includeScaffold = false,
+  }) : super(key: key);
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -176,7 +179,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
 
   @override
   Widget present(BuildContext context) {
-    return Stack(
+    Widget child = Stack(
       children: <Widget>[
         if (controller.isLoading)
           Center(
@@ -206,5 +209,22 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
         ),
       ],
     );
+
+    if (widget.includeScaffold) {
+      return Scaffold(
+        body: child,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Text('Профиль ${widget.username}', style: TextStyle(color: Colors.black)),
+          elevation: 4.0,
+          brightness: Brightness.light,
+          iconTheme: IconThemeData(color: Colors.black),
+        ),
+      );
+    }
+    else {
+      return child;
+    }
   }
 }

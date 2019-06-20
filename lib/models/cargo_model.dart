@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:five_stars/models/dimensions.dart';
 import 'package:five_stars/models/information.dart';
@@ -36,14 +38,23 @@ class Cargo {
     if (SharedPreferencesManager.instance == null) {
       return false;
     }
-    return SharedPreferencesManager.instance.getBool("cargo_${id}_star") ?? false;
+    return SharedPreferencesManager.instance.getBool("favorite_cargo_$id") ?? false;
   }
 
   void toggleStarred() {
     if (SharedPreferencesManager.instance == null) {
       return;
     }
-    SharedPreferencesManager.instance.setBool("cargo_${id}_star", !starred);
+    List<dynamic> data = json.decode(SharedPreferencesManager.instance.getString('favorite_cargo'));
+    if(data.contains(id)) {
+      data.remove(id);
+      SharedPreferencesManager.instance.setBool('favortite_cargo_$id', false);
+    }
+    else {
+      data.add(id);
+      SharedPreferencesManager.instance.setBool('favortite_cargo_$id', true);
+    }
+    SharedPreferencesManager.instance.setString("favorite_cargo", json.encode(data));
   }
 
   Cargo({

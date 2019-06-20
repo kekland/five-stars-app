@@ -1,70 +1,108 @@
+import 'dart:convert';
+
+import 'package:five_stars/api/vehicle.dart';
+import 'package:five_stars/models/dimensions.dart';
+import 'package:five_stars/models/information.dart';
+import 'package:five_stars/models/properties.dart';
 import 'package:five_stars/models/route_model.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/utils.dart';
-import 'package:five_stars/utils/vehicle_type.dart';
-import 'package:five_stars/utils/volume.dart';
-import 'package:five_stars/utils/weight.dart';
+import 'package:flutter/material.dart';
 
 class Vehicle {
   String id;
-  
+
   City departure;
+  DateTime departureTime;
+
   City arrival;
   DirectionRoute route;
 
-  Weight weight;
-  Volume volume;
-  String description;
+  Properties properties;
+  Dimensions dimensions;
+  VehicleInformation information;
 
-  VehicleType vehicleType;
+  List<dynamic> images;
 
+  String owner;
   DateTime createdAt;
-  DateTime updatedAt;
 
-  String ownerId;
-  
+  bool archived;
+  bool verified;
+
   bool get starred {
-    if(SharedPreferencesManager.instance == null) {
+    if (SharedPreferencesManager.instance == null) {
       return false;
     }
-    return SharedPreferencesManager.instance.getBool("vehicle_${id}_star") ?? false;
+    return SharedPreferencesManager.instance.getBool("favorite_vehicle_$id") ??
+        false;
   }
 
-  void toggleStarred() {
-    if(SharedPreferencesManager.instance == null) {
+  void toggleStarred(BuildContext context) {
+    if (SharedPreferencesManager.instance == null) {
       return;
     }
-    SharedPreferencesManager.instance.setBool("vehicle_${id}_star", !starred);
+    try {
+      List<dynamic> data = json.decode(
+          SharedPreferencesManager.instance.getString('favorite_vehicle') ??
+              '[]');
+      if (data.contains(id)) {
+        data.remove(id);
+        SharedPreferencesManager.instance.setBool('favorite_vehicle_$id', false);
+        VehicleApi.setVehicleFavoriteStatus(
+            context: context, vehicleId: id, favorite: false);
+      } else {
+        data.add(id);
+        SharedPreferencesManager.instance.setBool('favorite_vehicle_$id', true);
+        VehicleApi.setVehicleFavoriteStatus(
+            context: context, vehicleId: id, favorite: true);
+      }
+      SharedPreferencesManager.instance
+          .setString("favorite_vehicle", json.encode(data));
+    } catch (e) {
+      showErrorSnackbar(
+          context: context,
+          errorMessage: 'Произошла ошибка при изменении статуса груза',
+          exception: e);
+    }
   }
-  
+
   Vehicle({
     this.id,
+    this.departureTime,
     this.departure,
     this.arrival,
-    this.volume,
-    this.weight,
-    this.description,
-    this.ownerId,
+    this.archived,
+    this.createdAt,
+    this.owner,
+    this.dimensions,
+    this.images,
     this.route,
-    this.vehicleType,
+    this.verified,
+    this.information,
+    this.properties,
   });
 
   Vehicle.fromJson(Map json) {
-    id = json['meta']['id'] as String;
+    id = json['meta']['id'];
 
     departure = City.fromJson(json['departure']);
+    departureTime = DateTime.parse(json['departureTime']);
+
     arrival = City.fromJson(json['arrival']);
+    route =
+        json['route'] != null ? DirectionRoute.fromJson(json['route']) : null;
 
-    weight = Weight(kilogram: (json['weight'] as num).toDouble());
-    volume = Volume(cubicMeter: (json['volume'] as num).toDouble());
-    vehicleType = VehicleTypeUtils.fromJson(json['vehicleType'] as String);
+    properties = Properties.fromJson(json['properties']);
+    dimensions = Dimensions.fromJson(json['dimensions']);
+    information = VehicleInformation.fromJson(json['information']);
 
-    ownerId = json['ownerId'] as String;
-    description = json['description'] as String;
+    images = json['images'];
+
+    archived = json['archived'] as bool;
+    verified = json['verified'] as bool;
 
     createdAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['created']);
-    updatedAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['updated']);
-
-    route = json['route'] != null? DirectionRoute.fromJson(json['route']) : null;
+    owner = json['owner'];
   }
 }

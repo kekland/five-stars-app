@@ -1,19 +1,12 @@
 import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:five_stars/api/api.dart';
 import 'package:five_stars/models/dimensions.dart';
 import 'package:five_stars/models/information.dart';
 import 'package:five_stars/models/properties.dart';
 import 'package:five_stars/models/route_model.dart';
-import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/utils.dart';
-import 'package:five_stars/utils/vehicle_type.dart';
-import 'package:five_stars/utils/volume.dart';
-import 'package:five_stars/utils/weight.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Cargo {
   String id;

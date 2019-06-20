@@ -16,8 +16,12 @@ class VehicleWidget extends StatefulWidget {
   final String heroPrefix;
   final bool addButtons;
 
+  final Function(Vehicle) onVehicleEdited;
+  final VoidCallback onVehicleDeleted;
+  final BuildContext context;
+
   const VehicleWidget(
-      {Key key, this.data, this.addButtons = true, this.heroPrefix = ""})
+      {Key key, this.data, this.addButtons = true, this.heroPrefix = "", this.context, this.onVehicleEdited, this.onVehicleDeleted})
       : super(key: key);
 
   @override
@@ -44,6 +48,9 @@ class _VehicleWidgetState extends State<VehicleWidget> {
           return VehicleExpandedWidget(
             data: widget.data,
             heroPrefix: widget.heroPrefix,
+            context: widget.context,
+            onVehicleDeleted: widget.onVehicleDeleted,
+            onVehicleEdited: widget.onVehicleEdited,
           );
         },
       ),
@@ -79,6 +86,7 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                   DepartureArrivalWidget(
                     arrivalCity: widget.data.arrival,
                     departureCity: widget.data.departure,
+                    departureDate: widget.data.departureTime,
                     isCargo: false,
                   ),
                   DividerWidget(),
@@ -92,16 +100,16 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.cube,
-                          title: 'Объем (м³)',
+                          title: 'Макс. объем (см³)',
                           value:
-                              widget.data.volume.cubicMeter.round().toString(),
-                          unit: "м³",
+                              (widget.data.properties.volume * 1000000.0).round().toString(),
+                          unit: "см³",
                         ),
                         TwoLineInformationWidget(
                           iconColor: ModernTextTheme.captionIconColor,
                           icon: FontAwesomeIcons.weightHanging,
-                          title: 'Вес (тонн)',
-                          value: widget.data.weight.ton.toStringAsFixed(1),
+                          title: 'Макс. вес (тонн)',
+                          value: widget.data.properties.weight.toStringAsFixed(1),
                           unit: "т.",
                         ),
                         TwoLineInformationWidget(
@@ -109,7 +117,7 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                           icon: FontAwesomeIcons.boxOpen,
                           title: 'Тип кузова',
                           value: VehicleTypeUtils
-                              .vehicleTypeNames[widget.data.vehicleType],
+                              .vehicleTypeNames[widget.data.information.vehicleType],
                           unit: "",
                         ),
                         TwoLineInformationWidget(
@@ -135,7 +143,7 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                         borderRadius: BorderRadius.circular(12.0)),
                     padding: const EdgeInsets.all(16.0),
                     child: Text('Подробнее' +
-                        ((widget.data.ownerId == AppData.username)
+                        ((widget.data.owner == AppData.username)
                             ? " (Ваш груз)"
                             : "")),
                     textColor: ModernTextTheme.secondaryColor,
@@ -155,7 +163,7 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                       : ModernTextTheme.secondaryColor,
                   iconSize: 20.0,
                   padding: const EdgeInsets.all(12.0),
-                  onPressed: () => setState(() => widget.data.toggleStarred()),
+                  onPressed: () => setState(() => widget.data.toggleStarred(context)),
                 ),
               ],
             ),

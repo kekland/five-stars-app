@@ -17,6 +17,10 @@ class VehicleInformation {
     "description": description,
     "vehicleType": VehicleTypeUtils.toJson(vehicleType),
   };
+
+  bool isValid() {
+    return model != null && description != null && vehicleType != null;
+  }
 }
 
 class CargoInformation {

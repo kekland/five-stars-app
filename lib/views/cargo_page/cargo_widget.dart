@@ -164,7 +164,7 @@ class _CargoWidgetState extends State<CargoWidget> {
                       : ModernTextTheme.secondaryColor,
                   iconSize: 20.0,
                   padding: const EdgeInsets.all(12.0),
-                  onPressed: () => setState(() => widget.data.toggleStarred()),
+                  onPressed: () => setState(() => widget.data.toggleStarred(context)),
                 ),
               ],
             ),

@@ -177,4 +177,23 @@ class CargoApi {
       }
     }
   }
+
+  static Future<bool> setCargoFavoriteStatus({
+    @required BuildContext context,
+    @required String cargoId,
+    @required bool favorite,
+  }) async {
+    try {
+      final response =
+          await Dio().post('$baseUrl/cargo/$cargoId/${(favorite)? 'favorite' : 'unfavorite'}', options: Api.options);
+      return true;
+    } catch (e) {
+      bool handled = await Api.handleError(context: context, exception: e);
+      if (handled) {
+        return await setCargoFavoriteStatus(context: context, cargoId: cargoId, favorite: favorite);
+      } else {
+        rethrow;
+      }
+    }
+  }
 }

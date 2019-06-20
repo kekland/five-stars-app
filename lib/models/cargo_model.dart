@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:five_stars/api/api.dart';
 import 'package:five_stars/models/dimensions.dart';
 import 'package:five_stars/models/information.dart';
 import 'package:five_stars/models/properties.dart';
@@ -11,6 +12,7 @@ import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/utils/volume.dart';
 import 'package:five_stars/utils/weight.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cargo {
@@ -27,7 +29,7 @@ class Cargo {
   CargoInformation information;
 
   List<dynamic> images;
-  
+
   String owner;
   DateTime createdAt;
 
@@ -38,23 +40,37 @@ class Cargo {
     if (SharedPreferencesManager.instance == null) {
       return false;
     }
-    return SharedPreferencesManager.instance.getBool("favorite_cargo_$id") ?? false;
+    return SharedPreferencesManager.instance.getBool("favorite_cargo_$id") ??
+        false;
   }
 
-  void toggleStarred() {
+  void toggleStarred(BuildContext context) {
     if (SharedPreferencesManager.instance == null) {
       return;
     }
-    List<dynamic> data = json.decode(SharedPreferencesManager.instance.getString('favorite_cargo'));
-    if(data.contains(id)) {
-      data.remove(id);
-      SharedPreferencesManager.instance.setBool('favortite_cargo_$id', false);
+    try {
+      List<dynamic> data = json.decode(
+          SharedPreferencesManager.instance.getString('favorite_cargo') ??
+              '[]');
+      if (data.contains(id)) {
+        data.remove(id);
+        SharedPreferencesManager.instance.setBool('favorite_cargo_$id', false);
+        CargoApi.setCargoFavoriteStatus(
+            context: context, cargoId: id, favorite: false);
+      } else {
+        data.add(id);
+        SharedPreferencesManager.instance.setBool('favorite_cargo_$id', true);
+        CargoApi.setCargoFavoriteStatus(
+            context: context, cargoId: id, favorite: true);
+      }
+      SharedPreferencesManager.instance
+          .setString("favorite_cargo", json.encode(data));
+    } catch (e) {
+      showErrorSnackbar(
+          context: context,
+          errorMessage: 'Произошла ошибка при изменении статуса груза',
+          exception: e);
     }
-    else {
-      data.add(id);
-      SharedPreferencesManager.instance.setBool('favortite_cargo_$id', true);
-    }
-    SharedPreferencesManager.instance.setString("favorite_cargo", json.encode(data));
   }
 
   Cargo({
@@ -80,7 +96,8 @@ class Cargo {
     departureTime = DateTime.parse(json['departureTime']);
 
     arrival = City.fromJson(json['arrival']);
-    route = json['route'] != null? DirectionRoute.fromJson(json['route']) : null;
+    route =
+        json['route'] != null ? DirectionRoute.fromJson(json['route']) : null;
 
     properties = Properties.fromJson(json['properties']);
     dimensions = Dimensions.fromJson(json['dimensions']);

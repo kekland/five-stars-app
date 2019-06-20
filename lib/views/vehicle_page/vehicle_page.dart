@@ -16,7 +16,7 @@ class VehiclePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text('Найденный груз', style: TextStyle(color: Colors.black)),
+        title: Text('Найденный транспорт', style: TextStyle(color: Colors.black)),
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),
       ),

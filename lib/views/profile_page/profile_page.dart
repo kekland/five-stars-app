@@ -17,6 +17,7 @@ import 'package:five_stars/views/cargo_page/cargo_widget.dart';
 import 'package:five_stars/views/profile_page/profile_data.dart';
 import 'package:five_stars/views/profile_page/profile_edit.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
+import 'package:five_stars/views/vehicle_page/vehicle_page.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -89,7 +90,25 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
     }
   }
 
-  void showVehicles(BuildContext context) async {}
+  void showVehicles(BuildContext context) async {
+    try {
+      showLoadingDialog(context: context, color: Colors.red);
+      final vehicles = await UserApi.getUserVehicles(
+          context: context, username: widget.username);
+      await Navigator.of(context).maybePop();
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => VehiclePage(vehicle: vehicles),
+        ),
+      );
+    } catch (e) {
+      Navigator.of(context).maybePop();
+      showErrorSnackbar(
+          context: context,
+          errorMessage: 'Произошла ошибка при получении транспорта',
+          exception: e);
+    }
+  }
 
   ListView buildProfile({User profile}) {
     return ListView(
@@ -216,14 +235,14 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: Text('Профиль ${widget.username}', style: TextStyle(color: Colors.black)),
+          title: Text('Профиль ${widget.username}',
+              style: TextStyle(color: Colors.black)),
           elevation: 4.0,
           brightness: Brightness.light,
           iconTheme: IconThemeData(color: Colors.black),
         ),
       );
-    }
-    else {
+    } else {
       return child;
     }
   }

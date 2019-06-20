@@ -26,7 +26,7 @@ class VehicleApi {
     VehicleType vehicleType,
   }) async {
     try {
-      final response = await Dio().post('$baseUrl/vehicle/get', data: {
+      final response = await Api.client.post('$baseUrl/vehicle/get', data: {
         "departure": departure?.name,
         "arrival": arrival?.name,
         "departureTime": (departureTimes != null)? {
@@ -77,7 +77,7 @@ class VehicleApi {
         "images": [],
       };
 
-      final response = await Dio()
+      final response = await Api.client
           .post('${baseUrl}/vehicle', data: data, options: Api.options);
       return Vehicle.fromJson(response.data);
     } catch (e) {
@@ -119,7 +119,7 @@ class VehicleApi {
         "images": [],
       };
 
-      final response = await Dio()
+      final response = await Api.client
           .put('${baseUrl}/vehicle/${id}', data: data, options: Api.options);
       return Vehicle.fromJson(response.data);
     } catch (e) {
@@ -147,7 +147,7 @@ class VehicleApi {
   }) async {
     try {
       final response =
-          await Dio().delete('${baseUrl}/vehicle/${id}', options: Api.options);
+          await Api.client.delete('${baseUrl}/vehicle/${id}', options: Api.options);
       return true;
     } catch (e) {
       bool handled = await Api.handleError(context: context, exception: e);
@@ -166,7 +166,7 @@ class VehicleApi {
   }) async {
     try {
       final response =
-          await Dio().post('$baseUrl/vehicle/$vehicleId/${(favorite)? 'favorite' : 'unfavorite'}', options: Api.options);
+          await Api.client.post('$baseUrl/vehicle/$vehicleId/${(favorite)? 'favorite' : 'unfavorite'}', options: Api.options);
       return true;
     } catch (e) {
       bool handled = await Api.handleError(context: context, exception: e);

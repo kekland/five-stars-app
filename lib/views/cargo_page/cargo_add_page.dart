@@ -82,7 +82,7 @@ class _CargoAddPageState extends State<CargoAddPage> {
           weight: properties.weight,
         ),
       );
-      Navigator.of(context).pop();
+      await Navigator.of(context).maybePop();
 
       await Navigator.of(context).push(
         TransparentRoute(
@@ -95,7 +95,7 @@ class _CargoAddPageState extends State<CargoAddPage> {
         ),
       );
     } catch (e) {
-      Navigator.of(context).pop();
+      await Navigator.of(context).maybePop();
       showErrorSnackbar(
           context: context,
           errorMessage: 'Произошла ошибка при добавлении груза.',

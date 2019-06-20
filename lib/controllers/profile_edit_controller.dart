@@ -100,12 +100,12 @@ class ProfileEditController extends Controller<ProfileEditPage> {
         organization: organization.value,
         validatedPhoneNumber: "+7${phoneNumber.value}",
       );
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
+      await Navigator.of(context).maybePop();
+      await Navigator.of(context).maybePop();
       showInfoSnackbarMain(message: 'Профиль изменен.');
     } catch (e) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
+      await Navigator.of(context).maybePop();
+      await Navigator.of(context).maybePop();
       showErrorSnackbarMain(
           errorMessage: "Произошла ошибка при изменении профиля", exception: e);
     }

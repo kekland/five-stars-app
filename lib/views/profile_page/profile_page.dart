@@ -75,14 +75,14 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
       showLoadingDialog(context: context, color: Colors.red);
       final cargo = await UserApi.getUserCargo(
           context: context, username: widget.username);
-      await Navigator.of(context).maybePop();
+      await await Navigator.of(context).maybePop();
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => CargoPage(cargo: cargo),
         ),
       );
     } catch (e) {
-      Navigator.of(context).maybePop();
+      await Navigator.of(context).maybePop();
       showErrorSnackbar(
           context: context,
           errorMessage: 'Произошла ошибка при получении грузов',
@@ -95,14 +95,14 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
       showLoadingDialog(context: context, color: Colors.red);
       final vehicles = await UserApi.getUserVehicles(
           context: context, username: widget.username);
-      await Navigator.of(context).maybePop();
+      await await Navigator.of(context).maybePop();
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => VehiclePage(vehicle: vehicles),
         ),
       );
     } catch (e) {
-      Navigator.of(context).maybePop();
+      await Navigator.of(context).maybePop();
       showErrorSnackbar(
           context: context,
           errorMessage: 'Произошла ошибка при получении транспорта',

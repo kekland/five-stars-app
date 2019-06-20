@@ -121,14 +121,14 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
         showLoadingDialog(context: context, color: Colors.pink);
         //await Future.delayed(Duration(seconds: 2));
         await CargoApi.deleteCargo(context: context, id: widget.data.id);
-        Navigator.of(context).maybePop();
-        Navigator.of(context).maybePop();
+        await Navigator.of(context).maybePop();
+        await Navigator.of(context).maybePop();
         showInfoSnackbar(
             context: widget.context, message: 'Груз успешно удалён');
         widget.onCargoDeleted();
       } catch (e) {
-        Navigator.of(context).maybePop();
-        Navigator.of(context).maybePop();
+        await Navigator.of(context).maybePop();
+        await Navigator.of(context).maybePop();
         showErrorSnackbar(
             context: widget.context,
             errorMessage: 'Произошла ошибка при удалении груза',

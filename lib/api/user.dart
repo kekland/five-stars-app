@@ -10,7 +10,7 @@ class UserApi {
   static Future<User> getProfile(
       {@required BuildContext context, String username}) async {
     try {
-      final response = await Dio().get('$baseUrl/user/$username');
+      final response = await Api.client.get('$baseUrl/user/$username');
       return User.fromJson(response.data);
     } catch (e) {
       rethrow;
@@ -27,7 +27,7 @@ class UserApi {
   }) async {
     try {
       List<String> names = firstAndLastName.split(" ");
-      final response = await Dio().put(
+      final response = await Api.client.put(
         '$baseUrl/user/${username}',
         data: {
           "email": email,
@@ -63,7 +63,7 @@ class UserApi {
     bool favorites = false,
   }) async {
     try {
-      final response = await Dio().get(
+      final response = await Api.client.get(
         '$baseUrl/user/$username/cargo' + ((favorites)? '/favorite' : ''),
       );
       return (response.data as List).map((o) => Cargo.fromJson(o)).cast<Cargo>().toList();
@@ -78,7 +78,7 @@ class UserApi {
     bool favorites = false,
   }) async {
     try {
-      final response = await Dio().get(
+      final response = await Api.client.get(
         '$baseUrl/user/$username/vehicle' + ((favorites)? '/favorite' : ''),
       );
       return (response.data as List).map((o) => Vehicle.fromJson(o)).cast<Vehicle>().toList();

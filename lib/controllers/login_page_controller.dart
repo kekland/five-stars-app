@@ -24,7 +24,7 @@ class LoginPageController extends Controller<LoginPage> {
       final token = await Api.getToken(username: username, password: password);
       Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {
-      Navigator.of(context).pop();
+      await Navigator.of(context).maybePop();
       if (e is DioError && e.response != null) {
         if ((e.response.data is Map) &&
             e.response.data['message'] == 'Invalid email or password') {

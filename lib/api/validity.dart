@@ -29,7 +29,7 @@ class ValidityApi {
   static Future<UserRegistrationAvailability> checkUserForAvailability(
       {String username, String email, String phoneNumber}) async {
     try {
-      final response = await Dio().post('$baseUrl/auth/availability', data: {
+      final response = await Api.client.post('$baseUrl/auth/availability', data: {
         'username': username,
         'email': email,
         'phoneNumber': phoneNumber,

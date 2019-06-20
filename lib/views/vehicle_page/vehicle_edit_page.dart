@@ -85,13 +85,13 @@ class _VehicleEditPageState extends State<VehicleEditPage> {
           weight: properties.weight,
         ),
       );
-      Navigator.of(context).maybePop();
-      Navigator.of(context).maybePop();
+      await Navigator.of(context).maybePop();
+      await Navigator.of(context).maybePop();
       showInfoSnackbar(
           context: widget.context, message: 'Транспорт успешно изменён.');
       widget.onVehicleEdited(data);
     } catch (e) {
-      Navigator.of(context).maybePop();
+      await Navigator.of(context).maybePop();
       showErrorSnackbar(
           context: widget.context,
           errorMessage: 'Произошла ошибка при изменении транспорта',

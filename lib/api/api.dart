@@ -15,7 +15,7 @@ class Api {
   static Future<String> register(
       {BuildContext context, User userData, String password}) async {
     try {
-      final response = await Dio().post('$baseUrl/auth/register', data: {
+      final response = await Api.client.post('$baseUrl/auth/register', data: {
         "username": userData.username,
         "password": password,
         "email": userData.email,
@@ -36,7 +36,7 @@ class Api {
   static Future<String> getToken(
       {BuildContext context, String username, String password}) async {
     try {
-      final response = await Dio().post('$baseUrl/auth/login', data: {
+      final response = await Api.client.post('$baseUrl/auth/login', data: {
         "username": username,
         "password": password,
       });
@@ -95,7 +95,8 @@ class Api {
     Navigator.of(context).pushReplacementNamed('/auth');
   }
 
+  static Dio client = Dio();
+
   static Options get options => Options(
-      headers: {"Authorization": "Bearer ${AppData.token}"},
-      connectTimeout: 15000);
+      headers: {"Authorization": "Bearer ${AppData.token}"});
 }

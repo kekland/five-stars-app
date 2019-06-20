@@ -26,7 +26,7 @@ class CargoApi {
     VehicleType vehicleType,
   }) async {
     try {
-      final response = await Dio().post('$baseUrl/cargo/get', data: {
+      final response = await Api.client.post('$baseUrl/cargo/get', data: {
         "departure": departure?.name,
         "arrival": arrival?.name,
         "departureTime": (departureTimes != null)? {
@@ -60,7 +60,7 @@ class CargoApi {
   static Future<List<Cargo>> getCargoBatched(
       BuildContext context, List<String> identifiers) async {
     try {
-      final response = await Dio().post('${baseUrl}/cargo/getBatched',
+      final response = await Api.client.post('${baseUrl}/cargo/getBatched',
           data: {"values": identifiers}, options: Api.options);
       List<Cargo> cargo = (response.data as List<dynamic>)
           .map((cargo) => Cargo.fromJson(cargo))
@@ -96,7 +96,7 @@ class CargoApi {
         "images": [],
       };
 
-      final response = await Dio()
+      final response = await Api.client
           .post('${baseUrl}/cargo', data: data, options: Api.options);
       return Cargo.fromJson(response.data);
     } catch (e) {
@@ -138,7 +138,7 @@ class CargoApi {
         "images": [],
       };
 
-      final response = await Dio()
+      final response = await Api.client
           .put('${baseUrl}/cargo/${id}', data: data, options: Api.options);
       return Cargo.fromJson(response.data);
     } catch (e) {
@@ -166,7 +166,7 @@ class CargoApi {
   }) async {
     try {
       final response =
-          await Dio().delete('${baseUrl}/cargo/${id}', options: Api.options);
+          await Api.client.delete('${baseUrl}/cargo/${id}', options: Api.options);
       return true;
     } catch (e) {
       bool handled = await Api.handleError(context: context, exception: e);
@@ -185,7 +185,7 @@ class CargoApi {
   }) async {
     try {
       final response =
-          await Dio().post('$baseUrl/cargo/$cargoId/${(favorite)? 'favorite' : 'unfavorite'}', options: Api.options);
+          await Api.client.post('$baseUrl/cargo/$cargoId/${(favorite)? 'favorite' : 'unfavorite'}', options: Api.options);
       return true;
     } catch (e) {
       bool handled = await Api.handleError(context: context, exception: e);

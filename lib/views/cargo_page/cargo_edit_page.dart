@@ -89,13 +89,13 @@ class _CargoEditPageState extends State<CargoEditPage> {
           weight: properties.weight,
         ),
       );
-      Navigator.of(context).maybePop();
-      Navigator.of(context).maybePop();
+      await Navigator.of(context).maybePop();
+      await Navigator.of(context).maybePop();
       showInfoSnackbar(
           context: widget.context, message: 'Груз успешно изменён.');
       widget.onCargoEdited(Cargo());
     } catch (e) {
-      Navigator.of(context).maybePop();
+      await Navigator.of(context).maybePop();
       showErrorSnackbar(
           context: widget.context,
           errorMessage: 'Произошла ошибка при изменении груза',

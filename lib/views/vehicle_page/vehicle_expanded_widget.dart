@@ -24,12 +24,14 @@ class VehicleExpandedWidget extends StatefulWidget {
   final VoidCallback onVehicleDeleted;
   final BuildContext context;
 
-  const VehicleExpandedWidget(
-      {Key key,
-      this.data,
-      this.heroPrefix,
-      this.context, this.onVehicleEdited, this.onVehicleDeleted,})
-      : super(key: key);
+  const VehicleExpandedWidget({
+    Key key,
+    this.data,
+    this.heroPrefix,
+    this.context,
+    this.onVehicleEdited,
+    this.onVehicleDeleted,
+  }) : super(key: key);
 
   @override
   _VehicleExpandedWidgetState createState() => _VehicleExpandedWidgetState();
@@ -59,7 +61,8 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget>
       MaterialPageRoute(
         builder: (context) {
           return Scaffold(
-            body: ProfilePage(username: widget.data.owner, includeScaffold: true),
+            body:
+                ProfilePage(username: widget.data.owner, includeScaffold: true),
           );
         },
       ),
@@ -118,14 +121,14 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget>
         showLoadingDialog(context: context, color: Colors.pink);
         //await Future.delayed(Duration(seconds: 2));
         await VehicleApi.deleteVehicle(context: context, id: widget.data.id);
-        Navigator.of(context).maybePop();
-        Navigator.of(context).maybePop();
+        await Navigator.of(context).maybePop();
+        await Navigator.of(context).maybePop();
         showInfoSnackbar(
             context: widget.context, message: 'Транспорт успешно удалён');
         widget.onVehicleDeleted();
       } catch (e) {
-        Navigator.of(context).maybePop();
-        Navigator.of(context).maybePop();
+        await Navigator.of(context).maybePop();
+        await Navigator.of(context).maybePop();
         showErrorSnackbar(
             context: widget.context,
             errorMessage: 'Произошла ошибка при удалении транспорта',

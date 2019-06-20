@@ -38,7 +38,7 @@ dependencies:
   http:
   cloud_firestore:
   date_range_picker: 
-  dio:
+  dio: ^2.1.6
   location_permissions:
   liquid_pull_to_refresh: 
     path: ../Liquid-Pull-To-Refresh/

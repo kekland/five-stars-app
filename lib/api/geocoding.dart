@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:five_stars/api/api.dart';
 import 'package:five_stars/api/secret.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GeoApi {
   static Future<String> getLocationName(LatLng point) async {
     try {
-      final response = await Dio()
+      final response = await Api.client
           .get("https://geocode-maps.yandex.ru/1.x/", queryParameters: {
         "apikey": YANDEX_API_KEY,
         "format": "json",

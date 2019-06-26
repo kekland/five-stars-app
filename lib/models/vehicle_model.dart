@@ -5,6 +5,7 @@ import 'package:five_stars/models/dimensions.dart';
 import 'package:five_stars/models/information.dart';
 import 'package:five_stars/models/properties.dart';
 import 'package:five_stars/models/route_model.dart';
+import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class Vehicle {
     if (SharedPreferencesManager.instance == null) {
       return false;
     }
-    return SharedPreferencesManager.instance.getBool("favorite_vehicle_$id") ??
+    return SharedPreferencesManager.instance.getBool("${AppData.username}_favorite_vehicle_$id") ??
         false;
   }
 
@@ -44,21 +45,26 @@ class Vehicle {
     }
     try {
       List<dynamic> data = json.decode(
-          SharedPreferencesManager.instance.getString('favorite_vehicle') ??
+          SharedPreferencesManager.instance.getString('${AppData.username}_favorite_vehicle') ??
               '[]');
       if (data.contains(id)) {
         data.remove(id);
-        SharedPreferencesManager.instance.setBool('favorite_vehicle_$id', false);
-        VehicleApi.setVehicleFavoriteStatus(
-            context: context, vehicleId: id, favorite: false);
+        SharedPreferencesManager.instance
+            .setBool('${AppData.username}_favorite_vehicle_$id', false);
+        if (AppData.username != null) {
+          VehicleApi.setVehicleFavoriteStatus(
+              context: context, vehicleId: id, favorite: false);
+        }
       } else {
         data.add(id);
-        SharedPreferencesManager.instance.setBool('favorite_vehicle_$id', true);
-        VehicleApi.setVehicleFavoriteStatus(
-            context: context, vehicleId: id, favorite: true);
+        SharedPreferencesManager.instance.setBool('${AppData.username}_favorite_vehicle_$id', true);
+        if (AppData.username != null) {
+          VehicleApi.setVehicleFavoriteStatus(
+              context: context, vehicleId: id, favorite: true);
+        }
       }
       SharedPreferencesManager.instance
-          .setString("favorite_vehicle", json.encode(data));
+          .setString("${AppData.username}_favorite_vehicle", json.encode(data));
     } catch (e) {
       showErrorSnackbar(
           context: context,

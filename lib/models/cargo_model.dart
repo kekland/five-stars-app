@@ -4,6 +4,7 @@ import 'package:five_stars/models/dimensions.dart';
 import 'package:five_stars/models/information.dart';
 import 'package:five_stars/models/properties.dart';
 import 'package:five_stars/models/route_model.dart';
+import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,8 @@ class Cargo {
     if (SharedPreferencesManager.instance == null) {
       return false;
     }
-    return SharedPreferencesManager.instance.getBool("favorite_cargo_$id") ??
+    return SharedPreferencesManager.instance
+            .getBool("${AppData.username}_favorite_cargo_$id") ??
         false;
   }
 
@@ -42,22 +44,28 @@ class Cargo {
       return;
     }
     try {
-      List<dynamic> data = json.decode(
-          SharedPreferencesManager.instance.getString('favorite_cargo') ??
-              '[]');
+      List<dynamic> data = json.decode(SharedPreferencesManager.instance
+              .getString('${AppData.username}_favorite_cargo') ??
+          '[]');
       if (data.contains(id)) {
         data.remove(id);
-        SharedPreferencesManager.instance.setBool('favorite_cargo_$id', false);
-        CargoApi.setCargoFavoriteStatus(
-            context: context, cargoId: id, favorite: false);
+        SharedPreferencesManager.instance
+            .setBool('${AppData.username}_favorite_cargo_$id', false);
+        if (AppData.username == null) {
+          CargoApi.setCargoFavoriteStatus(
+              context: context, cargoId: id, favorite: false);
+        }
       } else {
         data.add(id);
-        SharedPreferencesManager.instance.setBool('favorite_cargo_$id', true);
-        CargoApi.setCargoFavoriteStatus(
-            context: context, cargoId: id, favorite: true);
+        SharedPreferencesManager.instance
+            .setBool('${AppData.username}_favorite_cargo_$id', true);
+        if (AppData.username == null) {
+          CargoApi.setCargoFavoriteStatus(
+              context: context, cargoId: id, favorite: true);
+        }
       }
       SharedPreferencesManager.instance
-          .setString("favorite_cargo", json.encode(data));
+          .setString("${AppData.username}_favorite_cargo", json.encode(data));
     } catch (e) {
       showErrorSnackbar(
           context: context,

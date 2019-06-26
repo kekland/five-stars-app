@@ -185,7 +185,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
               value: widget.data.owner,
               unit: "",
             ),
-            () => openProfile(context),
+            (AppData.username != null)? () => openProfile(context) : null,
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(

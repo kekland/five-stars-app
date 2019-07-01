@@ -2,6 +2,8 @@ import 'package:five_stars/api/cargo.dart';
 import 'package:five_stars/controllers/main_page_controller.dart';
 import 'package:five_stars/design/boolean_select_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/image_adder.dart';
+import 'package:five_stars/design/images_widget.dart';
 import 'package:five_stars/design/number_select_widget.dart';
 import 'package:five_stars/design/select_city_widget.dart';
 import 'package:five_stars/design/select_time_widget.dart';
@@ -238,6 +240,19 @@ class _CargoEditPageState extends State<CargoEditPage> {
               ),
             ],
           ),
+        ),
+        SizedBox(height: 24.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          body: Text(
+            'Изображения',
+            style: ModernTextTheme.title,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          body: ImagesWidget(images: widget.data.images),
         ),
         SizedBox(height: 24.0),
         CardWidget(

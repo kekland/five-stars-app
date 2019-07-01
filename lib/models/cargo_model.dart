@@ -51,7 +51,7 @@ class Cargo {
         data.remove(id);
         SharedPreferencesManager.instance
             .setBool('${AppData.username}_favorite_cargo_$id', false);
-        if (AppData.username == null) {
+        if (AppData.username != null) {
           CargoApi.setCargoFavoriteStatus(
               context: context, cargoId: id, favorite: false);
         }
@@ -59,7 +59,7 @@ class Cargo {
         data.add(id);
         SharedPreferencesManager.instance
             .setBool('${AppData.username}_favorite_cargo_$id', true);
-        if (AppData.username == null) {
+        if (AppData.username != null) {
           CargoApi.setCargoFavoriteStatus(
               context: context, cargoId: id, favorite: true);
         }

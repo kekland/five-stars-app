@@ -15,6 +15,11 @@ class Bounded<T> {
     return "${lower.toString()} - ${upper.toString()}";
   }
 
+  Bounded.fromJson(Map json) {
+    this.lower = json['lower'];
+    this.upper = json['upper'];
+  }
+
   Map toJson() => {
     "lower": lower,
     "upper": upper,

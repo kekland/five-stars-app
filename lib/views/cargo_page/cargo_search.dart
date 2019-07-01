@@ -210,15 +210,6 @@ class _CargoSearchState extends State<CargoSearch> {
         CardWidget(
           padding: const EdgeInsets.all(16.0),
           body: SingleLineInformationWidget(
-            icon: Icons.save,
-            label: 'Сохранить фильтр',
-            color: Colors.indigo,
-          ),
-        ),
-        SizedBox(height: 16.0),
-        CardWidget(
-          padding: const EdgeInsets.all(16.0),
-          body: SingleLineInformationWidget(
             icon: Icons.delete,
             label: 'Очистить',
             color: Colors.red,

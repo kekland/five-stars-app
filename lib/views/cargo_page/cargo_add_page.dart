@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:five_stars/api/cargo.dart';
 import 'package:five_stars/design/boolean_select_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/dimensions_widget.dart';
 import 'package:five_stars/design/image_adder.dart';
 import 'package:five_stars/design/number_select_widget.dart';
 import 'package:five_stars/design/select_city_widget.dart';
@@ -17,11 +19,13 @@ import 'package:five_stars/models/information.dart';
 import 'package:five_stars/models/properties.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/utils.dart';
+import 'package:five_stars/views/arrival_destination_widget.dart';
 import 'package:five_stars/views/cargo_page/cargo_expanded_widget.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:better_uuid/uuid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CargoAddPage extends StatefulWidget {
   @override
@@ -115,6 +119,136 @@ class _CargoAddPageState extends State<CargoAddPage> {
           context: context,
           errorMessage: 'Произошла ошибка при добавлении груза.',
           exception: e);
+    }
+  }
+
+  void loadSaved(BuildContext context) async {
+    var configurations =
+        SharedPreferencesManager.instance.getStringList('saved_cargo') ?? [];
+
+    Map value = await showModernDialog(
+      context: context,
+      title: 'Выберите конфигурацию',
+      actions: [
+        FlatButton(
+          child: Text('Отмена'),
+          onPressed: () => Navigator.pop(context),
+          textColor: Colors.purple,
+        ),
+      ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: configurations.map((name) {
+            try {
+              Map data = json.decode(SharedPreferencesManager.instance
+                  .getString('saved_cargo_${name}'));
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    border: Border.all(
+                        color: Colors.black.withOpacity(0.05), width: 2.0),
+                  ),
+                  child: Material(
+                    type: MaterialType.transparency,
+                    borderRadius: BorderRadius.circular(12.0),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(12.0),
+                      onTap: () => Navigator.of(context).pop(data),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child:
+                            Text(name, style: ModernTextTheme.primaryAccented),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            } catch (e) {
+              return SizedBox();
+            }
+          }).toList(),
+        ),
+      ),
+    );
+
+    if (value == null) return;
+    setState(() {
+      departure = City.fromJson(value['departure']);
+      arrival = City.fromJson(value['arrival']);
+      dimensions = Dimensions.fromJson(value['dimensions']);
+      information = CargoInformation.fromJson(value['information']);
+      properties = Properties.fromJson(value['properties']);
+      images = value['images'].map((path) => File(path)).cast<File>().toList();
+    });
+  }
+
+  void saveParams(BuildContext context) async {
+    String name = null;
+    bool value = await showModernDialog(
+      context: context,
+      title: 'Сохранить конфигурацию',
+      body: StatefulBuilder(builder: (context, setState) {
+        return Column(
+          children: <Widget>[
+            StringSelectWidget(
+              icon: FontAwesomeIcons.save,
+              title: 'Название конфигурации',
+              onSelected: (value) => setState(() => name = value),
+              value: name,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                FlatButton(
+                    child: Text('Отмена'),
+                    onPressed: () => Navigator.pop(context, false),
+                    textColor: Colors.black87),
+                FlatButton(
+                    child: Text('Сохранить'),
+                    onPressed: (name != null && name.length > 0)
+                        ? () => Navigator.pop(context, true)
+                        : null,
+                    textColor: Colors.purple),
+              ],
+            ),
+          ],
+        );
+      }),
+    );
+
+    if (value != null && value) {
+      try {
+        var list =
+            SharedPreferencesManager.instance.getStringList('saved_cargo') ??
+                [];
+        if (!list.contains(name)) {
+          list.add(name);
+        }
+
+        Map value = {
+          "departure": departure.toJson(),
+          "arrival": arrival.toJson(),
+          "dimensions": dimensions.toJson(),
+          "information": information.toJson(),
+          "properties": properties.toJson(),
+          "images": images.map((image) => image.path).cast<String>().toList(),
+        };
+
+        SharedPreferencesManager.instance
+            .setString('saved_cargo_${name}', json.encode(value));
+        SharedPreferencesManager.instance.setStringList('saved_cargo', list);
+
+        showInfoSnackbarMain(message: 'Конфигурация сохранена как "${name}"');
+      } catch (e) {
+        showErrorSnackbarMain(
+            errorMessage: 'Произошла ошибка при сохранении конфигурации',
+            exception: e);
+      }
     }
   }
 
@@ -281,6 +415,26 @@ class _CargoAddPageState extends State<CargoAddPage> {
           body: ImageSelector(
             onImageSelect: (v) => setState(() => images = v),
             images: images,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          onTap: () => loadSaved(context),
+          body: SingleLineInformationWidget(
+            icon: Icons.file_download,
+            label: 'Загрузить из сохранённых',
+            color: Colors.indigo,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          onTap: (isValid()) ? () => saveParams(context) : null,
+          body: SingleLineInformationWidget(
+            icon: Icons.save,
+            label: 'Сохранить параметры',
+            color: (isValid()) ? Colors.purple : Colors.grey,
           ),
         ),
         SizedBox(height: 16.0),

@@ -17,6 +17,14 @@ class PropertiesWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TwoLineInformationWidgetExpanded(
+          iconColor: Colors.green,
+          icon: FontAwesomeIcons.dollarSign,
+          title: 'Цена',
+          value: data.price != null ? data.price.round().toString() : 'Договорная',
+          unit: data.price != null ? "тг." : '',
+        ),
+        SizedBox(height: 16.0),
+        TwoLineInformationWidgetExpanded(
           iconColor: ModernTextTheme.captionIconColor,
           icon: FontAwesomeIcons.cube,
           title: 'Объём (см³)',

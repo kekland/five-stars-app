@@ -1,8 +1,14 @@
-import 'package:five_stars/api/cargo.dart';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:five_stars/api/vehicle.dart';
 import 'package:five_stars/design/boolean_select_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/dimensions_widget.dart';
+import 'package:five_stars/design/image_adder.dart';
 import 'package:five_stars/design/number_select_widget.dart';
+import 'package:five_stars/design/price_select_widget.dart';
 import 'package:five_stars/design/select_city_widget.dart';
 import 'package:five_stars/design/select_time_widget.dart';
 import 'package:five_stars/design/select_vehicle_type.dart';
@@ -14,11 +20,13 @@ import 'package:five_stars/models/information.dart';
 import 'package:five_stars/models/properties.dart';
 import 'package:five_stars/utils/city.dart';
 import 'package:five_stars/utils/utils.dart';
-import 'package:five_stars/views/cargo_page/cargo_expanded_widget.dart';
+import 'package:five_stars/views/arrival_destination_widget.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_expanded_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:better_uuid/uuid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VehicleAddPage extends StatefulWidget {
   @override
@@ -32,6 +40,7 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
   Properties properties;
   Dimensions dimensions;
   VehicleInformation information;
+  List<File> images;
 
   DateTime now;
 
@@ -57,10 +66,10 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
 
     departure = null;
     arrival = null;
-    properties = Properties(volume: null, weight: null);
+    properties = Properties(volume: null, weight: null, price: null);
     dimensions = Dimensions(width: null, height: null, length: null);
-    information = VehicleInformation(
-        model: null, description: null, vehicleType: null);
+    information = VehicleInformation(description: null, model: null, vehicleType: null);
+    images = [];
 
     setState(() {});
   }
@@ -68,6 +77,13 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
   void addVehicle(BuildContext context) async {
     try {
       showLoadingDialog(context: context, color: Colors.red);
+      var ref = FirebaseStorage.instance.ref().child('images');
+      List imgs = [];
+      for (final image in images) {
+        final task = ref.child(Uuid.v4().toString()).putFile(image);
+        final downloadUrl = await (await task.onComplete).ref.getDownloadURL();
+        imgs.add(downloadUrl);
+      }
       final data = await VehicleApi.addVehicle(
         context: context,
         arrival: arrival,
@@ -82,7 +98,9 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
         properties: Properties(
           volume: properties.volume / 1000000.0,
           weight: properties.weight,
+          price: properties.price,
         ),
+        images: imgs,
       );
       await Navigator.of(context).maybePop();
 
@@ -102,6 +120,136 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
           context: context,
           errorMessage: 'Произошла ошибка при добавлении транспорта.',
           exception: e);
+    }
+  }
+
+  void loadSaved(BuildContext context) async {
+    var configurations =
+        SharedPreferencesManager.instance.getStringList('saved_vehicle') ?? [];
+
+    Map value = await showModernDialog(
+      context: context,
+      title: 'Выберите конфигурацию',
+      actions: [
+        FlatButton(
+          child: Text('Отмена'),
+          onPressed: () => Navigator.pop(context),
+          textColor: Colors.purple,
+        ),
+      ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: configurations.map((name) {
+            try {
+              Map data = json.decode(SharedPreferencesManager.instance
+                  .getString('saved_vehicle_${name}'));
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    border: Border.all(
+                        color: Colors.black.withOpacity(0.05), width: 2.0),
+                  ),
+                  child: Material(
+                    type: MaterialType.transparency,
+                    borderRadius: BorderRadius.circular(12.0),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(12.0),
+                      onTap: () => Navigator.of(context).pop(data),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child:
+                            Text(name, style: ModernTextTheme.primaryAccented),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            } catch (e) {
+              return SizedBox();
+            }
+          }).toList(),
+        ),
+      ),
+    );
+
+    if (value == null) return;
+    setState(() {
+      departure = City.fromJson(value['departure']);
+      arrival = City.fromJson(value['arrival']);
+      dimensions = Dimensions.fromJson(value['dimensions']);
+      information = VehicleInformation.fromJson(value['information']);
+      properties = Properties.fromJson(value['properties']);
+      images = value['images'].map((path) => File(path)).cast<File>().toList();
+    });
+  }
+
+  void saveParams(BuildContext context) async {
+    String name = null;
+    bool value = await showModernDialog(
+      context: context,
+      title: 'Сохранить конфигурацию',
+      body: StatefulBuilder(builder: (context, setState) {
+        return Column(
+          children: <Widget>[
+            StringSelectWidget(
+              icon: FontAwesomeIcons.save,
+              title: 'Название конфигурации',
+              onSelected: (value) => setState(() => name = value),
+              value: name,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                FlatButton(
+                    child: Text('Отмена'),
+                    onPressed: () => Navigator.pop(context, false),
+                    textColor: Colors.black87),
+                FlatButton(
+                    child: Text('Сохранить'),
+                    onPressed: (name != null && name.length > 0)
+                        ? () => Navigator.pop(context, true)
+                        : null,
+                    textColor: Colors.purple),
+              ],
+            ),
+          ],
+        );
+      }),
+    );
+
+    if (value != null && value) {
+      try {
+        var list =
+            SharedPreferencesManager.instance.getStringList('saved_vehicle') ??
+                [];
+        if (!list.contains(name)) {
+          list.add(name);
+        }
+
+        Map value = {
+          "departure": departure.toJson(),
+          "arrival": arrival.toJson(),
+          "dimensions": dimensions.toJson(),
+          "information": information.toJson(),
+          "properties": properties.toJson(),
+          "images": images.map((image) => image.path).cast<String>().toList(),
+        };
+
+        SharedPreferencesManager.instance
+            .setString('saved_vehicle_${name}', json.encode(value));
+        SharedPreferencesManager.instance.setStringList('saved_vehicle', list);
+
+        showInfoSnackbarMain(message: 'Конфигурация сохранена как "${name}"');
+      } catch (e) {
+        showErrorSnackbarMain(
+            errorMessage: 'Произошла ошибка при сохранении конфигурации',
+            exception: e);
+      }
     }
   }
 
@@ -166,7 +314,7 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
             children: <Widget>[
               NumberSelectWidget(
                 icon: FontAwesomeIcons.weightHanging,
-                title: 'Макс. вес',
+                title: 'Вес',
                 unit: 'кг.',
                 value: properties.weight,
                 onSelected: (value) =>
@@ -174,11 +322,15 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
               ),
               NumberSelectWidget(
                 icon: FontAwesomeIcons.cube,
-                title: 'Макс. объём',
+                title: 'Объём',
                 unit: 'см³',
                 value: properties.volume,
                 onSelected: (value) =>
                     setState(() => properties.volume = value),
+              ),
+              PriceSelectWidget(
+                price: properties.price,
+                onSelect: (value) => setState(() => properties.price = value),
               ),
             ],
           ),
@@ -234,6 +386,13 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
           body: Column(
             children: <Widget>[
               StringSelectWidget(
+                icon: FontAwesomeIcons.truck,
+                title: 'Марка автомобиля',
+                value: information.model,
+                onSelected: (value) =>
+                    setState(() => information.model = value),
+              ),
+              StringSelectWidget(
                 icon: FontAwesomeIcons.envelopeOpenText,
                 title: 'Описание',
                 value: information.description,
@@ -245,14 +404,43 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
                 onSelect: (value) =>
                     setState(() => information.vehicleType = value),
               ),
-              StringSelectWidget(
-                icon: FontAwesomeIcons.truck,
-                title: 'Марка машины',
-                value: information.model,
-                onSelected: (value) =>
-                    setState(() => information.model = value),
-              ),
             ],
+          ),
+        ),
+        SizedBox(height: 24.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          body: Text(
+            'Изображения',
+            style: ModernTextTheme.title,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        CardWidget(
+          padding: EdgeInsets.zero,
+          body: ImageSelector(
+            onImageSelect: (v) => setState(() => images = v),
+            images: images,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          onTap: () => loadSaved(context),
+          body: SingleLineInformationWidget(
+            icon: Icons.file_download,
+            label: 'Загрузить из сохранённых',
+            color: Colors.indigo,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          onTap: (isValid()) ? () => saveParams(context) : null,
+          body: SingleLineInformationWidget(
+            icon: Icons.save,
+            label: 'Сохранить параметры',
+            color: (isValid()) ? Colors.purple : Colors.grey,
           ),
         ),
         SizedBox(height: 16.0),
@@ -261,7 +449,7 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
           onTap: (isValid()) ? () => addVehicle(context) : null,
           body: SingleLineInformationWidget(
             icon: Icons.check,
-            label: 'Добавить груз',
+            label: 'Добавить транспорт',
             color: (isValid()) ? Colors.green : Colors.grey,
           ),
         ),

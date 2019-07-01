@@ -1,6 +1,8 @@
 import 'package:five_stars/api/vehicle.dart';
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/images_widget.dart';
 import 'package:five_stars/design/number_select_widget.dart';
+import 'package:five_stars/design/price_select_widget.dart';
 import 'package:five_stars/design/select_city_widget.dart';
 import 'package:five_stars/design/select_time_widget.dart';
 import 'package:five_stars/design/select_vehicle_type.dart';
@@ -22,7 +24,8 @@ class VehicleEditPage extends StatefulWidget {
   final Function(Vehicle) onVehicleEdited;
   final BuildContext context;
 
-  const VehicleEditPage({Key key, this.data, this.onVehicleEdited, this.context})
+  const VehicleEditPage(
+      {Key key, this.data, this.onVehicleEdited, this.context})
       : super(key: key);
   @override
   _VehicleEditPageState createState() => _VehicleEditPageState();
@@ -54,6 +57,7 @@ class _VehicleEditPageState extends State<VehicleEditPage> {
     properties = Properties(
       volume: widget.data.properties.volume * 1e6,
       weight: widget.data.properties.weight,
+      price: widget.data.properties.price,
     );
     dimensions = Dimensions(
       width: widget.data.dimensions.width * 1e2,
@@ -83,6 +87,7 @@ class _VehicleEditPageState extends State<VehicleEditPage> {
         properties: Properties(
           volume: properties.volume / 1000000.0,
           weight: properties.weight,
+          price: properties.price,
         ),
       );
       await Navigator.of(context).maybePop();
@@ -194,6 +199,10 @@ class _VehicleEditPageState extends State<VehicleEditPage> {
                 onSelected: (value) =>
                     setState(() => properties.volume = value),
               ),
+              PriceSelectWidget(
+                price: properties.price,
+                onSelect: (value) => setState(() => properties.price = value),
+              ),
             ],
           ),
         ),
@@ -234,6 +243,19 @@ class _VehicleEditPageState extends State<VehicleEditPage> {
               ),
             ],
           ),
+        ),
+        SizedBox(height: 24.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          body: Text(
+            'Изображения',
+            style: ModernTextTheme.title,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          body: ImagesWidget(images: widget.data.images),
         ),
         SizedBox(height: 24.0),
         CardWidget(

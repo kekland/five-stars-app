@@ -16,6 +16,7 @@ class ModernTextField extends StatelessWidget {
   final bool autocorrect;
   final String error;
   final TextEditingController controller;
+  final bool enabled;
 
   const ModernTextField({
     Key key,
@@ -32,12 +33,14 @@ class ModernTextField extends StatelessWidget {
     this.suffixText,
     this.lines = 1,
     this.controller,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      enabled: enabled,
       onChanged: (String text) {
         onChanged(text);
         onSubmitted();
@@ -62,7 +65,13 @@ class ModernTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
-          borderSide: BorderSide(color: Colors.black.withOpacity(0.05), width: 2.0),
+          borderSide:
+              BorderSide(color: Colors.black.withOpacity(0.05), width: 2.0),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          borderSide:
+              BorderSide(color: Colors.black.withOpacity(0.05), width: 2.0),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),

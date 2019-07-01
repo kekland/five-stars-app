@@ -4,14 +4,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BoolSelectWidget extends StatelessWidget {
   final bool value;
+  final bool padLeft;
   final Function(bool) onSelected;
   final String title;
+  final Color color;
 
   const BoolSelectWidget({
     Key key,
     this.value,
     this.onSelected,
-    this.title,
+    this.title, this.color = Colors.red, this.padLeft = true,
   }) : super(key: key);
 
   @override
@@ -21,11 +23,11 @@ class BoolSelectWidget extends StatelessWidget {
         onTap: () => onSelected(!value),
         borderRadius: BorderRadius.circular(12.0),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: (padLeft)? const EdgeInsets.all(16.0) : const EdgeInsets.only(top: 16.0, bottom: 16.0, right: 16.0),
           child: SingleLineInformationWidget(
             icon: (value) ? Icons.check_box : Icons.check_box_outline_blank,
             label: title,
-            color: Colors.red,
+            color: color,
           ),
         ),
       ),

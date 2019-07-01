@@ -8,6 +8,7 @@ import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/dimensions_widget.dart';
 import 'package:five_stars/design/image_adder.dart';
 import 'package:five_stars/design/number_select_widget.dart';
+import 'package:five_stars/design/price_select_widget.dart';
 import 'package:five_stars/design/select_city_widget.dart';
 import 'package:five_stars/design/select_time_widget.dart';
 import 'package:five_stars/design/select_vehicle_type.dart';
@@ -65,7 +66,7 @@ class _CargoAddPageState extends State<CargoAddPage> {
 
     departure = null;
     arrival = null;
-    properties = Properties(volume: null, weight: null);
+    properties = Properties(volume: null, weight: null, price: null);
     dimensions = Dimensions(width: null, height: null, length: null);
     information = CargoInformation(
         dangerous: false, description: null, vehicleType: null);
@@ -98,6 +99,7 @@ class _CargoAddPageState extends State<CargoAddPage> {
         properties: Properties(
           volume: properties.volume / 1000000.0,
           weight: properties.weight,
+          price: properties.price,
         ),
         images: imgs,
       );
@@ -326,6 +328,10 @@ class _CargoAddPageState extends State<CargoAddPage> {
                 value: properties.volume,
                 onSelected: (value) =>
                     setState(() => properties.volume = value),
+              ),
+              PriceSelectWidget(
+                price: properties.price,
+                onSelect: (value) => setState(() => properties.price = value),
               ),
             ],
           ),

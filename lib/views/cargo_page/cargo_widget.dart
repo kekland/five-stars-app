@@ -135,6 +135,16 @@ class _CargoWidgetState extends State<CargoWidget> {
                                   .toStringAsFixed(1),
                               unit: "кг.",
                             ),
+                            if (widget.data.properties.price != null)
+                              TwoLineInformationWidget(
+                                iconColor: Colors.green,
+                                icon: FontAwesomeIcons.dollarSign,
+                                title: 'Цена (тг)',
+                                value: widget.data.properties.price
+                                    .round()
+                                    .toString(),
+                                unit: "тг.",
+                              ),
                             TwoLineInformationWidget(
                               iconColor: ModernTextTheme.captionIconColor,
                               icon: FontAwesomeIcons.boxOpen,
@@ -186,17 +196,19 @@ class _CargoWidgetState extends State<CargoWidget> {
               ),
               IconButton(
                 icon: Icon(
-                    (widget.data.starred)
+                    (widget.data.starred && AppData.username != null)
                         ? FontAwesomeIcons.solidStar
                         : FontAwesomeIcons.star,
                     size: 20.0),
                 color: (widget.data.starred)
                     ? Colors.amber
                     : ModernTextTheme.secondaryColor,
+                disabledColor: Colors.black.withOpacity(0.1),
                 iconSize: 20.0,
                 padding: const EdgeInsets.all(12.0),
-                onPressed: () =>
-                    setState(() => widget.data.toggleStarred(context)),
+                onPressed: (AppData.username != null)
+                    ? () => setState(() => widget.data.toggleStarred(context))
+                    : null,
               ),
             ],
           );

@@ -1,5 +1,6 @@
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/divider_widget.dart';
+import 'package:five_stars/design/images_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/vehicle_model.dart';
@@ -21,7 +22,13 @@ class VehicleWidget extends StatefulWidget {
   final BuildContext context;
 
   const VehicleWidget(
-      {Key key, this.data, this.addButtons = true, this.heroPrefix = "", this.context, this.onVehicleEdited, this.onVehicleDeleted})
+      {Key key,
+      this.data,
+      this.addButtons = true,
+      this.heroPrefix = "",
+      this.context,
+      this.onVehicleEdited,
+      this.onVehicleDeleted})
       : super(key: key);
 
   @override
@@ -78,59 +85,102 @@ class _VehicleWidgetState extends State<VehicleWidget> {
             )
           : CardWidget(
               onTap: () => expand(context),
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.zero,
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  DepartureArrivalWidget(
-                    arrivalCity: widget.data.arrival,
-                    departureCity: widget.data.departure,
-                    departureDate: widget.data.departureTime,
-                    isCargo: false,
-                  ),
-                  DividerWidget(),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Wrap(
-                      spacing: 8.0,
-                      runSpacing: 16.0,
-                      alignment: WrapAlignment.spaceBetween,
-                      children: <Widget>[
-                        TwoLineInformationWidget(
-                          iconColor: ModernTextTheme.captionIconColor,
-                          icon: FontAwesomeIcons.cube,
-                          title: 'Макс. объем (см³)',
-                          value:
-                              (widget.data.properties.volume * 1000000.0).round().toString(),
-                          unit: "см³",
+                  if (!widget.data.verified)
+                    Container(
+                      child: Text('Не подтверждён',
+                          style: ModernTextTheme.primaryAccented
+                              .copyWith(color: Colors.white)),
+                      padding: const EdgeInsets.all(12.0),
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12.0),
+                          topRight: Radius.circular(12.0),
                         ),
-                        TwoLineInformationWidget(
-                          iconColor: ModernTextTheme.captionIconColor,
-                          icon: FontAwesomeIcons.weightHanging,
-                          title: 'Макс. вес (кг)',
-                          value: widget.data.properties.weight.toStringAsFixed(1),
-                          unit: "кг.",
+                      ),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        DepartureArrivalWidget(
+                          arrivalCity: widget.data.arrival,
+                          departureCity: widget.data.departure,
+                          departureDate: widget.data.departureTime,
+                          isCargo: false,
                         ),
-                        TwoLineInformationWidget(
-                          iconColor: ModernTextTheme.captionIconColor,
-                          icon: FontAwesomeIcons.boxOpen,
-                          title: 'Тип кузова',
-                          value: VehicleTypeUtils
-                              .vehicleTypeNames[widget.data.information.vehicleType],
-                          unit: "",
+                        DividerWidget(),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Wrap(
+                            spacing: 8.0,
+                            runSpacing: 16.0,
+                            alignment: WrapAlignment.spaceBetween,
+                            children: <Widget>[
+                              TwoLineInformationWidget(
+                                iconColor: ModernTextTheme.captionIconColor,
+                                icon: FontAwesomeIcons.cube,
+                                title: 'Макс. объем (см³)',
+                                value:
+                                    (widget.data.properties.volume * 1000000.0)
+                                        .round()
+                                        .toString(),
+                                unit: "см³",
+                              ),
+                              TwoLineInformationWidget(
+                                iconColor: ModernTextTheme.captionIconColor,
+                                icon: FontAwesomeIcons.weightHanging,
+                                title: 'Макс. вес (кг)',
+                                value: widget.data.properties.weight
+                                    .toStringAsFixed(1),
+                                unit: "кг.",
+                              ),
+                              if (widget.data.properties.price != null)
+                                TwoLineInformationWidget(
+                                  iconColor: Colors.green,
+                                  icon: FontAwesomeIcons.dollarSign,
+                                  title: 'Цена (тг)',
+                                  value: widget.data.properties.price
+                                      .round()
+                                      .toString(),
+                                  unit: "тг.",
+                                ),
+                              TwoLineInformationWidget(
+                                iconColor: ModernTextTheme.captionIconColor,
+                                icon: FontAwesomeIcons.boxOpen,
+                                title: 'Тип кузова',
+                                value: VehicleTypeUtils.vehicleTypeNames[
+                                    widget.data.information.vehicleType],
+                                unit: "",
+                              ),
+                              TwoLineInformationWidget(
+                                iconColor: ModernTextTheme.captionIconColor,
+                                icon: FontAwesomeIcons.route,
+                                title: 'Дистанция',
+                                value: widget.data.route != null
+                                    ? (widget.data.route.distance / 1000.0)
+                                        .toStringAsFixed(1)
+                                        .toString()
+                                    : 'Неизвестно',
+                                unit: widget.data.route != null ? "км." : '',
+                              ),
+                            ],
+                          ),
                         ),
-                        TwoLineInformationWidget(
-                          iconColor: ModernTextTheme.captionIconColor,
-                          icon: FontAwesomeIcons.route,
-                          title: 'Дистанция',
-                          value: widget.data.route != null
-                              ? (widget.data.route.distance / 1000.0)
-                                  .toStringAsFixed(1)
-                                  .toString()
-                              : 'Неизвестно',
-                          unit: widget.data.route != null? "км." : '',
-                        ),
+                        if (widget.data.images != null &&
+                            widget.data.images.length > 0) ...[
+                          DividerWidget(),
+                          ImagesWidget(
+                            images: widget.data.images,
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -144,7 +194,7 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                     padding: const EdgeInsets.all(16.0),
                     child: Text('Подробнее' +
                         ((widget.data.owner == AppData.username)
-                            ? " (Ваш груз)"
+                            ? " (Ваш транспорт)"
                             : "")),
                     textColor: ModernTextTheme.secondaryColor,
                     disabledTextColor: ModernTextTheme.disabledColor,
@@ -154,16 +204,19 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                 ),
                 IconButton(
                   icon: Icon(
-                      (widget.data.starred)
+                      (widget.data.starred && AppData.username != null)
                           ? FontAwesomeIcons.solidStar
                           : FontAwesomeIcons.star,
                       size: 20.0),
                   color: (widget.data.starred)
                       ? Colors.amber
                       : ModernTextTheme.secondaryColor,
+                  disabledColor: Colors.black.withOpacity(0.1),
                   iconSize: 20.0,
                   padding: const EdgeInsets.all(12.0),
-                  onPressed: () => setState(() => widget.data.toggleStarred(context)),
+                  onPressed: (AppData.username != null)
+                      ? () => setState(() => widget.data.toggleStarred(context))
+                      : null,
                 ),
               ],
             ),

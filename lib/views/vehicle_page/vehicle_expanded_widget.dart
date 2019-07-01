@@ -1,11 +1,13 @@
 import 'package:five_stars/api/vehicle.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/dimensions_widget.dart';
+import 'package:five_stars/design/images_widget.dart';
 import 'package:five_stars/design/map_route.dart';
 import 'package:five_stars/design/properties_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/design/vehicle_information_widget.dart';
+import 'package:five_stars/design/verified_widget.dart';
 import 'package:five_stars/models/vehicle_model.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
@@ -165,6 +167,12 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget>
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
+            VerifiedWidgetExpanded(
+              verified: widget.data.verified,
+            ),
+          ),
+          SizedBox(height: 16.0),
+          buildInfoCardWidget(
             PropertiesWidget(
                 data: widget.data.properties, route: widget.data.route),
           ),
@@ -176,17 +184,37 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget>
           buildInfoCardWidget(
             VehicleInformationWidget(data: widget.data.information),
           ),
-          SizedBox(height: 32.0),
-          buildInfoCardWidget(
-            TwoLineInformationWidgetExpanded(
-              iconColor: ModernTextTheme.captionIconColor,
-              icon: FontAwesomeIcons.userAlt,
-              title: 'Профиль владельца',
-              value: widget.data.owner,
-              unit: "",
+          if (widget.data.images != null && widget.data.images.length > 0) ...[
+            SizedBox(height: 16.0),
+            buildInfoCardWidget(
+              ImagesWidget(
+                images: widget.data.images,
+              ),
             ),
-            (AppData.username != null)? () => openProfile(context) : null,
-          ),
+          ],
+          SizedBox(height: 32.0),
+          (AppData.username != null)
+              ? buildInfoCardWidget(
+                  TwoLineInformationWidgetExpanded(
+                    iconColor: ModernTextTheme.captionIconColor,
+                    icon: FontAwesomeIcons.userAlt,
+                    title: 'Профиль владельца',
+                    value: widget.data.owner,
+                    unit: "",
+                  ),
+                  (AppData.username != null)
+                      ? () => openProfile(context)
+                      : null,
+                )
+              : buildInfoCardWidget(
+                  TwoLineInformationWidgetExpanded(
+                    iconColor: ModernTextTheme.captionIconColor,
+                    icon: FontAwesomeIcons.userAlt,
+                    title: 'Профиль владельца',
+                    value: "Недоступно в гостевом режиме",
+                    unit: "",
+                  ),
+                ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
             SingleLineInformationWidget(

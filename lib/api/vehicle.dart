@@ -42,6 +42,7 @@ class VehicleApi {
         "archived": showArchived,
         "removeOld": removeOld,
         "oldThreshold": 7 * 24 * 60 * 60 * 1000,
+        "verified": true,
         "vehicleType":
             vehicleType != null ? VehicleTypeUtils.toJson(vehicleType) : null,
       });
@@ -65,6 +66,7 @@ class VehicleApi {
     Properties properties,
     Dimensions dimensions,
     VehicleInformation information,
+    List images,
   }) async {
     try {
       final Map data = {
@@ -74,7 +76,7 @@ class VehicleApi {
         "properties": properties.toJson(),
         "dimensions": dimensions.toJson(),
         "information": information.toJson(),
-        "images": [],
+        "images": images,
       };
 
       final response = await Api.client

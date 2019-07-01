@@ -62,7 +62,7 @@ class _VehicleSearchState extends State<VehicleSearch> {
             : null,
         weight: weight,
         width: width,
-        showArchived: true,
+        showArchived: false,
         removeOld: true,
       );
       Navigator.of(context).popUntil((r) => r.isFirst);

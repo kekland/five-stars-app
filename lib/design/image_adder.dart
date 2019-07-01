@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_permissions/simple_permissions.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -17,9 +19,24 @@ class _ImageSelectorState extends State<ImageSelector> {
   List<Asset> images = [];
 
   void selectImages() async {
+    var camPermission = await SimplePermissions.getPermissionStatus(Permission.Camera);
+    var storagePermission = await SimplePermissions.getPermissionStatus(Permission.ReadExternalStorage);
+
+    if(camPermission != PermissionStatus.authorized) {
+      camPermission = await SimplePermissions.requestPermission(Permission.Camera);
+    }
+    if(storagePermission != PermissionStatus.authorized) {
+      storagePermission = await SimplePermissions.requestPermission(Permission.ReadExternalStorage);
+    }
+  
+    if(storagePermission != PermissionStatus.authorized) {
+      showErrorSnackbarMain(errorMessage: 'Для доступа к изображениям необходимы права.', showDialog: false, exception: Exception());
+      return;
+    }
+
     var pickedImages = await MultiImagePicker.pickImages(
       maxImages: 5,
-      enableCamera: true,
+      enableCamera: (camPermission == PermissionStatus.authorized),
     );
     if (images != null) {
       images = pickedImages;

@@ -38,6 +38,7 @@ dependencies:
   http:
   cloud_firestore:
   firebase_storage:
+  simple_permissions:
   multi_image_picker:
   date_range_picker: 
   dio: ^2.1.6

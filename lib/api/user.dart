@@ -86,4 +86,32 @@ class UserApi {
       rethrow;
     }
   }
+  
+  static Future<List<VehicleSaved>> getUserSavedVehicles({
+    @required BuildContext context,
+    String username,
+  }) async {
+    try {
+      final response = await Api.client.get(
+        '$baseUrl/user/$username/vehicle/saved'
+      );
+      return (response.data as List).map((o) => VehicleSaved.fromJson(o)).cast<VehicleSaved>().toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+  
+  static Future<List<CargoSaved>> getUserSavedCargo({
+    @required BuildContext context,
+    String username,
+  }) async {
+    try {
+      final response = await Api.client.get(
+        '$baseUrl/user/$username/cargo/saved'
+      );
+      return (response.data as List).map((o) => CargoSaved.fromJson(o)).cast<CargoSaved>().toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

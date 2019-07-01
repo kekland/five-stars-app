@@ -64,7 +64,8 @@ class _CargoSearchState extends State<CargoSearch> {
             : null,
         weight: weight,
         width: width,
-        showArchived: true,
+        showArchived: false,
+        verified: true,
         removeOld: true,
       );
       Navigator.of(context).popUntil((r) => r.isFirst);

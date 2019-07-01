@@ -23,6 +23,7 @@ class CargoApi {
     Bounded<double> length,
     bool showArchived,
     bool removeOld,
+    bool verified,
     VehicleType vehicleType,
   }) async {
     try {
@@ -41,6 +42,7 @@ class CargoApi {
         "length": length != null ? length.toJson() : null,
         "archived": showArchived,
         "removeOld": removeOld,
+        "verified": verified,
         "oldThreshold": 7 * 24 * 60 * 60 * 1000,
         "vehicleType":
             vehicleType != null ? VehicleTypeUtils.toJson(vehicleType) : null,

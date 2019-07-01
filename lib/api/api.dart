@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 export 'package:five_stars/api/validity.dart';
 export 'package:five_stars/api/cargo.dart';
 
-String baseUrl = 'http://192.168.1.104:3008';
+String baseUrl = 'http://192.168.1.106:3008';
 
 // String baseUrl = 'https://api.5zvezd.kz';
 

@@ -7,6 +7,7 @@ import 'package:five_stars/design/map_route.dart';
 import 'package:five_stars/design/properties_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
+import 'package:five_stars/design/verified_widget.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
@@ -62,7 +63,8 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
       MaterialPageRoute(
         builder: (context) {
           return Scaffold(
-            body: ProfilePage(username: widget.data.owner, includeScaffold: true),
+            body:
+                ProfilePage(username: widget.data.owner, includeScaffold: true),
           );
         },
       ),
@@ -165,6 +167,12 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
           ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
+            VerifiedWidgetExpanded(
+              verified: widget.data.verified,
+            ),
+          ),
+          SizedBox(height: 16.0),
+          buildInfoCardWidget(
             PropertiesWidget(
                 data: widget.data.properties, route: widget.data.route),
           ),
@@ -177,16 +185,28 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
             CargoInformationWidget(data: widget.data.information),
           ),
           SizedBox(height: 32.0),
-          buildInfoCardWidget(
-            TwoLineInformationWidgetExpanded(
-              iconColor: ModernTextTheme.captionIconColor,
-              icon: FontAwesomeIcons.userAlt,
-              title: 'Профиль владельца',
-              value: widget.data.owner,
-              unit: "",
-            ),
-            (AppData.username != null)? () => openProfile(context) : null,
-          ),
+          (AppData.username != null)
+              ? buildInfoCardWidget(
+                  TwoLineInformationWidgetExpanded(
+                    iconColor: ModernTextTheme.captionIconColor,
+                    icon: FontAwesomeIcons.userAlt,
+                    title: 'Профиль владельца',
+                    value: widget.data.owner,
+                    unit: "",
+                  ),
+                  (AppData.username != null)
+                      ? () => openProfile(context)
+                      : null,
+                )
+              : buildInfoCardWidget(
+                  TwoLineInformationWidgetExpanded(
+                    iconColor: ModernTextTheme.captionIconColor,
+                    icon: FontAwesomeIcons.userAlt,
+                    title: 'Профиль владельца',
+                    value: "Недоступно в гостевом режиме",
+                    unit: "",
+                  ),
+                ),
           SizedBox(height: 16.0),
           buildInfoCardWidget(
             SingleLineInformationWidget(

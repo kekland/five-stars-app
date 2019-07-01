@@ -7,6 +7,7 @@ import 'package:five_stars/design/future_page.dart';
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
+import 'package:five_stars/design/verified_widget.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/models/user_model.dart';
 import 'package:five_stars/mvc/view.dart';
@@ -118,6 +119,8 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              VerifiedWidgetExpanded(verified: profile.verified),
+              SizedBox(height: 24.0),
               TwoLineInformationWidgetExpanded(
                 title: "Имя пользователя",
                 value: profile.username,
@@ -181,17 +184,6 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
             label: 'Посмотреть транспорт',
           ),
         ),
-        if (profile.isCurrentUser) ...[
-          SizedBox(height: 24.0),
-          buildCard(
-            child: SingleLineInformationWidget(
-              icon: Icons.exit_to_app,
-              label: 'Выйти из профиля',
-              color: Colors.red,
-            ),
-            onTap: () => Api.logOut(context),
-          ),
-        ],
       ],
     );
   }

@@ -178,3 +178,36 @@ class SingleLineInformationWidget extends StatelessWidget {
     );
   }
 }
+
+class SingleLineInformationWidgetInline extends StatelessWidget {
+  final IconData icon;
+  final double iconSize;
+  final String label;
+  final Color color;
+
+  const SingleLineInformationWidgetInline(
+      {Key key,
+      this.icon,
+      this.label,
+      this.color = Colors.black,
+      this.iconSize = 24.0})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          color: (color == Colors.black)
+              ? color.withOpacity(0.125)
+              : color.withOpacity(0.65),
+          size: iconSize,
+        ),
+        SizedBox(width: 12.0),
+        Text(label,
+            style: ModernTextTheme.primaryAccented.copyWith(color: color)),
+      ],
+    );
+  }
+}

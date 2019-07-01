@@ -110,7 +110,7 @@ class Cargo {
     verified = json['verified'] as bool;
 
     createdAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['created']);
-    owner = json['owner'];
+    owner = json['owner']['id'];
   }
 }
 

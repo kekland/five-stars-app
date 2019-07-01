@@ -88,8 +88,8 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
           children: <Widget>[
             GoogleMap(
               initialCameraPosition: CameraPosition(
-                target: LatLng(43.238949, 76.889709),
-                zoom: 10,
+                target: LatLng(48.0196, 66.9237),
+                zoom: 4,
               ),
               onTap: (point) => onSelectLocation(context, point),
               myLocationButtonEnabled: true,

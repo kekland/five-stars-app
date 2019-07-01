@@ -2,6 +2,7 @@ import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/divider_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
+import 'package:five_stars/design/verified_widget.dart';
 import 'package:five_stars/models/cargo_model.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
@@ -132,6 +133,7 @@ class _CargoWidgetState extends State<CargoWidget> {
                             : 'Неизвестно',
                         unit: widget.data.route != null ? "км." : '',
                       ),
+                      VerifiedWidgetInline(verified: widget.data.verified),
                     ],
                   ),
                 ),

@@ -7,6 +7,7 @@ import 'package:five_stars/views/cargo_page/cargo_search.dart';
 import 'package:five_stars/views/cargo_page/cargo_user_page.dart';
 import 'package:five_stars/views/main_page/main_page.dart';
 import 'package:five_stars/views/profile_page/profile_page.dart';
+import 'package:five_stars/views/settings_page/settings_page.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_add_page.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_page.dart';
 import 'package:five_stars/views/vehicle_page/vehicle_search.dart';
@@ -31,7 +32,7 @@ class MainPageController extends Controller<MainPage> {
     (AppData.username == null)? Container() : VehicleUserPage(favorites: true, username: AppData.username),
     (AppData.username == null)? Container() : VehicleUserPage(favorites: false, username: AppData.username),
     Container(color: Colors.amber),
-    Container(color: Colors.pink),
+    SettingsPage(),
     (AppData.username == null)? Container() : ProfilePage(username: AppData.username),
   ];
   
@@ -45,7 +46,7 @@ class MainPageController extends Controller<MainPage> {
     'Избранный транспорт',
     'Мой транспорт',
     'В разработке',
-    'В разработке',
+    'Настройки',
     'Мой профиль'
   ];
 

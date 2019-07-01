@@ -134,7 +134,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
     );
 
     try {
-      Navigator.pop(context);
+      await Navigator.maybePop(context);
       showLoadingDialog(context: context, color: Colors.blue);
       final user = await auth.signInWithCredential(credential);
       await user.delete();
@@ -173,48 +173,46 @@ class RegistrationPageController extends Controller<RegistrationPage> {
         refresh();
         return;
       }
+
+      await ValidityApi.verifyPhoneNumber(
+        phoneNumber: "+7${phoneNumber.value}",
+        onFinished: () => phoneValidationFinished(context),
+        onFailed: (e) => registrationFailed(
+            'Произошла ошибка при проверке номера телефона.', e, context),
+        onCodeSent: (verificationId) async {
+          await Navigator.maybePop(context);
+          showModernDialog(
+            context: context,
+            title: 'Вам отправлено СМС-сообщение',
+            text:
+                'Когда вам придёт СМС-сообщение с кодом, напишите 6 цифр кода здесь:',
+            body: LayoutBuilder(
+              builder: (_, constraints) {
+                return VerificationCodeInput(
+                  length: 6,
+                  itemSize: constraints.maxWidth / 7.0,
+                  onCompleted: (verificationCode) => verifyCode(
+                        context: context,
+                        verificationCode: verificationCode,
+                        verificationId: verificationId,
+                      ),
+                );
+              },
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Отмена'),
+                onPressed: () => Navigator.of(context).maybePop(),
+                textColor: Colors.deepPurple,
+              ),
+            ],
+          );
+        },
+      );
     } catch (e) {
       registrationFailed(
-          'Произошла ошибка при валидации пользователя.',
-          e,
-          context);
+          'Произошла ошибка при валидации пользователя.', e, context);
     }
-
-    await ValidityApi.verifyPhoneNumber(
-      phoneNumber: "+7${phoneNumber.value}",
-      onFinished: () => phoneValidationFinished(context),
-      onFailed: (e) => registrationFailed(
-          'Произошла ошибка при проверке номера телефона.', e, context),
-      onCodeSent: (verificationId) {
-        Navigator.pop(context);
-        showModernDialog(
-          context: context,
-          title: 'Вам отправлено СМС-сообщение',
-          text:
-              'Когда вам придёт СМС-сообщение с кодом, напишите 6 цифр кода здесь:',
-          body: LayoutBuilder(
-            builder: (_, constraints) {
-              return VerificationCodeInput(
-                length: 6,
-                itemSize: constraints.maxWidth / 7.0,
-                onCompleted: (verificationCode) => verifyCode(
-                      context: context,
-                      verificationCode: verificationCode,
-                      verificationId: verificationId,
-                    ),
-              );
-            },
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Отмена'),
-              onPressed: () => Navigator.of(context).pop(),
-              textColor: Colors.deepPurple,
-            ),
-          ],
-        );
-      },
-    );
   }
 
   void phoneValidationFinished(BuildContext context) async {
@@ -231,15 +229,15 @@ class RegistrationPageController extends Controller<RegistrationPage> {
         password: password.value,
       );
 
-      Navigator.pop(context);
+      await Navigator.maybePop(context);
       Navigator.of(context).pushReplacementNamed("/main");
     } catch (e) {
       registrationFailed('Произошла ошибка при регистрации.', e, context);
     }
   }
 
-  void registrationFailed(String text, dynamic e, BuildContext context) {
-    Navigator.pop(context);
+  void registrationFailed(String text, dynamic e, BuildContext context) async {
+    await Navigator.maybePop(context);
 
     showErrorSnackbar(
       context: context,

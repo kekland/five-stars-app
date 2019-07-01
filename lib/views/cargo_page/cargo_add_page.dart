@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:five_stars/api/cargo.dart';
 import 'package:five_stars/design/boolean_select_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/image_adder.dart';
 import 'package:five_stars/design/number_select_widget.dart';
 import 'package:five_stars/design/select_city_widget.dart';
 import 'package:five_stars/design/select_time_widget.dart';
@@ -30,6 +33,7 @@ class _CargoAddPageState extends State<CargoAddPage> {
   Properties properties;
   Dimensions dimensions;
   CargoInformation information;
+  List<File> images;
 
   DateTime now;
 
@@ -59,6 +63,7 @@ class _CargoAddPageState extends State<CargoAddPage> {
     dimensions = Dimensions(width: null, height: null, length: null);
     information = CargoInformation(
         dangerous: false, description: null, vehicleType: null);
+    images = [];
 
     setState(() {});
   }
@@ -251,6 +256,19 @@ class _CargoAddPageState extends State<CargoAddPage> {
               ),
             ],
           ),
+        ),
+        SizedBox(height: 24.0),
+        CardWidget(
+          padding: const EdgeInsets.all(16.0),
+          body: Text(
+            'Изображения',
+            style: ModernTextTheme.title,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        CardWidget(
+          padding: EdgeInsets.zero,
+          body: ImageSelector(onImageSelect: (v) => setState(() => images = v)),
         ),
         SizedBox(height: 16.0),
         CardWidget(

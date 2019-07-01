@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:five_stars/api/cargo.dart';
 import 'package:five_stars/design/boolean_select_widget.dart';
 import 'package:five_stars/design/card_widget.dart';
@@ -19,6 +20,7 @@ import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/cargo_page/cargo_expanded_widget.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:better_uuid/uuid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CargoAddPage extends StatefulWidget {
@@ -71,6 +73,13 @@ class _CargoAddPageState extends State<CargoAddPage> {
   void addCargo(BuildContext context) async {
     try {
       showLoadingDialog(context: context, color: Colors.red);
+      var ref = FirebaseStorage.instance.ref().child('images');
+      List imgs = [];
+      for (final image in images) {
+        final task = ref.child(Uuid.v4().toString()).putFile(image);
+        final downloadUrl = await (await task.onComplete).ref.getDownloadURL();
+        imgs.add(downloadUrl);
+      }
       final data = await CargoApi.addCargo(
         context: context,
         arrival: arrival,
@@ -86,6 +95,7 @@ class _CargoAddPageState extends State<CargoAddPage> {
           volume: properties.volume / 1000000.0,
           weight: properties.weight,
         ),
+        images: imgs,
       );
       await Navigator.of(context).maybePop();
 
@@ -268,7 +278,10 @@ class _CargoAddPageState extends State<CargoAddPage> {
         SizedBox(height: 16.0),
         CardWidget(
           padding: EdgeInsets.zero,
-          body: ImageSelector(onImageSelect: (v) => setState(() => images = v)),
+          body: ImageSelector(
+            onImageSelect: (v) => setState(() => images = v),
+            images: images,
+          ),
         ),
         SizedBox(height: 16.0),
         CardWidget(

@@ -3,6 +3,7 @@ import 'package:five_stars/controllers/main_page_controller.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/cargo_information_widget.dart';
 import 'package:five_stars/design/dimensions_widget.dart';
+import 'package:five_stars/design/images_widget.dart';
 import 'package:five_stars/design/map_route.dart';
 import 'package:five_stars/design/properties_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
@@ -184,6 +185,14 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
           buildInfoCardWidget(
             CargoInformationWidget(data: widget.data.information),
           ),
+          if (widget.data.images != null && widget.data.images.length > 0) ...[
+            SizedBox(height: 16.0),
+            buildInfoCardWidget(
+              ImagesWidget(
+                images: widget.data.images,
+              ),
+            ),
+          ],
           SizedBox(height: 32.0),
           (AppData.username != null)
               ? buildInfoCardWidget(

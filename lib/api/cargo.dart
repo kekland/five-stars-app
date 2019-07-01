@@ -86,6 +86,7 @@ class CargoApi {
     Properties properties,
     Dimensions dimensions,
     CargoInformation information,
+    List images,
   }) async {
     try {
       final Map data = {
@@ -95,7 +96,7 @@ class CargoApi {
         "properties": properties.toJson(),
         "dimensions": dimensions.toJson(),
         "information": information.toJson(),
-        "images": [],
+        "images": images,
       };
 
       final response = await Api.client

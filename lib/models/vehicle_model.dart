@@ -112,3 +112,44 @@ class Vehicle {
     owner = json['owner'];
   }
 }
+
+class VehicleSaved {
+  City departure;
+  DateTime departureTime;
+
+  City arrival;
+  DirectionRoute route;
+
+  Properties properties;
+  Dimensions dimensions;
+  VehicleInformation information;
+
+  List<dynamic> images;
+
+  VehicleSaved({
+    this.departureTime,
+    this.departure,
+    this.arrival,
+    this.dimensions,
+    this.images,
+    this.route,
+    this.information,
+    this.properties,
+  });
+
+  VehicleSaved.fromJson(Map json) {
+
+    departure = City.fromJson(json['departure']);
+    departureTime = DateTime.parse(json['departureTime']);
+
+    arrival = City.fromJson(json['arrival']);
+    route =
+        json['route'] != null ? DirectionRoute.fromJson(json['route']) : null;
+
+    properties = Properties.fromJson(json['properties']);
+    dimensions = Dimensions.fromJson(json['dimensions']);
+    information = VehicleInformation.fromJson(json['information']);
+
+    images = json['images'];
+  }
+}

@@ -113,3 +113,44 @@ class Cargo {
     owner = json['owner'];
   }
 }
+
+class CargoSaved {
+  City departure;
+  DateTime departureTime;
+
+  City arrival;
+  DirectionRoute route;
+
+  Properties properties;
+  Dimensions dimensions;
+  CargoInformation information;
+
+  List<dynamic> images;
+
+  CargoSaved({
+    this.departureTime,
+    this.departure,
+    this.arrival,
+    this.dimensions,
+    this.images,
+    this.route,
+    this.information,
+    this.properties,
+  });
+
+  CargoSaved.fromJson(Map json) {
+
+    departure = City.fromJson(json['departure']);
+    departureTime = DateTime.parse(json['departureTime']);
+
+    arrival = City.fromJson(json['arrival']);
+    route =
+        json['route'] != null ? DirectionRoute.fromJson(json['route']) : null;
+
+    properties = Properties.fromJson(json['properties']);
+    dimensions = Dimensions.fromJson(json['dimensions']);
+    information = CargoInformation.fromJson(json['information']);
+
+    images = json['images'];
+  }
+}

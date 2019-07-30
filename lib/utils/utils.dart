@@ -104,9 +104,6 @@ void showErrorSnackbar(
               },
             )
           : null,
-      behavior: SnackBarBehavior.floating,
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
     ),
   );
 }
@@ -141,9 +138,6 @@ void showErrorSnackbarKeyed(
               },
             )
           : null,
-      behavior: SnackBarBehavior.floating,
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
     ),
   );
 }
@@ -178,9 +172,6 @@ void showErrorSnackbarMain(
               },
             )
           : null,
-      behavior: SnackBarBehavior.floating,
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
     ),
   );
 }
@@ -197,9 +188,6 @@ void showInfoSnackbar({
         label: "Хорошо",
         onPressed: () {},
       ),
-      behavior: SnackBarBehavior.floating,
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
     ),
   );
 }
@@ -215,9 +203,6 @@ void showInfoSnackbarMain({
         label: "Хорошо",
         onPressed: () {},
       ),
-      behavior: SnackBarBehavior.floating,
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
     ),
   );
 }

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:five_stars/api/api.dart';
 import 'package:five_stars/api/secret.dart';
+import 'package:five_stars/utils/city.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GeoApi {

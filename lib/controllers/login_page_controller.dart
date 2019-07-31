@@ -22,7 +22,7 @@ class LoginPageController extends Controller<LoginPage> {
     showLoadingDialog(color: Colors.blue, context: context);
     try {
       final token = await Api.getToken(username: username, password: password);
-      Navigator.of(context).pushReplacementNamed("/main");
+      Navigator.of(context).pushNamedAndRemoveUntil("/main", (_) => true);
     } catch (e) {
       await Navigator.of(context).maybePop();
       if (e is DioError && e.response != null) {

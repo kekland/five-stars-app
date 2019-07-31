@@ -28,8 +28,8 @@ class CargoApi {
   }) async {
     try {
       final response = await Api.client.post('$baseUrl/cargo/get', data: {
-        "departure": departure?.name,
-        "arrival": arrival?.name,
+        "departure": departure != null? departure.toJson() : null,
+        "arrival": arrival != null? arrival.toJson() : null,
         "departureTime": (departureTimes != null)? {
           "lower": departureTimes.lower.toIso8601String(),
           "upper": departureTimes.upper.toIso8601String(),
@@ -42,7 +42,7 @@ class CargoApi {
         "length": length != null ? length.toJson() : null,
         "archived": showArchived,
         "removeOld": removeOld,
-        "verified": verified,
+        "verified": false,
         "oldThreshold": 7 * 24 * 60 * 60 * 1000,
         "vehicleType":
             vehicleType != null ? VehicleTypeUtils.toJson(vehicleType) : null,

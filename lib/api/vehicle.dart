@@ -27,12 +27,14 @@ class VehicleApi {
   }) async {
     try {
       final response = await Api.client.post('$baseUrl/vehicle/get', data: {
-        "departure": departure?.name,
-        "arrival": arrival?.name,
-        "departureTime": (departureTimes != null)? {
-          "lower": departureTimes.lower.toIso8601String(),
-          "upper": departureTimes.upper.toIso8601String(),
-        } : null,
+        "departure": departure != null ? departure.toJson() : null,
+        "arrival": arrival != null ? arrival.toJson() : null,
+        "departureTime": (departureTimes != null)
+            ? {
+                "lower": departureTimes.lower.toIso8601String(),
+                "upper": departureTimes.upper.toIso8601String(),
+              }
+            : null,
         "weight": weight != null ? weight.toJson() : null,
         "volume": volume != null ? volume.toJson() : null,
         "distance": distance != null ? distance.toJson() : null,
@@ -148,8 +150,8 @@ class VehicleApi {
     String id,
   }) async {
     try {
-      final response =
-          await Api.client.delete('${baseUrl}/vehicle/${id}', options: Api.options);
+      final response = await Api.client
+          .delete('${baseUrl}/vehicle/${id}', options: Api.options);
       return true;
     } catch (e) {
       bool handled = await Api.handleError(context: context, exception: e);
@@ -167,13 +169,15 @@ class VehicleApi {
     @required bool favorite,
   }) async {
     try {
-      final response =
-          await Api.client.post('$baseUrl/vehicle/$vehicleId/${(favorite)? 'favorite' : 'unfavorite'}', options: Api.options);
+      final response = await Api.client.post(
+          '$baseUrl/vehicle/$vehicleId/${(favorite) ? 'favorite' : 'unfavorite'}',
+          options: Api.options);
       return true;
     } catch (e) {
       bool handled = await Api.handleError(context: context, exception: e);
       if (handled) {
-        return await setVehicleFavoriteStatus(context: context, vehicleId: vehicleId, favorite: favorite);
+        return await setVehicleFavoriteStatus(
+            context: context, vehicleId: vehicleId, favorite: favorite);
       } else {
         rethrow;
       }

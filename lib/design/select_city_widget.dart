@@ -107,6 +107,7 @@ class SelectCityWidget extends StatelessWidget {
                   return suggestionsBox;
                 },
               ),
+              SizedBox(height: 16.0),
               SizedBox(
                 width: double.infinity,
                 child: FlatButton(

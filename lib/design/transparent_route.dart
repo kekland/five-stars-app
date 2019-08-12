@@ -41,7 +41,8 @@ class TransparentRoute extends PageRoute<void> {
           onSwipeRight: () => Navigator.of(context).pop(),
           child: Container(
             color: Colors.black45,
-            child: SafeArea(
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
               child: result,
             ),
           ),

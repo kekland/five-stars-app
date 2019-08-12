@@ -4,6 +4,7 @@ import 'package:five_stars/design/dimensions_widget.dart';
 import 'package:five_stars/design/images_widget.dart';
 import 'package:five_stars/design/map_route.dart';
 import 'package:five_stars/design/properties_widget.dart';
+import 'package:five_stars/design/timer_widget.dart';
 import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/design/vehicle_information_widget.dart';
@@ -148,94 +149,106 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget>
           right: 18.0,
           bottom: 36.0),
       physics: BouncingScrollPhysics(),
-      child: Column(
-        children: <Widget>[
-          VehicleWidget(
-            data: widget.data,
-            heroPrefix: widget.heroPrefix,
-            addButtons: false,
-          ),
-          SizedBox(height: 32.0),
-          buildInfoCardWidget(
-            TwoLineInformationWidgetExpanded(
-              iconColor: ModernTextTheme.captionIconColor,
-              icon: FontAwesomeIcons.tag,
-              title: 'Идентификатор',
-              value: widget.data.id.toString(),
-              unit: "",
+      child: GestureDetector(
+        onTap: () {},
+        child: Column(
+          children: <Widget>[
+            VehicleWidget(
+              data: widget.data,
+              heroPrefix: widget.heroPrefix,
+              addButtons: false,
             ),
-          ),
-          SizedBox(height: 16.0),
-          buildInfoCardWidget(
-            VerifiedWidgetExpanded(
-              verified: widget.data.verified,
-            ),
-          ),
-          SizedBox(height: 16.0),
-          buildInfoCardWidget(
-            PropertiesWidget(
-                data: widget.data.properties, route: widget.data.route),
-          ),
-          SizedBox(height: 16.0),
-          buildInfoCardWidget(
-            DimensionsWidget(data: widget.data.dimensions),
-          ),
-          SizedBox(height: 16.0),
-          buildInfoCardWidget(
-            VehicleInformationWidget(data: widget.data.information),
-          ),
-          if (widget.data.images != null && widget.data.images.length > 0) ...[
-            SizedBox(height: 16.0),
+            SizedBox(height: 32.0),
             buildInfoCardWidget(
-              ImagesWidget(
-                images: widget.data.images,
+              TwoLineInformationWidgetExpanded(
+                iconColor: ModernTextTheme.captionIconColor,
+                icon: FontAwesomeIcons.tag,
+                title: 'Идентификатор',
+                value: widget.data.id.toString(),
+                unit: "",
               ),
             ),
-          ],
-          SizedBox(height: 32.0),
-          (AppData.username != null)
-              ? buildInfoCardWidget(
-                  TwoLineInformationWidgetExpanded(
-                    iconColor: ModernTextTheme.captionIconColor,
-                    icon: FontAwesomeIcons.userAlt,
-                    title: 'Профиль владельца',
-                    value: widget.data.owner,
-                    unit: "",
-                  ),
-                  (AppData.username != null)
-                      ? () => openProfile(context)
-                      : null,
-                )
-              : buildInfoCardWidget(
-                  TwoLineInformationWidgetExpanded(
-                    iconColor: ModernTextTheme.captionIconColor,
-                    icon: FontAwesomeIcons.userAlt,
-                    title: 'Профиль владельца',
-                    value: "Недоступно в гостевом режиме",
-                    unit: "",
-                  ),
-                ),
-          SizedBox(height: 16.0),
-          buildInfoCardWidget(
-            SingleLineInformationWidget(
-                icon: FontAwesomeIcons.globeAsia, label: 'Посмотреть на карте'),
-            () => openMap(context),
-          ),
-          SizedBox(height: 16.0),
-          if (AppData.username == widget.data.owner) ...[
+            SizedBox(height: 16.0),
             buildInfoCardWidget(
-              SingleLineInformationWidget(
-                  icon: Icons.edit, label: 'Изменить', color: Colors.indigo),
-              () => editVehicle(context),
+              VerifiedWidgetExpanded(
+                verified: widget.data.verified,
+              ),
             ),
             SizedBox(height: 16.0),
             buildInfoCardWidget(
-              SingleLineInformationWidget(
-                  icon: Icons.delete, label: 'Удалить', color: Colors.red),
-              () => deleteVehicle(context),
+              PropertiesWidget(
+                  data: widget.data.properties, route: widget.data.route),
             ),
+            SizedBox(height: 16.0),
+            buildInfoCardWidget(
+              DimensionsWidget(data: widget.data.dimensions),
+            ),
+            SizedBox(height: 16.0),
+            buildInfoCardWidget(
+              VehicleInformationWidget(data: widget.data.information),
+            ),
+            SizedBox(height: 16.0),
+            buildInfoCardWidget(
+              TimerWidget(
+                createdAt: widget.data.createdAt,
+                updatedAt: widget.data.updatedAt,
+              ),
+            ),
+            if (widget.data.images != null &&
+                widget.data.images.length > 0) ...[
+              SizedBox(height: 16.0),
+              buildInfoCardWidget(
+                ImagesWidget(
+                  images: widget.data.images,
+                ),
+              ),
+            ],
+            SizedBox(height: 32.0),
+            (AppData.username != null)
+                ? buildInfoCardWidget(
+                    TwoLineInformationWidgetExpanded(
+                      iconColor: ModernTextTheme.captionIconColor,
+                      icon: FontAwesomeIcons.userAlt,
+                      title: 'Профиль владельца',
+                      value: widget.data.owner,
+                      unit: "",
+                    ),
+                    (AppData.username != null)
+                        ? () => openProfile(context)
+                        : null,
+                  )
+                : buildInfoCardWidget(
+                    TwoLineInformationWidgetExpanded(
+                      iconColor: ModernTextTheme.captionIconColor,
+                      icon: FontAwesomeIcons.userAlt,
+                      title: 'Профиль владельца',
+                      value: "Недоступно в гостевом режиме",
+                      unit: "",
+                    ),
+                  ),
+            SizedBox(height: 16.0),
+            buildInfoCardWidget(
+              SingleLineInformationWidget(
+                  icon: FontAwesomeIcons.globeAsia,
+                  label: 'Посмотреть на карте'),
+              () => openMap(context),
+            ),
+            SizedBox(height: 16.0),
+            if (AppData.username == widget.data.owner) ...[
+              buildInfoCardWidget(
+                SingleLineInformationWidget(
+                    icon: Icons.edit, label: 'Изменить', color: Colors.indigo),
+                () => editVehicle(context),
+              ),
+              SizedBox(height: 16.0),
+              buildInfoCardWidget(
+                SingleLineInformationWidget(
+                    icon: Icons.delete, label: 'Удалить', color: Colors.red),
+                () => deleteVehicle(context),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:five_stars/design/transparent_route.dart';
 import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/vehicle_model.dart';
 import 'package:five_stars/utils/app_data.dart';
+import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/utils/vehicle_type.dart';
 import 'package:five_stars/views/arrival_destination_widget.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
@@ -173,6 +174,17 @@ class _VehicleWidgetState extends State<VehicleWidget> {
                               ),
                             ],
                           ),
+                        ),
+                        SizedBox(height: 16.0),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              '${dateTimeToString(widget.data.createdAt)}',
+                              style: ModernTextTheme.caption,
+                            ),
+                          ],
                         ),
                         if (widget.data.images != null &&
                             widget.data.images.length > 0) ...[

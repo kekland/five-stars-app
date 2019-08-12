@@ -27,6 +27,7 @@ class Vehicle {
 
   String owner;
   DateTime createdAt;
+  DateTime updatedAt;
 
   bool archived;
   bool verified;
@@ -80,6 +81,7 @@ class Vehicle {
     this.arrival,
     this.archived,
     this.createdAt,
+    this.updatedAt,
     this.owner,
     this.dimensions,
     this.images,
@@ -109,6 +111,7 @@ class Vehicle {
     verified = json['verified'] as bool;
 
     createdAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['created']);
+    updatedAt = DateTime.fromMillisecondsSinceEpoch(json['meta']['updated']);
     owner = json['owner']['id'];
   }
 }

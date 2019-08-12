@@ -29,6 +29,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CargoAddPage extends StatefulWidget {
+  final Function(BuildContext) onAdded;
+
+  const CargoAddPage({
+    Key key,
+    this.onAdded,
+  }) : super(key: key);
+
   @override
   _CargoAddPageState createState() => _CargoAddPageState();
 }
@@ -105,7 +112,9 @@ class _CargoAddPageState extends State<CargoAddPage> {
       );
       await Navigator.of(context).maybePop();
 
-      await Navigator.of(context).push(
+      reset();
+
+      Navigator.of(context).push(
         TransparentRoute(
           builder: (context) {
             return CargoExpandedWidget(
@@ -115,6 +124,8 @@ class _CargoAddPageState extends State<CargoAddPage> {
           },
         ),
       );
+
+      showInfoSnackbarMain(message: 'Груз был успешно добавлен.');
     } catch (e) {
       await Navigator.of(context).maybePop();
       showErrorSnackbar(

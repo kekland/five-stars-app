@@ -82,7 +82,24 @@ class _CargoWidgetState extends State<CargoWidget> {
             onTap: () => expand(context),
             body: Column(
               children: <Widget>[
-                if (!widget.data.verified)
+                if (DateTime.now().difference(widget.data.createdAt).inDays >=
+                    7)
+                  Container(
+                    child: Text('В архиве',
+                        style: ModernTextTheme.primaryAccented
+                            .copyWith(color: Colors.white)),
+                    padding: const EdgeInsets.all(12.0),
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.125),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12.0),
+                        topRight: Radius.circular(12.0),
+                      ),
+                    ),
+                  )
+                else if (!widget.data.verified)
                   Container(
                     child: Text('Не подтверждён',
                         style: ModernTextTheme.primaryAccented
@@ -166,6 +183,17 @@ class _CargoWidgetState extends State<CargoWidget> {
                             ),
                           ],
                         ),
+                      ),
+                      SizedBox(height: 16.0),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            '${dateTimeToString(widget.data.createdAt)}',
+                            style: ModernTextTheme.caption,
+                          ),
+                        ],
                       ),
                       if (widget.data.images != null &&
                           widget.data.images.length > 0) ...[

@@ -104,6 +104,8 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
       );
       await Navigator.of(context).maybePop();
 
+      reset();
+
       await Navigator.of(context).push(
         TransparentRoute(
           builder: (context) {
@@ -114,6 +116,8 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
           },
         ),
       );
+
+      showInfoSnackbarMain(message: 'Транспорт был успешно добавлен.');
     } catch (e) {
       await Navigator.of(context).maybePop();
       showErrorSnackbar(

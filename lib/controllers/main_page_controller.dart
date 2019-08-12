@@ -17,25 +17,41 @@ import 'package:flutter/material.dart';
 class MainPageController extends Controller<MainPage> {
   MainPageController({Presenter<MainPage, MainPageController> presenter}) {
     this.presenter = presenter;
+    MainPageController.instance = this;
   }
 
+  static MainPageController instance;
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   int currentPage = 0;
 
-  final List<Widget> bodyWidget = [
+  List<Widget> bodyWidget = [
     CargoSearch(),
-    (AppData.username == null)? Container() : CargoAddPage(),
-    (AppData.username == null)? Container() : CargoUserPage(favorites: true, username: AppData.username),
-    (AppData.username == null)? Container() : CargoUserPage(favorites: false, username: AppData.username),
+    (AppData.username == null)
+        ? Container()
+        : CargoAddPage(onAdded: (context) {
+            MainPageController.instance.selectItem(context, 3);
+          }),
+    (AppData.username == null)
+        ? Container()
+        : CargoUserPage(favorites: true, username: AppData.username),
+    (AppData.username == null)
+        ? Container()
+        : CargoUserPage(favorites: false, username: AppData.username),
     VehicleSearch(),
-    (AppData.username == null)? Container() : VehicleAddPage(),
-    (AppData.username == null)? Container() : VehicleUserPage(favorites: true, username: AppData.username),
-    (AppData.username == null)? Container() : VehicleUserPage(favorites: false, username: AppData.username),
+    (AppData.username == null) ? Container() : VehicleAddPage(),
+    (AppData.username == null)
+        ? Container()
+        : VehicleUserPage(favorites: true, username: AppData.username),
+    (AppData.username == null)
+        ? Container()
+        : VehicleUserPage(favorites: false, username: AppData.username),
     Container(color: Colors.amber),
     SettingsPage(),
-    (AppData.username == null)? Container() : ProfilePage(username: AppData.username),
+    (AppData.username == null)
+        ? Container()
+        : ProfilePage(username: AppData.username),
   ];
-  
+
   final List<String> titles = [
     'Поиск груза',
     'Добавление груза',

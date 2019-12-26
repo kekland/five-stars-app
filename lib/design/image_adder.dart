@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:five_stars/design/shadows/shadows.dart';
+import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,7 @@ class _ImageSelectorState extends State<ImageSelector> {
                           width: 36.0,
                           height: 36.0,
                           decoration: BoxDecoration(
-                            color: Colors.red,
+                            color: ModernColorTheme.main,
                             shape: BoxShape.circle,
                             boxShadow: [Shadows.slightShadow]
                           ),

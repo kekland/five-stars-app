@@ -17,7 +17,7 @@ class AppBarWidget extends StatelessWidget {
       width: double.infinity,
       height: 64.0,
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: ModernColorTheme.main,
         boxShadow: [Shadows.slightShadow],
       ),
       alignment: Alignment.center,
@@ -35,7 +35,7 @@ class AppBarWidget extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: DefaultTextStyle.merge(
-              style: ModernTextTheme.boldTitle,
+              style: ModernTextTheme.boldTitle.copyWith(color: Colors.white),
               child: title,
             ),
           ),

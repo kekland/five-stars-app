@@ -2,6 +2,7 @@ import 'package:five_stars/api/user.dart';
 import 'package:five_stars/design/card_widget.dart';
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
 import 'package:five_stars/design/future_page.dart';
+import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/models/vehicle_model.dart';
 import 'dart:math' as math;
 import 'package:five_stars/utils/utils.dart';
@@ -76,11 +77,11 @@ class _VehicleUserPageState extends State<VehicleUserPage> {
             children: <Widget>[
               if (isLoading)
                 Center(
-                  child: CircularProgressRevealWidget(color: Colors.red),
+                  child: CircularProgressRevealWidget(color: ModernColorTheme.main),
                 ),
               buildSingularDataPage(
                 context: context,
-                accentColor: Colors.red,
+                accentColor: ModernColorTheme.main,
                 data: data == null
                     ? null
                     : data

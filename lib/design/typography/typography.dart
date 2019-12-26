@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+class ModernColorTheme {
+  static Color main = Color(0xFFE55D71);
+}
+
 class ModernTextTheme {
   static TextStyle normal = TextStyle(
     fontFamily: "Inter",

@@ -176,7 +176,7 @@ class RegistrationPageController extends Controller<RegistrationPage> {
 
       await ValidityApi.verifyPhoneNumber(
         phoneNumber: "+7${phoneNumber.value}",
-        onFinished: () => phoneValidationFinished(context),
+        onFinished: (cred) => phoneValidationFinished(context),
         onFailed: (e) => registrationFailed(
             'Произошла ошибка при проверке номера телефона.', e, context),
         onCodeSent: (verificationId) async {

@@ -71,7 +71,7 @@ class _VehicleEditPageState extends State<VehicleEditPage> {
 
   void editVehicle(BuildContext context) async {
     try {
-      showLoadingDialog(context: context, color: Colors.red);
+      showLoadingDialog(context: context, color: ModernColorTheme.main);
       final data = await VehicleApi.editVehicle(
         context: context,
         id: widget.data.id,

@@ -32,7 +32,7 @@ class CargoInformationWidget extends StatelessWidget {
           SizedBox(height: 16.0),
           SingleLineInformationWidget(
             icon: FontAwesomeIcons.exclamationTriangle,
-            color: Colors.red,
+            color: ModernColorTheme.main,
             label: 'Опасный груз',
             iconSize: 24.0,
           ),

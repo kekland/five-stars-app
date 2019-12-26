@@ -1,5 +1,6 @@
 import 'package:five_stars/api/api.dart';
 import 'package:five_stars/design/card_widget.dart';
+import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/views/two_line_information_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class SettingsPage extends StatelessWidget {
           body: SingleLineInformationWidget(
             icon: Icons.exit_to_app,
             label: 'Выйти из профиля',
-            color: Colors.red,
+            color: ModernColorTheme.main,
           ),
           padding: const EdgeInsets.all(16.0),
           onTap: () => Api.logOut(context),

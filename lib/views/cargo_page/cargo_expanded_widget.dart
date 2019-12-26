@@ -244,7 +244,7 @@ class _CargoExpandedWidgetState extends State<CargoExpandedWidget>
               SizedBox(height: 16.0),
               buildInfoCardWidget(
                 SingleLineInformationWidget(
-                    icon: Icons.delete, label: 'Удалить', color: Colors.red),
+                    icon: Icons.delete, label: 'Удалить', color: ModernColorTheme.main),
                 () => deleteCargo(context),
               ),
             ],

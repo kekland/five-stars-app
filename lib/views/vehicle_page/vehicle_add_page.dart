@@ -76,7 +76,7 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
 
   void addVehicle(BuildContext context) async {
     try {
-      showLoadingDialog(context: context, color: Colors.red);
+      showLoadingDialog(context: context, color: ModernColorTheme.main);
       var ref = FirebaseStorage.instance.ref().child('images');
       List imgs = [];
       for (final image in images) {
@@ -464,7 +464,7 @@ class _VehicleAddPageState extends State<VehicleAddPage> {
           body: SingleLineInformationWidget(
             icon: Icons.delete,
             label: 'Очистить',
-            color: Colors.red,
+            color: ModernColorTheme.main,
           ),
         ),
       ],

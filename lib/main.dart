@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'dart:io' show Platform;
 
+import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/authorization_page/authorization_page.dart';
@@ -42,8 +43,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Пять звёзд',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        accentColor: Colors.redAccent,
+        primaryColor: ModernColorTheme.main,
+        accentColor: ModernColorTheme.main,
         fontFamily: 'Inter',
       ),
       routes: {

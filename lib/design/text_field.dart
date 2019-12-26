@@ -43,7 +43,9 @@ class ModernTextField extends StatelessWidget {
       enabled: enabled,
       onChanged: (String text) {
         onChanged(text);
-        onSubmitted();
+        if (onSubmitted != null) {
+          onSubmitted();
+        }
       },
       onEditingComplete: onSubmitted,
       onSubmitted: (text) => onSubmitted(),
@@ -57,11 +59,11 @@ class ModernTextField extends StatelessWidget {
         fillColor: ModernTextTheme.captionIconColor,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
-          borderSide: BorderSide(color: Colors.blue, width: 2.0),
+          borderSide: BorderSide(color: ModernColorTheme.main, width: 2.0),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
-          borderSide: BorderSide(color: Colors.red, width: 2.0),
+          borderSide: BorderSide(color: ModernColorTheme.main, width: 2.0),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
@@ -75,7 +77,7 @@ class ModernTextField extends StatelessWidget {
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
-          borderSide: BorderSide(color: Colors.red, width: 2.0),
+          borderSide: BorderSide(color: ModernColorTheme.main, width: 2.0),
         ),
         prefixIcon: Row(
           mainAxisSize: MainAxisSize.min,

@@ -54,6 +54,21 @@ class Api {
     }
   }
 
+  static Future changePassword({String phoneNumber, String newPassword}) async {
+    try {
+      final response =
+          await Api.client.post('$baseUrl/auth/changePassword', data: {
+        "password": newPassword,
+        "phoneNumber": phoneNumber, 
+      });
+      print(response);
+
+      return true;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   static Future<bool> handleError(
       {@required BuildContext context, dynamic exception}) async {
     print(exception);
@@ -97,6 +112,6 @@ class Api {
 
   static Dio client = Dio();
 
-  static Options get options => Options(
-      headers: {"Authorization": "Bearer ${AppData.token}"});
+  static Options get options =>
+      Options(headers: {"Authorization": "Bearer ${AppData.token}"});
 }

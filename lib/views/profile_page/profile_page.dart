@@ -73,7 +73,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
 
   void showCargo(BuildContext context) async {
     try {
-      showLoadingDialog(context: context, color: Colors.red);
+      showLoadingDialog(context: context, color: ModernColorTheme.main);
       final cargo = await UserApi.getUserCargo(
           context: context, username: widget.username);
       await Navigator.of(context).maybePop();
@@ -93,7 +93,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
 
   void showVehicles(BuildContext context) async {
     try {
-      showLoadingDialog(context: context, color: Colors.red);
+      showLoadingDialog(context: context, color: ModernColorTheme.main);
       final vehicles = await UserApi.getUserVehicles(
           context: context, username: widget.username);
       await await Navigator.of(context).maybePop();
@@ -194,7 +194,7 @@ class _ProfilePageState extends Presenter<ProfilePage, ProfilePageController> {
       children: <Widget>[
         if (controller.isLoading)
           Center(
-            child: CircularProgressRevealWidget(color: Colors.red),
+            child: CircularProgressRevealWidget(color: ModernColorTheme.main),
           ),
         buildSingularDataPage(
           context: context,

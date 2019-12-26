@@ -108,7 +108,7 @@ class _CargoWidgetState extends State<CargoWidget> {
                     width: double.infinity,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: ModernColorTheme.main,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(12.0),
                         topRight: Radius.circular(12.0),

@@ -243,7 +243,7 @@ class _VehicleExpandedWidgetState extends State<VehicleExpandedWidget>
               SizedBox(height: 16.0),
               buildInfoCardWidget(
                 SingleLineInformationWidget(
-                    icon: Icons.delete, label: 'Удалить', color: Colors.red),
+                    icon: Icons.delete, label: 'Удалить', color: ModernColorTheme.main),
                 () => deleteVehicle(context),
               ),
             ],

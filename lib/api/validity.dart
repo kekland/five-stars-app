@@ -45,7 +45,7 @@ class ValidityApi {
   static Future verifyPhoneNumber(
       {Function(Exception) onFailed,
       Function(String verificationId) onCodeSent,
-      Function onFinished,
+      Function(AuthCredential cred) onFinished,
       String phoneNumber}) async {
     await auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
@@ -60,7 +60,7 @@ class ValidityApi {
         print("codeAuthRetrievalTimeout $t");
       },
       verificationCompleted: (cred) {
-        onFinished();
+        onFinished(cred);
       },
     );
   }

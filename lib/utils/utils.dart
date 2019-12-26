@@ -143,10 +143,7 @@ void showErrorSnackbarKeyed(
 }
 
 void showErrorSnackbarMain(
-    {
-    @required String errorMessage,
-    Object exception,
-    bool showDialog = true}) {
+    {@required String errorMessage, Object exception, bool showDialog = true}) {
   MainPageController.scaffoldKey.currentState.showSnackBar(
     SnackBar(
       content: Text(errorMessage),
@@ -164,7 +161,9 @@ void showErrorSnackbarMain(
                   actions: <Widget>[
                     FlatButton(
                       child: Text('Закрыть'),
-                      onPressed: () => Navigator.of(MainPageController.scaffoldKey.currentContext).pop(),
+                      onPressed: () => Navigator.of(
+                              MainPageController.scaffoldKey.currentContext)
+                          .pop(),
                       textColor: Colors.blue,
                     ),
                   ],
@@ -211,17 +210,15 @@ class SharedPreferencesManager {
   static SharedPreferences instance;
 
   static Future initialize() async {
-    try {
-      instance = await SharedPreferences.getInstance();
-    } catch (err) {
-      print("could not initialize sharedprefs.");
-    }
+    WidgetsFlutterBinding.ensureInitialized();
+    instance = await SharedPreferences.getInstance();
   }
 }
 
 Future<PermissionStatus> checkForLocationPermission() async {
-  PermissionStatus permissionBefore = await LocationPermissions().checkPermissionStatus();
-  if(permissionBefore != PermissionStatus.granted) {
+  PermissionStatus permissionBefore =
+      await LocationPermissions().checkPermissionStatus();
+  if (permissionBefore != PermissionStatus.granted) {
     return await LocationPermissions().requestPermissions();
   }
   return PermissionStatus.granted;

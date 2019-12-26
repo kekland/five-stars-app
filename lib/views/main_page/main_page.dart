@@ -27,17 +27,17 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
     return Scaffold(
       key: MainPageController.scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: ModernColorTheme.main,
         centerTitle: true,
         title: Text(controller.titles[controller.currentPage],
-            style: TextStyle(color: Colors.black)),
+            style: TextStyle(color: Colors.white)),
         elevation: 4.0,
         brightness: Brightness.light,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       drawer: Drawer(
         child: Theme(
-          data: ThemeData(primaryColor: Colors.red),
+          data: ThemeData(primaryColor: ModernColorTheme.main),
           child: ListView(
             physics: BouncingScrollPhysics(),
             children: [
@@ -56,7 +56,7 @@ class MainPageState extends Presenter<MainPage, MainPageController> {
                           height: 64.0,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.red,
+                            color: ModernColorTheme.main,
                           ),
                           alignment: Alignment.center,
                           child: Text(

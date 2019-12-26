@@ -46,7 +46,7 @@ class _VehicleSearchState extends State<VehicleSearch> {
 
   void getVehicle(BuildContext context) async {
     try {
-      showLoadingDialog(context: context, color: Colors.red);
+      showLoadingDialog(context: context, color: ModernColorTheme.main);
       final data = await VehicleApi.getVehicles(
         context: context,
         arrival: arrival,
@@ -209,7 +209,7 @@ class _VehicleSearchState extends State<VehicleSearch> {
           body: SingleLineInformationWidget(
             icon: Icons.delete,
             label: 'Очистить',
-            color: Colors.red,
+            color: ModernColorTheme.main,
           ),
         ),
       ],

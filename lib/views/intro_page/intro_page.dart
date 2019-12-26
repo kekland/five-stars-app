@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:five_stars/design/circular_progress_reveal_widget.dart';
+import 'package:five_stars/design/typography/typography.dart';
 import 'package:five_stars/utils/app_data.dart';
 import 'package:five_stars/utils/utils.dart';
 import 'package:five_stars/views/intro_page/logo_widget.dart';
@@ -100,7 +101,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
             ),
             Opacity(
               opacity: (1.0 - deflationAnimation.value),
-              child: CircularProgressRevealWidget(color: Colors.red),
+              child: CircularProgressRevealWidget(color: ModernColorTheme.main),
             ),
           ],
         ),
@@ -140,7 +141,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                       shape: StadiumBorder(),
                       icon: Icon(Icons.chevron_right),
                       label: Text('Вход в систему'),
-                      color: Colors.red,
+                      color: ModernColorTheme.main,
                       textColor: Colors.white,
                     ),
                   ),

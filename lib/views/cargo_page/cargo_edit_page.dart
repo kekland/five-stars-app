@@ -75,7 +75,7 @@ class _CargoEditPageState extends State<CargoEditPage> {
 
   void editCargo(BuildContext context) async {
     try {
-      showLoadingDialog(context: context, color: Colors.red);
+      showLoadingDialog(context: context, color: ModernColorTheme.main);
       final data = await CargoApi.editCargo(
         context: context,
         id: widget.data.id,

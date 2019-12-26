@@ -48,7 +48,7 @@ class _CargoSearchState extends State<CargoSearch> {
 
   void getCargo(BuildContext context) async {
     try {
-      showLoadingDialog(context: context, color: Colors.red);
+      showLoadingDialog(context: context, color: ModernColorTheme.main);
       final data = await CargoApi.getCargo(
         context: context,
         arrival: arrival,
@@ -212,7 +212,7 @@ class _CargoSearchState extends State<CargoSearch> {
           body: SingleLineInformationWidget(
             icon: Icons.delete,
             label: 'Очистить',
-            color: Colors.red,
+            color: ModernColorTheme.main,
           ),
         ),
       ],

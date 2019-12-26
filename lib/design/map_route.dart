@@ -105,7 +105,7 @@ class _MapRoutePageState extends State<MapRoutePage> {
                         arrivalDate: widget.arrivalTime,
                         departureDate: widget.departureTime,
                         arrivalColor: Colors.indigo.shade700,
-                        departureColor: Colors.red.shade700,
+                        departureColor: ModernColorTheme.main,
                         isCargo: true,
                       ),
                       if (widget.route != null) ...[

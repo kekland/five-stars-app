@@ -51,7 +51,7 @@ class _LoginPageState extends Presenter<LoginPage, LoginPageController> {
                 shape: StadiumBorder(),
                 icon: Icon(Icons.chevron_right),
                 label: Text('Вход в систему'),
-                color: Colors.red,
+                color: ModernColorTheme.main,
                 textColor: Colors.white,
               ),
             ),
@@ -64,6 +64,16 @@ class _LoginPageState extends Presenter<LoginPage, LoginPageController> {
                 label: Text('Войти в качестве гостя'),
                 color: Colors.indigo,
                 textColor: Colors.white,
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: FlatButton(
+                onPressed: () => controller.forgotPassword(context),
+                shape: StadiumBorder(),
+                child: Text('Забыли пароль?'),
+                color: Colors.transparent,
+                textColor: Colors.black54,
               ),
             ),
             FlatButton.icon(

@@ -61,7 +61,7 @@ class SelectCityWidget extends StatelessWidget {
                     ),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
-                      borderSide: BorderSide(color: Colors.red, width: 2.0),
+                      borderSide: BorderSide(color: ModernColorTheme.main, width: 2.0),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
@@ -75,7 +75,7 @@ class SelectCityWidget extends StatelessWidget {
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
-                      borderSide: BorderSide(color: Colors.red, width: 2.0),
+                      borderSide: BorderSide(color: ModernColorTheme.main, width: 2.0),
                     ),
                     prefixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
